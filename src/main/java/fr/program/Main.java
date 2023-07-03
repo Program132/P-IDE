@@ -98,13 +98,11 @@ public class Main extends Application {
         Label FS_subtitleLabel = createLabelWithStyle("Tester un programme basic rapidement", "-fx-font-size: 15px; -fx-text-fill: #afafaf;");
 
         Button FS_Execute = createButtonWithStyle("Execute", "-fx-background-color: #01770e; -fx-text-fill: #ffffff; -fx-font-weight: bold;");
-        TextArea FS_TextEditor = new TextArea();
-        FS_TextEditor.setStyle("-fx-control-inner-background: #111111; -fx-text-fill: #afafaf;");
+
+        TextArea FS_TextEditor = createTextAreaWithStyle(true, "-fx-control-inner-background: #111111; -fx-text-fill: #afafaf;");
 
         Label FS_subtitleLabel_output = createLabelWithStyle("Résultats :", "-fx-font-size: 14px; -fx-text-fill: #e5e5e5;");
-        TextArea FS_output = new TextArea();
-        FS_output.setEditable(false);
-        FS_output.setStyle("-fx-control-inner-background: #424242; -fx-text-fill: #afafaf;");
+        TextArea FS_output = createTextAreaWithStyle(false, "-fx-control-inner-background: #424242; -fx-text-fill: #afafaf;");
 
         VBox textEditorBox = new VBox(10);
         textEditorBox.getChildren().addAll(FS_TextEditor, FS_subtitleLabel_output, FS_output);
@@ -162,5 +160,12 @@ public class Main extends Application {
         Label l = new Label(content);
         l.setStyle(style);
         return l;
+    }
+
+    private TextArea createTextAreaWithStyle(boolean editable, String style) {
+        TextArea area = new TextArea();
+        area.setEditable(editable);
+        area.setStyle(style);
+        return area;
     }
 }
