@@ -6,6 +6,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -39,30 +42,39 @@ public class Main extends Application {
         stage.setTitle("P-IDE | V0.1");
         stage.setHeight(500);
         stage.setWidth(700);
+        stage.setResizable(false);
 
-        // Generate Buttons
-        Button fpl_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\fpl.png", 50, 50);
-        Button java_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\java.png", 50, 50);
-        Button cpp_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\cpp.png", 50, 50);
-        Button lua_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\lua.png", 50, 50);
-        Button py_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\python.png", 50, 50);
+        BorderPane root = new BorderPane();
 
-        VBox buttonBox = new VBox(10);
-        buttonBox.getChildren().addAll(fpl_btn, java_btn, cpp_btn, lua_btn, py_btn);
-        VBox.setMargin(buttonBox, new Insets(10));
-        buttonBox.setAlignment(Pos.CENTER_LEFT);
+        // Title
 
         StackPane titlePane = new StackPane();
         titlePane.setStyle("-fx-background-color: #333333;");
         titlePane.setPadding(new Insets(10));
         VBox titleBox = new VBox(10);
         titleBox.setAlignment(Pos.CENTER);
+        Label titleLabel = new Label("Bienvenue sur l'IDE de Program");
+        titleLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white; -fx-font-weight: bold;");
+        Label subtitleLabel = new Label("Sélectionner un langage pour commencer un projet");
+        subtitleLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+        titleBox.getChildren().addAll(titleLabel, subtitleLabel);
+        titlePane.getChildren().add(titleBox);
+
+        // Languages Buttons -> open project window (interaction)
+        Button fpl_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\fpl.png", 50, 50);
+        Button java_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\java.png", 50, 50);
+        Button cpp_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\cpp.png", 50, 50);
+        Button lua_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\lua.png", 50, 50);
+        Button py_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\python.png", 50, 50);
+        VBox buttonBox = new VBox(10);
+        buttonBox.getChildren().addAll(fpl_btn, java_btn, cpp_btn, lua_btn, py_btn);
+        VBox.setMargin(buttonBox, new Insets(10));
+        buttonBox.setAlignment(Pos.CENTER_LEFT);
         VBox.setMargin(fpl_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(java_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(cpp_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(lua_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(py_btn, new Insets(0, 0, 0, 10));
-
         DropShadow dropShadow = new DropShadow();
         dropShadow.setColor(Color.rgb(0, 0, 255, 0.7));
         dropShadow.setOffsetX(0);
@@ -79,20 +91,50 @@ public class Main extends Application {
         lua_btn.setOnMouseExited(event -> lua_btn.setEffect(null));
         py_btn.setOnMouseEntered(event -> py_btn.setEffect(dropShadow));
         py_btn.setOnMouseExited(event -> py_btn.setEffect(null));
+        String buttonStyle = "-fx-background-radius: 15; -fx-background-color: #555555;";
+        fpl_btn.setStyle(buttonStyle);
+        java_btn.setStyle(buttonStyle);
+        cpp_btn.setStyle(buttonStyle);
+        lua_btn.setStyle(buttonStyle);
+        py_btn.setStyle(buttonStyle);
 
-
-        Label titleLabel = new Label("Bienvenue sur l'IDE de Program");
-        titleLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white;"); // Ajustez la taille de la police selon vos besoins
-
-        Label subtitleLabel = new Label("Sélectionner un langage pour commencer un projet");
-        subtitleLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: white;"); // Ajustez la taille de la police selon vos besoins
-
-        titleBox.getChildren().addAll(titleLabel, subtitleLabel);
-        titlePane.getChildren().add(titleBox);
-
-        BorderPane root = new BorderPane(); // Utiliser BorderPane comme conteneur principal
+        // Add title + buttons
         root.setCenter(buttonBox);
         root.setTop(titlePane);
+
+
+
+        // Fast Scripting :
+        VBox FS_MainBox = new VBox(10);
+        FS_MainBox.setPadding(new Insets(10));
+        FS_MainBox.setStyle("-fx-background-color: #202020;");
+
+        Label FS_titleLabel = new Label("Fast Scripting");
+        FS_titleLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #4a9eb4; -fx-font-weight: bold;");
+        Label FS_subtitleLabel = new Label("Tester un programme basic rapidement");
+        FS_subtitleLabel.setStyle("-fx-font-size: 15px; -fx-text-fill: #afafaf;");
+
+        Button FS_Execute = new Button("Execute");
+        FS_Execute.setStyle("-fx-background-color: #01770e; -fx-text-fill: #ffffff; -fx-font-weight: bold;");
+        TextArea FS_TextEditor = new TextArea();
+        FS_TextEditor.setStyle("-fx-control-inner-background: #111111; -fx-text-fill: #afafaf;");
+
+        Label FS_subtitleLabel_output = new Label("Résultat :");
+        FS_subtitleLabel_output.setStyle("-fx-font-size: 14px; -fx-text-fill: #e5e5e5;");
+        TextArea FS_output = new TextArea();
+        FS_output.setEditable(false);
+        FS_output.setStyle("-fx-control-inner-background: #424242; -fx-text-fill: #afafaf;");
+
+        VBox textEditorBox = new VBox(10);
+        textEditorBox.getChildren().addAll(FS_TextEditor, FS_subtitleLabel_output, FS_output);
+
+        FS_MainBox.getChildren().addAll(FS_titleLabel, FS_subtitleLabel, FS_Execute, textEditorBox);
+        root.setRight(FS_MainBox);
+
+
+
+
+        // Add elements
 
         StackPane container = new StackPane();
         container.setStyle("-fx-background-color: #202020;"); // Couleur de fond globale
@@ -100,14 +142,6 @@ public class Main extends Application {
 
         Scene scene = new Scene(container, 500, 700);
         stage.setScene(scene);
-
-        // Appliquer le style CSS aux boutons
-        String buttonStyle = "-fx-background-radius: 15; -fx-background-color: #555555;";
-        fpl_btn.setStyle(buttonStyle);
-        java_btn.setStyle(buttonStyle);
-        cpp_btn.setStyle(buttonStyle);
-        lua_btn.setStyle(buttonStyle);
-        py_btn.setStyle(buttonStyle);
 
         // Show main window:
         stage.show();
