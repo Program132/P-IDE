@@ -1,25 +1,20 @@
 package fr.program;
 
-import javafx.animation.Transition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -38,7 +33,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         stage.setTitle("P-IDE | V0.1");
         stage.setHeight(500);
         stage.setWidth(700);
@@ -53,10 +48,8 @@ public class Main extends Application {
         titlePane.setPadding(new Insets(10));
         VBox titleBox = new VBox(10);
         titleBox.setAlignment(Pos.CENTER);
-        Label titleLabel = new Label("Bienvenue sur l'IDE de Program");
-        titleLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white; -fx-font-weight: bold;");
-        Label subtitleLabel = new Label("Sélectionner un langage pour commencer un projet");
-        subtitleLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+        Label titleLabel = createLabelWithStyle("Bienvenue sur l'IDE de Program", "-fx-font-size: 20px; -fx-text-fill: white; -fx-font-weight: bold;");
+        Label subtitleLabel = createLabelWithStyle("Sélectionner un langage pour commencer un projet", "-fx-font-size: 16px; -fx-text-fill: white;");
         titleBox.getChildren().addAll(titleLabel, subtitleLabel);
         titlePane.getChildren().add(titleBox);
 
@@ -66,6 +59,12 @@ public class Main extends Application {
         Button cpp_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\cpp.png", 50, 50);
         Button lua_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\lua.png", 50, 50);
         Button py_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\python.png", 50, 50);
+        String buttonStyle = "-fx-background-radius: 15; -fx-background-color: #555555;";
+        fpl_btn.setStyle(buttonStyle);
+        java_btn.setStyle(buttonStyle);
+        cpp_btn.setStyle(buttonStyle);
+        lua_btn.setStyle(buttonStyle);
+        py_btn.setStyle(buttonStyle);
         VBox buttonBox = new VBox(10);
         buttonBox.getChildren().addAll(fpl_btn, java_btn, cpp_btn, lua_btn, py_btn);
         VBox.setMargin(buttonBox, new Insets(10));
@@ -91,12 +90,6 @@ public class Main extends Application {
         lua_btn.setOnMouseExited(event -> lua_btn.setEffect(null));
         py_btn.setOnMouseEntered(event -> py_btn.setEffect(dropShadow));
         py_btn.setOnMouseExited(event -> py_btn.setEffect(null));
-        String buttonStyle = "-fx-background-radius: 15; -fx-background-color: #555555;";
-        fpl_btn.setStyle(buttonStyle);
-        java_btn.setStyle(buttonStyle);
-        cpp_btn.setStyle(buttonStyle);
-        lua_btn.setStyle(buttonStyle);
-        py_btn.setStyle(buttonStyle);
 
         // Add title + buttons
         root.setCenter(buttonBox);
@@ -105,22 +98,16 @@ public class Main extends Application {
 
 
         // Fast Scripting :
-        VBox FS_MainBox = new VBox(10);
-        FS_MainBox.setPadding(new Insets(10));
-        FS_MainBox.setStyle("-fx-background-color: #202020;");
+        VBox FS_MainBox = createVBOXwithPaddingStyle(10,10, "-fx-background-color: #202020;");
 
-        Label FS_titleLabel = new Label("Fast Scripting");
-        FS_titleLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #4a9eb4; -fx-font-weight: bold;");
-        Label FS_subtitleLabel = new Label("Tester un programme basic rapidement");
-        FS_subtitleLabel.setStyle("-fx-font-size: 15px; -fx-text-fill: #afafaf;");
+        Label FS_titleLabel = createLabelWithStyle("Fast Scripting :", "-fx-font-size: 18px; -fx-text-fill: #4a9eb4; -fx-font-weight: bold;");
+        Label FS_subtitleLabel = createLabelWithStyle("Tester un programme basic rapidement", "-fx-font-size: 15px; -fx-text-fill: #afafaf;");
 
-        Button FS_Execute = new Button("Execute");
-        FS_Execute.setStyle("-fx-background-color: #01770e; -fx-text-fill: #ffffff; -fx-font-weight: bold;");
+        Button FS_Execute = createButtonWithStyle("Execute", "-fx-background-color: #01770e; -fx-text-fill: #ffffff; -fx-font-weight: bold;");
         TextArea FS_TextEditor = new TextArea();
         FS_TextEditor.setStyle("-fx-control-inner-background: #111111; -fx-text-fill: #afafaf;");
 
-        Label FS_subtitleLabel_output = new Label("Résultat :");
-        FS_subtitleLabel_output.setStyle("-fx-font-size: 14px; -fx-text-fill: #e5e5e5;");
+        Label FS_subtitleLabel_output = createLabelWithStyle("Résultats :", "-fx-font-size: 14px; -fx-text-fill: #e5e5e5;");
         TextArea FS_output = new TextArea();
         FS_output.setEditable(false);
         FS_output.setStyle("-fx-control-inner-background: #424242; -fx-text-fill: #afafaf;");
@@ -156,5 +143,24 @@ public class Main extends Application {
         iconImageView.setFitHeight(height);
         btn.setGraphic(iconImageView);
         return btn;
+    }
+
+    private Button createButtonWithStyle(String content, String style) {
+        Button b = new Button(content);
+        b.setStyle(style);
+        return b;
+    }
+
+    private VBox createVBOXwithPaddingStyle(int spacing, int padding, String style) {
+        VBox box = new VBox(spacing);
+        box.setPadding(new Insets(padding));
+        box.setStyle(style);
+        return box;
+    }
+
+    private Label createLabelWithStyle(String content, String style) {
+        Label l = new Label(content);
+        l.setStyle(style);
+        return l;
     }
 }
