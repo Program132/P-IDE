@@ -1,17 +1,22 @@
 package fr.program;
 
+import javafx.animation.Transition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -58,6 +63,24 @@ public class Main extends Application {
         VBox.setMargin(lua_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(py_btn, new Insets(0, 0, 0, 10));
 
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.rgb(0, 0, 255, 0.7));
+        dropShadow.setOffsetX(0);
+        dropShadow.setOffsetY(4);
+        dropShadow.setRadius(8);
+        dropShadow.setSpread(0.1);
+        fpl_btn.setOnMouseEntered(event -> fpl_btn.setEffect(dropShadow));
+        fpl_btn.setOnMouseExited(event -> fpl_btn.setEffect(null));
+        java_btn.setOnMouseEntered(event -> java_btn.setEffect(dropShadow));
+        java_btn.setOnMouseExited(event -> java_btn.setEffect(null));
+        cpp_btn.setOnMouseEntered(event -> cpp_btn.setEffect(dropShadow));
+        cpp_btn.setOnMouseExited(event -> cpp_btn.setEffect(null));
+        lua_btn.setOnMouseEntered(event -> lua_btn.setEffect(dropShadow));
+        lua_btn.setOnMouseExited(event -> lua_btn.setEffect(null));
+        py_btn.setOnMouseEntered(event -> py_btn.setEffect(dropShadow));
+        py_btn.setOnMouseExited(event -> py_btn.setEffect(null));
+
+
         Label titleLabel = new Label("Bienvenue sur l'IDE de Program");
         titleLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white;"); // Ajustez la taille de la police selon vos besoins
 
@@ -79,7 +102,7 @@ public class Main extends Application {
         stage.setScene(scene);
 
         // Appliquer le style CSS aux boutons
-        String buttonStyle = "-fx-background-color: #555555; -fx-text-fill: white;";
+        String buttonStyle = "-fx-background-radius: 15; -fx-background-color: #555555;";
         fpl_btn.setStyle(buttonStyle);
         java_btn.setStyle(buttonStyle);
         cpp_btn.setStyle(buttonStyle);
@@ -91,7 +114,7 @@ public class Main extends Application {
         stage.centerOnScreen();
     }
 
-    public Button createImageButton(String imgpath, int width, int height) {
+    private Button createImageButton(String imgpath, int width, int height) {
         Button btn = new Button();
         Image iconImage = new Image(imgpath);
         ImageView iconImageView = new ImageView(iconImage);
