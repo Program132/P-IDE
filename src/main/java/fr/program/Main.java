@@ -35,8 +35,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         stage.setTitle("P-IDE | V0.1");
-        stage.setHeight(500);
-        stage.setWidth(700);
+        stage.setHeight(600);
+        stage.setWidth(900);
         stage.setResizable(false);
 
         BorderPane root = new BorderPane();
@@ -121,7 +121,7 @@ public class Main extends Application {
         container.setStyle("-fx-background-color: #202020;"); // Couleur de fond globale
         container.getChildren().add(root);
 
-        Scene scene = new Scene(container, 500, 700);
+        Scene scene = new Scene(container, 600, 900);
         stage.setScene(scene);
 
         // Show main window:
