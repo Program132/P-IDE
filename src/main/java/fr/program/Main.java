@@ -54,17 +54,11 @@ public class Main extends Application {
         titlePane.getChildren().add(titleBox);
 
         // Languages Buttons -> open project window (interaction)
-        Button fpl_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\fpl.png", 50, 50);
-        Button java_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\java.png", 50, 50);
-        Button cpp_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\cpp.png", 50, 50);
-        Button lua_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\lua.png", 50, 50);
-        Button py_btn = createImageButton("D:\\GitHub\\P-IDE\\img\\btn\\python.png", 50, 50);
-        String buttonStyle = "-fx-background-radius: 15; -fx-background-color: #555555;";
-        fpl_btn.setStyle(buttonStyle);
-        java_btn.setStyle(buttonStyle);
-        cpp_btn.setStyle(buttonStyle);
-        lua_btn.setStyle(buttonStyle);
-        py_btn.setStyle(buttonStyle);
+        Button fpl_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\fpl.png", 50, 50, "-fx-background-radius: 15; -fx-background-color: #555555;");
+        Button java_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\java.png", 50, 50, "-fx-background-radius: 15; -fx-background-color: #555555;");
+        Button cpp_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\cpp.png", 50, 50, "-fx-background-radius: 15; -fx-background-color: #555555;");
+        Button lua_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\lua.png", 50, 50, "-fx-background-radius: 15; -fx-background-color: #555555;");
+        Button py_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\python.png", 50, 50, "-fx-background-radius: 15; -fx-background-color: #555555;");
         VBox buttonBox = new VBox(10);
         buttonBox.getChildren().addAll(fpl_btn, java_btn, cpp_btn, lua_btn, py_btn);
         VBox.setMargin(buttonBox, new Insets(10));
@@ -142,6 +136,12 @@ public class Main extends Application {
         iconImageView.setFitWidth(width);
         iconImageView.setFitHeight(height);
         btn.setGraphic(iconImageView);
+        return btn;
+    }
+
+    private Button createImageButtonWithStyle(String imgpath, int width, int height, String style) {
+        Button btn = createImageButton(imgpath, width, height);
+        btn.setStyle(style);
         return btn;
     }
 
