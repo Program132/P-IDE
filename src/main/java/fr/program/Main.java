@@ -54,11 +54,11 @@ public class Main extends Application {
         titlePane.getChildren().add(titleBox);
 
         // Languages Buttons -> open project window (interaction)
-        Button fpl_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\fpl.png", 50, 50, "-fx-background-radius: 15; -fx-background-color: #555555;");
-        Button java_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\java.png", 50, 50, "-fx-background-radius: 15; -fx-background-color: #555555;");
-        Button cpp_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\cpp.png", 50, 50, "-fx-background-radius: 15; -fx-background-color: #555555;");
-        Button lua_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\lua.png", 50, 50, "-fx-background-radius: 15; -fx-background-color: #555555;");
-        Button py_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\python.png", 50, 50, "-fx-background-radius: 15; -fx-background-color: #555555;");
+        Button fpl_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\fpl.png");
+        Button java_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\java.png");
+        Button cpp_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\cpp.png");
+        Button lua_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\lua.png");
+        Button py_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\python.png");
         VBox buttonBox = new VBox(10);
         buttonBox.getChildren().addAll(fpl_btn, java_btn, cpp_btn, lua_btn, py_btn);
         VBox.setMargin(buttonBox, new Insets(10));
@@ -140,6 +140,12 @@ public class Main extends Application {
     private Button createImageButtonWithStyle(String imgpath, int width, int height, String style) {
         Button btn = createImageButton(imgpath, width, height);
         btn.setStyle(style);
+        return btn;
+    }
+
+    private Button createImageButtonWithStyle(String imgpath) {
+        Button btn = createImageButton(imgpath, 50, 50);
+        btn.setStyle("-fx-background-radius: 15; -fx-background-color: #555555;");
         return btn;
     }
 
