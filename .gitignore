@@ -7,3 +7,8 @@ build
 gradlew
 gradlew.bat
 settings.gradle
+
+bin/CMake
+bin/lua-5.4.2
+bin/mingw64
+bin/Python311
