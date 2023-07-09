@@ -169,6 +169,10 @@ public class Main extends Application {
         FS_py.setOnAction(event -> {
             Interactions_FS.setMode("python");
         });
+
+        FS_Execute.setOnAction(event -> {
+            Interactions_FS.execute();
+        });
     }
 
     private Button createImageButton(String imgpath, int width, int height) {
