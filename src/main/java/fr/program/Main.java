@@ -71,21 +71,44 @@ public class Main extends Application {
         VBox.setMargin(cpp_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(lua_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(py_btn, new Insets(0, 0, 0, 10));
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setColor(Color.rgb(0, 0, 255, 0.7));
-        dropShadow.setOffsetX(0);
-        dropShadow.setOffsetY(4);
-        dropShadow.setRadius(8);
-        dropShadow.setSpread(0.1);
-        fpl_btn.setOnMouseEntered(event -> fpl_btn.setEffect(dropShadow));
+
+        DropShadow dropShadow_blue = new DropShadow();
+        dropShadow_blue.setColor(Color.rgb(0, 0, 255, 0.7));
+        dropShadow_blue.setOffsetX(0);
+        dropShadow_blue.setOffsetY(4);
+        dropShadow_blue.setRadius(8);
+        dropShadow_blue.setSpread(0.1);
+
+        DropShadow dropShadow_red = new DropShadow();
+        dropShadow_red.setColor(Color.rgb(255, 0, 0, 0.7));
+        dropShadow_red.setOffsetX(0);
+        dropShadow_red.setOffsetY(4);
+        dropShadow_red.setRadius(8);
+        dropShadow_red.setSpread(0.1);
+
+        DropShadow dropShadow_FS_buttons_selected = new DropShadow();
+        dropShadow_FS_buttons_selected.setColor(Color.rgb(162,1,1, 0.7));
+        dropShadow_FS_buttons_selected.setOffsetX(0);
+        dropShadow_FS_buttons_selected.setOffsetY(4);
+        dropShadow_FS_buttons_selected.setRadius(8);
+        dropShadow_FS_buttons_selected.setSpread(0.1);
+
+        DropShadow dropShadow_green = new DropShadow();
+        dropShadow_green.setColor(Color.rgb(0, 200, 0, 0.7));
+        dropShadow_green.setOffsetX(0);
+        dropShadow_green.setOffsetY(4);
+        dropShadow_green.setRadius(8);
+        dropShadow_green.setSpread(0.1);
+
+        fpl_btn.setOnMouseEntered(event -> fpl_btn.setEffect(dropShadow_red));
         fpl_btn.setOnMouseExited(event -> fpl_btn.setEffect(null));
-        java_btn.setOnMouseEntered(event -> java_btn.setEffect(dropShadow));
+        java_btn.setOnMouseEntered(event -> java_btn.setEffect(dropShadow_red));
         java_btn.setOnMouseExited(event -> java_btn.setEffect(null));
-        cpp_btn.setOnMouseEntered(event -> cpp_btn.setEffect(dropShadow));
+        cpp_btn.setOnMouseEntered(event -> cpp_btn.setEffect(dropShadow_red));
         cpp_btn.setOnMouseExited(event -> cpp_btn.setEffect(null));
-        lua_btn.setOnMouseEntered(event -> lua_btn.setEffect(dropShadow));
+        lua_btn.setOnMouseEntered(event -> lua_btn.setEffect(dropShadow_red));
         lua_btn.setOnMouseExited(event -> lua_btn.setEffect(null));
-        py_btn.setOnMouseEntered(event -> py_btn.setEffect(dropShadow));
+        py_btn.setOnMouseEntered(event -> py_btn.setEffect(dropShadow_red));
         py_btn.setOnMouseExited(event -> py_btn.setEffect(null));
 
         // Add title + buttons
@@ -101,28 +124,79 @@ public class Main extends Application {
         Label FS_subtitleLabel = createLabelWithStyle("Tester un programme basic rapidement", "-fx-font-size: 15px; -fx-text-fill: #afafaf;");
 
         HBox FS_buttonsBox = createHBOXwithPadding(10,10);
+        String FS_Buttons_normal_style = "-fx-background-color: #1a5bef; -fx-text-fill: #ffffff; -fx-font-style: italic;";
+        String FS_Buttons_selected_style = "-fx-background-color: #a20101; -fx-text-fill: #ffffff; -fx-font-style: italic;";
         Button FS_Execute = createButtonWithStyle("Execute", "-fx-background-color: #01770e; -fx-text-fill: #ffffff; -fx-font-weight: bold;");
-        Button FS_fpl = createButtonWithStyle("FPL", "-fx-background-color: blue; -fx-text-fill: #ffffff; -fx-font-style: italic;");
-        Button FS_java = createButtonWithStyle("Java", "-fx-background-color: blue; -fx-text-fill: #ffffff; -fx-font-style: italic;");
-        Button FS_cpp = createButtonWithStyle("C++", "-fx-background-color: blue; -fx-text-fill: #ffffff; -fx-font-style: italic;");
-        Button FS_lua = createButtonWithStyle("Lua", "-fx-background-color: blue; -fx-text-fill: #ffffff; -fx-font-style: italic;");
-        Button FS_py = createButtonWithStyle("Python", "-fx-background-color: blue; -fx-text-fill: #ffffff; -fx-font-style: italic;");
-        FS_fpl.setOnMouseEntered(event -> FS_fpl.setEffect(dropShadow));
+        Button FS_fpl = createButtonWithStyle("FPL", FS_Buttons_normal_style);
+        Button FS_java = createButtonWithStyle("Java", FS_Buttons_normal_style);
+        Button FS_cpp = createButtonWithStyle("C++", FS_Buttons_normal_style);
+        Button FS_lua = createButtonWithStyle("Lua", FS_Buttons_normal_style);
+        Button FS_py = createButtonWithStyle("Python", FS_Buttons_normal_style);
+        Button FS_reset = createButtonWithStyle("Reset", "-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-style: italic;");
+
+        FS_Execute.setOnMouseEntered(event -> FS_Execute.setEffect(dropShadow_green));
+        FS_Execute.setOnMouseExited(event -> FS_Execute.setEffect(null));
+
+        FS_fpl.setOnMouseEntered(event -> {
+            String buttonStyle = FS_fpl.getStyle();
+            if (buttonStyle.equals(FS_Buttons_selected_style)) {
+                FS_fpl.setEffect(dropShadow_FS_buttons_selected);
+            } else {
+                FS_fpl.setEffect(dropShadow_blue);
+            }
+        });
         FS_fpl.setOnMouseExited(event -> FS_fpl.setEffect(null));
-        FS_java.setOnMouseEntered(event -> FS_java.setEffect(dropShadow));
+
+        FS_java.setOnMouseEntered(event -> {
+            String buttonStyle = FS_java.getStyle();
+            if (buttonStyle.equals(FS_Buttons_selected_style)) {
+                FS_java.setEffect(dropShadow_FS_buttons_selected);
+            } else {
+                FS_java.setEffect(dropShadow_blue);
+            }
+        });
         FS_java.setOnMouseExited(event -> FS_java.setEffect(null));
-        FS_cpp.setOnMouseEntered(event -> FS_cpp.setEffect(dropShadow));
+
+        FS_cpp.setOnMouseEntered(event -> {
+            String buttonStyle = FS_cpp.getStyle();
+            if (buttonStyle.equals(FS_Buttons_selected_style)) {
+                FS_cpp.setEffect(dropShadow_FS_buttons_selected);
+            } else {
+                FS_cpp.setEffect(dropShadow_blue);
+            }
+        });
         FS_cpp.setOnMouseExited(event -> FS_cpp.setEffect(null));
-        FS_lua.setOnMouseEntered(event -> FS_lua.setEffect(dropShadow));
+
+        FS_lua.setOnMouseEntered(event -> {
+            String buttonStyle = FS_lua.getStyle();
+            if (buttonStyle.equals(FS_Buttons_selected_style)) {
+                FS_lua.setEffect(dropShadow_FS_buttons_selected);
+            } else {
+                FS_lua.setEffect(dropShadow_blue);
+            }
+        });
         FS_lua.setOnMouseExited(event -> FS_lua.setEffect(null));
-        FS_py.setOnMouseEntered(event -> FS_py.setEffect(dropShadow));
+
+        FS_py.setOnMouseEntered(event -> {
+            String buttonStyle = FS_py.getStyle();
+            if (buttonStyle.equals(FS_Buttons_selected_style)) {
+                FS_py.setEffect(dropShadow_FS_buttons_selected);
+            } else {
+                FS_py.setEffect(dropShadow_blue);
+            }
+        });
         FS_py.setOnMouseExited(event -> FS_py.setEffect(null));
+
+        FS_reset.setOnMouseEntered(event -> FS_reset.setEffect(dropShadow_red));
+        FS_reset.setOnMouseExited(event -> FS_reset.setEffect(null));
+
         FS_buttonsBox.getChildren().add(FS_Execute);
         FS_buttonsBox.getChildren().add(FS_fpl);
         FS_buttonsBox.getChildren().add(FS_java);
         FS_buttonsBox.getChildren().add(FS_cpp);
         FS_buttonsBox.getChildren().add(FS_lua);
         FS_buttonsBox.getChildren().add(FS_py);
+        FS_buttonsBox.getChildren().add(FS_reset);
 
 
         TextArea FS_TextEditor = createTextAreaWithStyle(true, "-fx-control-inner-background: #111111; -fx-text-fill: #afafaf;");
@@ -158,18 +232,68 @@ public class Main extends Application {
 
         FS_fpl.setOnAction(event -> {
             Interactions_FS.setMode("fpl");
+
+            FS_fpl.setStyle(FS_Buttons_normal_style);
+            FS_java.setStyle(FS_Buttons_normal_style);
+            FS_cpp.setStyle(FS_Buttons_normal_style);
+            FS_lua.setStyle(FS_Buttons_normal_style);
+            FS_py.setStyle(FS_Buttons_normal_style);
+
+            FS_fpl.setStyle(FS_Buttons_selected_style);
         });
         FS_java.setOnAction(event -> {
             Interactions_FS.setMode("java");
+
+            FS_fpl.setStyle(FS_Buttons_normal_style);
+            FS_java.setStyle(FS_Buttons_normal_style);
+            FS_cpp.setStyle(FS_Buttons_normal_style);
+            FS_lua.setStyle(FS_Buttons_normal_style);
+            FS_py.setStyle(FS_Buttons_normal_style);
+
+            FS_java.setStyle(FS_Buttons_selected_style);
         });
         FS_cpp.setOnAction(event -> {
             Interactions_FS.setMode("cpp");
+
+            FS_fpl.setStyle(FS_Buttons_normal_style);
+            FS_java.setStyle(FS_Buttons_normal_style);
+            FS_cpp.setStyle(FS_Buttons_normal_style);
+            FS_lua.setStyle(FS_Buttons_normal_style);
+            FS_py.setStyle(FS_Buttons_normal_style);
+
+            FS_cpp.setStyle(FS_Buttons_selected_style);
         });
         FS_lua.setOnAction(event -> {
             Interactions_FS.setMode("lua");
+
+            FS_fpl.setStyle(FS_Buttons_normal_style);
+            FS_java.setStyle(FS_Buttons_normal_style);
+            FS_cpp.setStyle(FS_Buttons_normal_style);
+            FS_lua.setStyle(FS_Buttons_normal_style);
+            FS_py.setStyle(FS_Buttons_normal_style);
+
+            FS_lua.setStyle(FS_Buttons_selected_style);
         });
         FS_py.setOnAction(event -> {
             Interactions_FS.setMode("py");
+
+            FS_fpl.setStyle(FS_Buttons_normal_style);
+            FS_java.setStyle(FS_Buttons_normal_style);
+            FS_cpp.setStyle(FS_Buttons_normal_style);
+            FS_lua.setStyle(FS_Buttons_normal_style);
+            FS_py.setStyle(FS_Buttons_normal_style);
+
+            FS_py.setStyle(FS_Buttons_selected_style);
+        });
+        FS_reset.setOnAction(event -> {
+            Interactions_FS.setMode("N/A");
+            FS_output.setText("");
+
+            FS_fpl.setStyle(FS_Buttons_normal_style);
+            FS_java.setStyle(FS_Buttons_normal_style);
+            FS_cpp.setStyle(FS_Buttons_normal_style);
+            FS_lua.setStyle(FS_Buttons_normal_style);
+            FS_py.setStyle(FS_Buttons_normal_style);
         });
 
         FS_Execute.setOnAction(event -> {
