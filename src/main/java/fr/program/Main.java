@@ -17,6 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class Main extends Application {
     public static void main(String[] args) {
         System.setProperty("file.encoding", "UTF-8");
@@ -167,11 +169,15 @@ public class Main extends Application {
             Interactions_FS.setMode("lua");
         });
         FS_py.setOnAction(event -> {
-            Interactions_FS.setMode("python");
+            Interactions_FS.setMode("py");
         });
 
         FS_Execute.setOnAction(event -> {
-            Interactions_FS.execute();
+            try {
+                Interactions_FS.execute(FS_TextEditor.getText(), FS_output);
+            } catch (IOException e) {
+
+            }
         });
     }
 
