@@ -240,6 +240,7 @@ public class Main extends Application {
             FS_py.setStyle(FS_Buttons_normal_style);
 
             FS_fpl.setStyle(FS_Buttons_selected_style);
+            FS_fpl.setEffect(dropShadow_FS_buttons_selected);
         });
         FS_java.setOnAction(event -> {
             Interactions_FS.setMode("java");
@@ -251,6 +252,7 @@ public class Main extends Application {
             FS_py.setStyle(FS_Buttons_normal_style);
 
             FS_java.setStyle(FS_Buttons_selected_style);
+            FS_java.setEffect(dropShadow_FS_buttons_selected);
         });
         FS_cpp.setOnAction(event -> {
             Interactions_FS.setMode("cpp");
@@ -262,6 +264,7 @@ public class Main extends Application {
             FS_py.setStyle(FS_Buttons_normal_style);
 
             FS_cpp.setStyle(FS_Buttons_selected_style);
+            FS_cpp.setEffect(dropShadow_FS_buttons_selected);
         });
         FS_lua.setOnAction(event -> {
             Interactions_FS.setMode("lua");
@@ -273,6 +276,7 @@ public class Main extends Application {
             FS_py.setStyle(FS_Buttons_normal_style);
 
             FS_lua.setStyle(FS_Buttons_selected_style);
+            FS_lua.setEffect(dropShadow_FS_buttons_selected);
         });
         FS_py.setOnAction(event -> {
             Interactions_FS.setMode("py");
@@ -284,6 +288,7 @@ public class Main extends Application {
             FS_py.setStyle(FS_Buttons_normal_style);
 
             FS_py.setStyle(FS_Buttons_selected_style);
+            FS_py.setEffect(dropShadow_FS_buttons_selected);
         });
         FS_reset.setOnAction(event -> {
             Interactions_FS.writeInFile("fastscript/code/fpl.fpl", "");
