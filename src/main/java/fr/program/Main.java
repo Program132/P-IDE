@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -97,7 +98,30 @@ public class Main extends Application {
         Label FS_titleLabel = createLabelWithStyle("Fast Scripting :", "-fx-font-size: 18px; -fx-text-fill: #4a9eb4; -fx-font-weight: bold;");
         Label FS_subtitleLabel = createLabelWithStyle("Tester un programme basic rapidement", "-fx-font-size: 15px; -fx-text-fill: #afafaf;");
 
+        HBox FS_buttonsBox = createHBOXwithPadding(10,10);
         Button FS_Execute = createButtonWithStyle("Execute", "-fx-background-color: #01770e; -fx-text-fill: #ffffff; -fx-font-weight: bold;");
+        Button FS_fpl = createButtonWithStyle("FPL", "-fx-background-color: blue; -fx-text-fill: #ffffff; -fx-font-style: italic;");
+        Button FS_java = createButtonWithStyle("Java", "-fx-background-color: blue; -fx-text-fill: #ffffff; -fx-font-style: italic;");
+        Button FS_cpp = createButtonWithStyle("C++", "-fx-background-color: blue; -fx-text-fill: #ffffff; -fx-font-style: italic;");
+        Button FS_lua = createButtonWithStyle("Lua", "-fx-background-color: blue; -fx-text-fill: #ffffff; -fx-font-style: italic;");
+        Button FS_py = createButtonWithStyle("Python", "-fx-background-color: blue; -fx-text-fill: #ffffff; -fx-font-style: italic;");
+        FS_fpl.setOnMouseEntered(event -> FS_fpl.setEffect(dropShadow));
+        FS_fpl.setOnMouseExited(event -> FS_fpl.setEffect(null));
+        FS_java.setOnMouseEntered(event -> FS_java.setEffect(dropShadow));
+        FS_java.setOnMouseExited(event -> FS_java.setEffect(null));
+        FS_cpp.setOnMouseEntered(event -> FS_cpp.setEffect(dropShadow));
+        FS_cpp.setOnMouseExited(event -> FS_cpp.setEffect(null));
+        FS_lua.setOnMouseEntered(event -> FS_lua.setEffect(dropShadow));
+        FS_lua.setOnMouseExited(event -> FS_lua.setEffect(null));
+        FS_py.setOnMouseEntered(event -> FS_py.setEffect(dropShadow));
+        FS_py.setOnMouseExited(event -> FS_py.setEffect(null));
+        FS_buttonsBox.getChildren().add(FS_Execute);
+        FS_buttonsBox.getChildren().add(FS_fpl);
+        FS_buttonsBox.getChildren().add(FS_java);
+        FS_buttonsBox.getChildren().add(FS_cpp);
+        FS_buttonsBox.getChildren().add(FS_lua);
+        FS_buttonsBox.getChildren().add(FS_py);
+
 
         TextArea FS_TextEditor = createTextAreaWithStyle(true, "-fx-control-inner-background: #111111; -fx-text-fill: #afafaf;");
 
@@ -107,7 +131,7 @@ public class Main extends Application {
         VBox textEditorBox = new VBox(10);
         textEditorBox.getChildren().addAll(FS_TextEditor, FS_subtitleLabel_output, FS_output);
 
-        FS_MainBox.getChildren().addAll(FS_titleLabel, FS_subtitleLabel, FS_Execute, textEditorBox);
+        FS_MainBox.getChildren().addAll(FS_titleLabel, FS_subtitleLabel, FS_buttonsBox, textEditorBox);
         root.setRight(FS_MainBox);
 
 
@@ -125,6 +149,26 @@ public class Main extends Application {
         // Show main window:
         stage.show();
         stage.centerOnScreen();
+
+
+
+        // Events FS
+
+        FS_fpl.setOnAction(event -> {
+            Interactions_FS.setMode("fpl");
+        });
+        FS_java.setOnAction(event -> {
+            Interactions_FS.setMode("java");
+        });
+        FS_cpp.setOnAction(event -> {
+            Interactions_FS.setMode("cpp");
+        });
+        FS_lua.setOnAction(event -> {
+            Interactions_FS.setMode("lua");
+        });
+        FS_py.setOnAction(event -> {
+            Interactions_FS.setMode("python");
+        });
     }
 
     private Button createImageButton(String imgpath, int width, int height) {
@@ -161,6 +205,13 @@ public class Main extends Application {
         box.setStyle(style);
         return box;
     }
+
+    private HBox createHBOXwithPadding(int spacing, int padding) {
+        HBox box = new HBox(spacing);
+        box.setPadding(new Insets(padding));
+        return box;
+    }
+
 
     private Label createLabelWithStyle(String content, String style) {
         Label l = new Label(content);
