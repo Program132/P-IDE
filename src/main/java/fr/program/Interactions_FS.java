@@ -42,7 +42,7 @@ public class Interactions_FS {
         }
     }
 
-    private static void writeInFile(String path, String content) {
+    public static void writeInFile(String path, String content) {
         File file = new File(path);
         if (file.exists() && file.isFile()) {
             try {
