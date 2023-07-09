@@ -286,6 +286,11 @@ public class Main extends Application {
             FS_py.setStyle(FS_Buttons_selected_style);
         });
         FS_reset.setOnAction(event -> {
+            Interactions_FS.writeInFile("fastscript/code/fpl.fpl", "");
+            Interactions_FS.writeInFile("fastscript/code/java.java", "");
+            Interactions_FS.writeInFile("fastscript/code/cpp.cpp", "");
+            Interactions_FS.writeInFile("fastscript/code/lua.lua", "");
+            Interactions_FS.writeInFile("fastscript/code/py.py", "");
             Interactions_FS.setMode("N/A");
             FS_output.setText("");
 
