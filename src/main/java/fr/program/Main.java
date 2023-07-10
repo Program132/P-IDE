@@ -77,33 +77,10 @@ public class Main extends Application {
         VBox.setMargin(typescript_btn, new Insets(0, 0, 0, 10));
 
 
-        DropShadow dropShadow_blue = new DropShadow();
-        dropShadow_blue.setColor(Color.rgb(0, 0, 255, 0.7));
-        dropShadow_blue.setOffsetX(0);
-        dropShadow_blue.setOffsetY(4);
-        dropShadow_blue.setRadius(8);
-        dropShadow_blue.setSpread(0.1);
-
-        DropShadow dropShadow_red = new DropShadow();
-        dropShadow_red.setColor(Color.rgb(255, 0, 0, 0.7));
-        dropShadow_red.setOffsetX(0);
-        dropShadow_red.setOffsetY(4);
-        dropShadow_red.setRadius(8);
-        dropShadow_red.setSpread(0.1);
-
-        DropShadow dropShadow_FS_buttons_selected = new DropShadow();
-        dropShadow_FS_buttons_selected.setColor(Color.rgb(162,1,1, 0.7));
-        dropShadow_FS_buttons_selected.setOffsetX(0);
-        dropShadow_FS_buttons_selected.setOffsetY(4);
-        dropShadow_FS_buttons_selected.setRadius(8);
-        dropShadow_FS_buttons_selected.setSpread(0.1);
-
-        DropShadow dropShadow_green = new DropShadow();
-        dropShadow_green.setColor(Color.rgb(0, 200, 0, 0.7));
-        dropShadow_green.setOffsetX(0);
-        dropShadow_green.setOffsetY(4);
-        dropShadow_green.setRadius(8);
-        dropShadow_green.setSpread(0.1);
+        DropShadow dropShadow_blue = createDropShadow(Color.rgb(0,0,255,0.7));
+        DropShadow dropShadow_red = createDropShadow(Color.rgb(255,0,0,0.7));
+        DropShadow dropShadow_FS_buttons_selected = createDropShadow(Color.rgb(162,1,1,0.7));
+        DropShadow dropShadow_green = createDropShadow(Color.rgb(0,200,0,0.7));
 
         EffectMainButtonMenu_Hover(fpl_btn, java_btn, cpp_btn, dropShadow_red);
         EffectMainButtonMenu_Hover(lua_btn, py_btn, ark_btn, dropShadow_red);
@@ -239,6 +216,14 @@ public class Main extends Application {
         // Show main window:
         stage.show();
         stage.centerOnScreen();
+
+
+        // Events Main Menu
+
+        FS_fpl.setOnAction(event -> {
+
+        });
+
 
 
 
@@ -469,5 +454,24 @@ public class Main extends Application {
         area.setEditable(editable);
         area.setStyle(style);
         return area;
+    }
+
+    private DropShadow createDropShadow(Color color) {
+        DropShadow ds = new DropShadow();
+        ds.setColor(color);
+        ds.setOffsetX(0);
+        ds.setOffsetY(4);
+        ds.setRadius(8);
+        ds.setSpread(0.1);
+        return ds;
+    }
+
+    private void applyEffectMouseHover_FS(Button button, String style, DropShadow ds_normal, DropShadow ds_new) {
+        String buttonStyle = button.getStyle();
+        if (buttonStyle.equals(style)) {
+            button.setEffect(ds_new);
+        } else {
+            button.setEffect(ds_normal);
+        }
     }
 }
