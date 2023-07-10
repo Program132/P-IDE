@@ -8,6 +8,7 @@ gradlew
 gradlew.bat
 settings.gradle
 
+CMakeFiles
 bin/CMake
 bin/lua-5.4.2
 bin/mingw64
