@@ -385,6 +385,7 @@ public class Main extends Application {
             Interactions_FS.writeInFile("fastscript/code/lua.lua", "");
             Interactions_FS.writeInFile("fastscript/code/py.py", "");
             Interactions_FS.writeInFile("fastscript/code/ark.ark", "");
+            Interactions_FS.writeInFile("fastscript/code/ts.ts", "");
             Interactions_FS.setMode("N/A");
             FS_output.setText("");
 
