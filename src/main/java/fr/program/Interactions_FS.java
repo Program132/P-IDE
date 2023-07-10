@@ -94,14 +94,12 @@ public class Interactions_FS {
                 String result = run_java_class.getValue();
                 output_zone.setText(result);
 
-                String file_class = projectRootPath + "\\fastscript\\code\\java.class";
+                String file_class = projectRootPath.replace("\\", "/") + "/fastscript/code/java.class";
                 File file = new File(file_class);
 
                 if (file.exists()) {
                     file.delete();
                     file.deleteOnExit();
-                } else {
-                    System.out.println(file_class);
                 }
             });
         }
