@@ -260,7 +260,7 @@ public class Main extends Application {
 
             FS_TextEditor.setText(
                     "class java { \n" +
-                    "   public static void main(String[] args] { \n" +
+                    "   public static void main(String[] args) { \n" +
                     "       System.out.println(\"Hello World\"); \n" +
                     "   } \n" +
                     "}"
