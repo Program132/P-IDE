@@ -20,25 +20,26 @@ public class Interactions_FS {
     }
 
     public static void execute(String content, TextArea output_zone) throws IOException {
-        // FORMAT : ProcessBuilder processBuilder = new ProcessBuilder("chemin_vers_executable", "argument1", "argument2");
+        String projectRootPath = System.getProperty("user.dir");
 
         if (getMode().equalsIgnoreCase("fpl")) {
-            writeInFile("fastscript/code/fpl.fpl", content);
+            writeInFile(projectRootPath.replace("\\", "/")+"fastscript/code/fpl.fpl", content);
 
-            executeCodeAndSeeOutput(output_zone, "bin/fpl/fpl-2.3.exe", "F.P.L","fastscript/code/fpl.fpl");
+            executeCodeAndSeeOutput(output_zone, projectRootPath.replace("\\", "/")+"bin/fpl/fpl-2.3.exe", "F.P.L",projectRootPath.replace("\\", "/")+"fastscript/code/fpl.fpl");
             // Running FPL V3 Parser...
-        } else if (getMode().equalsIgnoreCase("java")) {
+        }
+        else if (getMode().equalsIgnoreCase("java")) {
             writeInFile("fastscript/code/java.java", content);
 
             executeCodeAndSeeOutput(output_zone, "bin/jre-1.8/bin/java.exe", "Java", "fastscript/code/java.java");
-        } else if (getMode().equalsIgnoreCase("cpp")) {
+        }
+        else if (getMode().equalsIgnoreCase("cpp")) {
             writeInFile("fastscript/code/cpp.cpp", content);
 
             // Running cmake and g++
             // cmake -G "MinGW Makefiles" -D CMAKE_C_COMPILER=D:\GitHub\P-IDE\bin\mingw64\bin\gcc.exe -D CMAKE_CXX_COMPILER=D:\GitHub\P-IDE\bin\mingw64\bin\g++.exe -DCMAKE_BUILD_TYPE=Release D:\GitHub\P-IDE\fastscript\code\
             // cmake --build
 
-            String projectRootPath = System.getProperty("user.dir");
             String cmakePath = projectRootPath + "\\bin\\CMake\\bin\\cmake.exe";
             String gppPath = projectRootPath + "\\bin\\mingw64\\bin\\g++.exe";
             String gccPath = projectRootPath + "\\bin\\mingw64\\bin\\gcc.exe";
@@ -176,14 +177,53 @@ public class Interactions_FS {
             });
 
 
-        } else if (getMode().equalsIgnoreCase("lua")) {
+        }
+        else if (getMode().equalsIgnoreCase("lua")) {
             writeInFile("fastscript/code/lua.lua", content);
 
             executeCodeAndSeeOutput(output_zone, "bin/lua-5.4.2/lua54.exe", "Lua", "fastscript/code/lua.lua");
-        } else if (getMode().equalsIgnoreCase("py")) {
+        }
+        else if (getMode().equalsIgnoreCase("py")) {
             writeInFile("fastscript/code/py.py", content);
 
             executeCodeAndSeeOutput(output_zone, "bin/Python311/python.exe", "Python", "fastscript/code/py.py");
+        }
+        else if (getMode().equalsIgnoreCase("ark")) {
+            writeInFile("fastscript/code/ark.ark", content);
+
+            Service<String> arkscript = new Service<String>() {
+                @Override
+                protected Task<String> createTask() {
+                    return new Task<String>() {
+                        @Override
+                        protected String call() throws Exception {
+                            ProcessBuilder processBuilder = new ProcessBuilder(
+                                    projectRootPath + "\\bin\\ArkScript\\ark.exe",
+                                    "fastscript/code/ark.ark",
+                                    "--lib",
+                                    "bin/ArkScript/lib"
+                            );
+                            System.out.println(processBuilder.command());
+                            processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+                            Process process = processBuilder.start();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                            String line;
+                            String all_lines = "Running in ArkScript: \n";
+                            while ((line = reader.readLine()) != null) {
+                                all_lines += line + "\n";
+                            }
+                            reader.close();
+                            return all_lines;
+                        }
+                    };
+                }
+            };
+
+            arkscript.setOnSucceeded(event -> {
+                String result = arkscript.getValue();
+                output_zone.setText(result);
+            });
+            arkscript.start();
         }
     }
 
