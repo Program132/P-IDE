@@ -42,7 +42,6 @@ public class Interactions_FS {
                                     "bin/jdk-20/bin/javac.exe",
                                     "fastscript/code/java.java"
                             );
-                            System.out.println(processBuilder.command());
                             processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
                             Process process = processBuilder.start();
                             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -95,12 +94,6 @@ public class Interactions_FS {
             run_java_class.setOnSucceeded(event -> {
                 String result = run_java_class.getValue();
                 output_zone.appendText(result);
-                String file_class = projectRootPath + "/fastscript/java.class";
-                try {
-                    Files.deleteIfExists(Paths.get(file_class));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             });
         }
         else if (getMode().equalsIgnoreCase("cpp")) {
@@ -312,7 +305,6 @@ public class Interactions_FS {
 
     private static String openShell(String pathApplication, String lang, String arg) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder(pathApplication, arg);
-        System.out.println(processBuilder.command());
         processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
         Process process = processBuilder.start();
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
