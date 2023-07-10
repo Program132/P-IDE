@@ -38,8 +38,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         stage.setTitle("P-IDE | V0.1");
-        stage.setHeight(600);
-        stage.setWidth(900);
+        stage.setHeight(800);
+        stage.setWidth(1000);
         stage.setResizable(false);
 
         BorderPane root = new BorderPane();
@@ -195,15 +195,7 @@ public class Main extends Application {
         FS_reset.setOnMouseEntered(event -> FS_reset.setEffect(dropShadow_red));
         FS_reset.setOnMouseExited(event -> FS_reset.setEffect(null));
 
-        FS_buttonsBox.getChildren().add(FS_Execute);
-        FS_buttonsBox.getChildren().add(FS_fpl);
-        FS_buttonsBox.getChildren().add(FS_java);
-        FS_buttonsBox.getChildren().add(FS_cpp);
-        FS_buttonsBox.getChildren().add(FS_lua);
-        FS_buttonsBox.getChildren().add(FS_py);
-        FS_buttonsBox.getChildren().add(FS_arkscript);
-        FS_buttonsBox.getChildren().add(FS_reset);
-
+        FS_buttonsBox.getChildren().addAll(FS_Execute, FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_reset);
 
         TextArea FS_TextEditor = createTextAreaWithStyle(true, "-fx-control-inner-background: #111111; -fx-text-fill: #ffffff;");
 
@@ -225,7 +217,7 @@ public class Main extends Application {
         container.setStyle("-fx-background-color: #202020;"); // Couleur de fond globale
         container.getChildren().add(root);
 
-        Scene scene = new Scene(container, 600, 900);
+        Scene scene = new Scene(container, 800, 1000);
         stage.setScene(scene);
 
         // Show main window:
