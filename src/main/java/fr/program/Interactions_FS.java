@@ -106,10 +106,6 @@ public class Interactions_FS {
         else if (getMode().equalsIgnoreCase("cpp")) {
             writeInFile("fastscript/code/cpp.cpp", content);
 
-            // Running cmake and g++
-            // cmake -G "MinGW Makefiles" -D CMAKE_C_COMPILER=D:\GitHub\P-IDE\bin\mingw64\bin\gcc.exe -D CMAKE_CXX_COMPILER=D:\GitHub\P-IDE\bin\mingw64\bin\g++.exe -DCMAKE_BUILD_TYPE=Release D:\GitHub\P-IDE\fastscript\code\
-            // cmake --build
-
             String cmakePath = projectRootPath + "\\bin\\CMake\\bin\\cmake.exe";
             String gppPath = projectRootPath + "\\bin\\mingw64\\bin\\g++.exe";
             String gccPath = projectRootPath + "\\bin\\mingw64\\bin\\gcc.exe";
