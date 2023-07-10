@@ -1,11 +1,11 @@
 package fr.program;
 
-import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.control.TextArea;
-
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Interactions_FS {
     private static String mode = "N/A";
@@ -32,6 +32,129 @@ public class Interactions_FS {
             writeInFile("fastscript/code/cpp.cpp", content);
 
             // Running cmake and g++
+            // cmake -G "MinGW Makefiles" -D CMAKE_C_COMPILER=D:\GitHub\P-IDE\bin\mingw64\bin\gcc.exe -D CMAKE_CXX_COMPILER=D:\GitHub\P-IDE\bin\mingw64\bin\g++.exe -DCMAKE_BUILD_TYPE=Release D:\GitHub\P-IDE\fastscript\code\
+            // cmake --build
+
+            String projectRootPath = System.getProperty("user.dir");
+            String cmakePath = projectRootPath + "\\bin\\CMake\\bin\\cmake.exe";
+            String gppPath = projectRootPath + "\\bin\\mingw64\\bin\\g++.exe";
+            String gccPath = projectRootPath + "\\bin\\mingw64\\bin\\gcc.exe";
+            String codePath = projectRootPath + "\\fastscript\\code\\";
+
+            Service<String> build_cmake = new Service<String>() {
+                @Override
+                protected Task<String> createTask() {
+                    return new Task<String>() {
+                        @Override
+                        protected String call() throws Exception {
+                            ProcessBuilder processBuilder = new ProcessBuilder(
+                                    cmakePath.replace("\\", "/"),
+                                    "-G",
+                                    "\"MinGW Makefiles\"",
+                                    "-D",
+                                    "CMAKE_C_COMPILER=" + gccPath.replace("\\", "/"),
+                                    "-D",
+                                    "CMAKE_CXX_COMPILER=" + gppPath.replace("\\", "/"),
+                                    "-DCMAKE_BUILD_TYPE=Release",
+                                    codePath.replace("\\", "/")
+                            );
+                            processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+                            Process process = processBuilder.start();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                            String line;
+                            String all_lines = "Generate CMake Config: \n";
+                            while ((line = reader.readLine()) != null) {
+                                all_lines += line + "\n";
+                            }
+                            reader.close();
+                            return all_lines;
+                        }
+                    };
+                }
+            };
+
+            Service<String> build_task_cmake = new Service<String>() {
+                @Override
+                protected Task<String> createTask() {
+                    return new Task<String>() {
+                        @Override
+                        protected String call() throws Exception {
+                            ProcessBuilder processBuilder = new ProcessBuilder(
+                                    cmakePath.replace("\\", "/"),
+                                    "--build",
+                                    projectRootPath.replace("\\", "/")
+                            );
+                            processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+                            Process process = processBuilder.start();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                            String line;
+                            String all_lines = "\n Generate CMake Build: \n";
+                            while ((line = reader.readLine()) != null) {
+                                all_lines += line + "\n";
+                            }
+                            reader.close();
+                            return all_lines;
+                        }
+                    };
+                }
+            };
+
+            Service<String> executeCode = new Service<String>() {
+                @Override
+                protected Task<String> createTask() {
+                    return new Task<String>() {
+                        @Override
+                        protected String call() throws Exception {
+                            ProcessBuilder processBuilder = new ProcessBuilder(
+                                    projectRootPath.replace("\\", "/") + "/cpp.exe"
+                            );
+                            processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+                            Process process = processBuilder.start();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                            String line;
+                            String all_lines = "\n Executed in C++: \n";
+                            while ((line = reader.readLine()) != null) {
+                                all_lines += line + "\n";
+                            }
+                            reader.close();
+                            return all_lines;
+                        }
+                    };
+                }
+            };
+
+            build_cmake.setOnSucceeded(event -> {
+                String result = build_cmake.getValue();
+                output_zone.setText(result);
+                build_task_cmake.start();
+            });
+            build_cmake.start();
+
+            build_task_cmake.setOnSucceeded(event -> {
+                String result = build_task_cmake.getValue();
+                output_zone.appendText(result);
+                executeCode.start();
+            });
+
+            executeCode.setOnSucceeded(event -> {
+                String result = executeCode.getValue();
+                output_zone.appendText(result);
+
+                String cache = projectRootPath + "/CMakeCache.txt";
+                String install = projectRootPath + "/cmake_install.cmake";
+                String make = projectRootPath + "/Makefile";
+                String exe = projectRootPath + "/cpp.exe";
+                try {
+                    Files.deleteIfExists(Paths.get(cache));
+                    Files.deleteIfExists(Paths.get(install));
+                    Files.deleteIfExists(Paths.get(make));
+                    Files.deleteIfExists(Paths.get(exe));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+
         } else if (getMode().equalsIgnoreCase("lua")) {
             writeInFile("fastscript/code/lua.lua", content);
 
@@ -56,7 +179,7 @@ public class Interactions_FS {
         }
     }
 
-    private static String openShell(String pathApplication, String lang, String arg) throws IOException {
+    private static String openShell(String pathApplication, String lang, String arg) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder(pathApplication, arg);
         processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
         Process process = processBuilder.start();
