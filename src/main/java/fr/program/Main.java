@@ -197,7 +197,7 @@ public class Main extends Application {
 
         FS_buttonsBox.getChildren().addAll(FS_Execute, FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_reset);
 
-        TextArea FS_TextEditor = createTextAreaWithStyle(true, "-fx-control-inner-background: #111111; -fx-text-fill: #ffffff;");
+        TextArea FS_TextEditor = createTextAreaWithStyle(true, "-fx-control-inner-background: #111111; -fx-text-fill: #ffffff; -fx-pref-height: 350px;");
 
         Label FS_subtitleLabel_output = createLabelWithStyle("Résultats :", "-fx-font-size: 14px; -fx-text-fill: #e5e5e5;");
         TextArea FS_output = createTextAreaWithStyle(false, "-fx-control-inner-background: #424242; -fx-text-fill: #FAFAFA;");
