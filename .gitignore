@@ -15,3 +15,5 @@ bin/Python311
 bin/jdk-20
 bin/fpl
 bin/ArkScript
+bin/nodejs
+bin/npm
