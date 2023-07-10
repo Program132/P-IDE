@@ -199,10 +199,10 @@ public class Main extends Application {
         FS_buttonsBox.getChildren().add(FS_reset);
 
 
-        TextArea FS_TextEditor = createTextAreaWithStyle(true, "-fx-control-inner-background: #111111; -fx-text-fill: #afafaf;");
+        TextArea FS_TextEditor = createTextAreaWithStyle(true, "-fx-control-inner-background: #111111; -fx-text-fill: #ffffff;");
 
         Label FS_subtitleLabel_output = createLabelWithStyle("Résultats :", "-fx-font-size: 14px; -fx-text-fill: #e5e5e5;");
-        TextArea FS_output = createTextAreaWithStyle(false, "-fx-control-inner-background: #424242; -fx-text-fill: #afafaf;");
+        TextArea FS_output = createTextAreaWithStyle(false, "-fx-control-inner-background: #424242; -fx-text-fill: #FAFAFA;");
 
         VBox textEditorBox = new VBox(10);
         textEditorBox.getChildren().addAll(FS_TextEditor, FS_subtitleLabel_output, FS_output);
