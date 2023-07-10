@@ -1,4 +1,4 @@
-# Informations
+# Information
 
 Some images in this folder are not in my possession !
 
