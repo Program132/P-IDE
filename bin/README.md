@@ -5,7 +5,7 @@ Every tools used in this folder is not mine, if you want to download the tools, 
 # Tools and Languages
 
 * [F.P.L](https://program-4.gitbook.io/french-programming-language/)
-* [JRE 1.8](https://www.java.com/fr/download/)
+* [JDK 20](https://www.oracle.com/fr/java/technologies/downloads/#jdk20-windows)
 * [CMake](https://cmake.org/download) 
 * [MinGW](https://winlibs.com)
 * [Lua](https://www.lua.org/download.html)
