@@ -18,6 +18,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -112,82 +114,6 @@ public class Main extends Application {
         Button FS_typescript = createButtonWithStyle("TypeScript", FS_Buttons_normal_style);
         Button FS_reset = createButtonWithStyle("Reset", "-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-style: italic;");
 
-        FS_Execute.setOnMouseEntered(event -> FS_Execute.setEffect(dropShadow_green));
-        FS_Execute.setOnMouseExited(event -> FS_Execute.setEffect(null));
-
-        FS_fpl.setOnMouseEntered(event -> {
-            String buttonStyle = FS_fpl.getStyle();
-            if (buttonStyle.equals(FS_Buttons_selected_style)) {
-                FS_fpl.setEffect(dropShadow_FS_buttons_selected);
-            } else {
-                FS_fpl.setEffect(dropShadow_blue);
-            }
-        });
-        FS_fpl.setOnMouseExited(event -> FS_fpl.setEffect(null));
-
-        FS_java.setOnMouseEntered(event -> {
-            String buttonStyle = FS_java.getStyle();
-            if (buttonStyle.equals(FS_Buttons_selected_style)) {
-                FS_java.setEffect(dropShadow_FS_buttons_selected);
-            } else {
-                FS_java.setEffect(dropShadow_blue);
-            }
-        });
-        FS_java.setOnMouseExited(event -> FS_java.setEffect(null));
-
-        FS_cpp.setOnMouseEntered(event -> {
-            String buttonStyle = FS_cpp.getStyle();
-            if (buttonStyle.equals(FS_Buttons_selected_style)) {
-                FS_cpp.setEffect(dropShadow_FS_buttons_selected);
-            } else {
-                FS_cpp.setEffect(dropShadow_blue);
-            }
-        });
-        FS_cpp.setOnMouseExited(event -> FS_cpp.setEffect(null));
-
-        FS_lua.setOnMouseEntered(event -> {
-            String buttonStyle = FS_lua.getStyle();
-            if (buttonStyle.equals(FS_Buttons_selected_style)) {
-                FS_lua.setEffect(dropShadow_FS_buttons_selected);
-            } else {
-                FS_lua.setEffect(dropShadow_blue);
-            }
-        });
-        FS_lua.setOnMouseExited(event -> FS_lua.setEffect(null));
-
-        FS_py.setOnMouseEntered(event -> {
-            String buttonStyle = FS_py.getStyle();
-            if (buttonStyle.equals(FS_Buttons_selected_style)) {
-                FS_py.setEffect(dropShadow_FS_buttons_selected);
-            } else {
-                FS_py.setEffect(dropShadow_blue);
-            }
-        });
-        FS_py.setOnMouseExited(event -> FS_py.setEffect(null));
-
-        FS_arkscript.setOnMouseEntered(event -> {
-            String buttonStyle = FS_arkscript.getStyle();
-            if (buttonStyle.equals(FS_Buttons_selected_style)) {
-                FS_arkscript.setEffect(dropShadow_FS_buttons_selected);
-            } else {
-                FS_arkscript.setEffect(dropShadow_blue);
-            }
-        });
-        FS_arkscript.setOnMouseExited(event -> FS_arkscript.setEffect(null));
-
-        FS_typescript.setOnMouseEntered(event -> {
-            String buttonStyle = FS_typescript.getStyle();
-            if (buttonStyle.equals(FS_Buttons_selected_style)) {
-                FS_typescript.setEffect(dropShadow_FS_buttons_selected);
-            } else {
-                FS_typescript.setEffect(dropShadow_blue);
-            }
-        });
-        FS_typescript.setOnMouseExited(event -> FS_typescript.setEffect(null));
-
-        FS_reset.setOnMouseEntered(event -> FS_reset.setEffect(dropShadow_red));
-        FS_reset.setOnMouseExited(event -> FS_reset.setEffect(null));
-
         FS_buttonsBox.getChildren().addAll(FS_Execute, FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_typescript, FS_reset);
 
         TextArea FS_TextEditor = createTextAreaWithStyle(true, "-fx-control-inner-background: #111111; -fx-text-fill: #ffffff; -fx-pref-height: 350px;");
@@ -220,149 +146,90 @@ public class Main extends Application {
 
         // Events Main Menu
 
-        FS_fpl.setOnAction(event -> {
+        fpl_btn.setOnAction(event -> {
 
         });
-
-
 
 
         // Events FS
 
-        FS_fpl.setOnAction(event -> {
-            Interactions_FS.setMode("fpl");
-
-            FS_fpl.setStyle(FS_Buttons_normal_style);
-            FS_java.setStyle(FS_Buttons_normal_style);
-            FS_cpp.setStyle(FS_Buttons_normal_style);
-            FS_lua.setStyle(FS_Buttons_normal_style);
-            FS_py.setStyle(FS_Buttons_normal_style);
-            FS_arkscript.setStyle(FS_Buttons_normal_style);
-            FS_typescript.setStyle(FS_Buttons_normal_style);
-
-            FS_fpl.setStyle(FS_Buttons_selected_style);
-            FS_fpl.setEffect(dropShadow_FS_buttons_selected);
-
-            FS_TextEditor.setText(
-                    "envoyer \"Hello World\";"
-            );
-        });
-        FS_java.setOnAction(event -> {
-            Interactions_FS.setMode("java");
-
-            FS_fpl.setStyle(FS_Buttons_normal_style);
-            FS_java.setStyle(FS_Buttons_normal_style);
-            FS_cpp.setStyle(FS_Buttons_normal_style);
-            FS_lua.setStyle(FS_Buttons_normal_style);
-            FS_py.setStyle(FS_Buttons_normal_style);
-            FS_arkscript.setStyle(FS_Buttons_normal_style);
-            FS_typescript.setStyle(FS_Buttons_normal_style);
-
-            FS_java.setStyle(FS_Buttons_selected_style);
-            FS_java.setEffect(dropShadow_FS_buttons_selected);
-
-            FS_TextEditor.setText(
-                    "class java { \n" +
-                    "   public static void main(String[] args) { \n" +
-                    "       System.out.println(\"Hello World\"); \n" +
-                    "   } \n" +
-                    "}"
-            );
-        });
-        FS_cpp.setOnAction(event -> {
-            Interactions_FS.setMode("cpp");
-
-            FS_fpl.setStyle(FS_Buttons_normal_style);
-            FS_java.setStyle(FS_Buttons_normal_style);
-            FS_cpp.setStyle(FS_Buttons_normal_style);
-            FS_lua.setStyle(FS_Buttons_normal_style);
-            FS_py.setStyle(FS_Buttons_normal_style);
-            FS_arkscript.setStyle(FS_Buttons_normal_style);
-            FS_typescript.setStyle(FS_Buttons_normal_style);
-
-            FS_cpp.setStyle(FS_Buttons_selected_style);
-            FS_cpp.setEffect(dropShadow_FS_buttons_selected);
-
-
-            FS_TextEditor.setText(
-                    "#include <iostream> \n\n" +
-                    "int main() { \n" +
-                    "    std::cout << \"Hello World!\" << std::endl; \n" +
-                    "}"
-            );
-        });
-        FS_lua.setOnAction(event -> {
-            Interactions_FS.setMode("lua");
-
-            FS_fpl.setStyle(FS_Buttons_normal_style);
-            FS_java.setStyle(FS_Buttons_normal_style);
-            FS_cpp.setStyle(FS_Buttons_normal_style);
-            FS_lua.setStyle(FS_Buttons_normal_style);
-            FS_py.setStyle(FS_Buttons_normal_style);
-            FS_arkscript.setStyle(FS_Buttons_normal_style);
-            FS_typescript.setStyle(FS_Buttons_normal_style);
-
-            FS_lua.setStyle(FS_Buttons_selected_style);
-            FS_lua.setEffect(dropShadow_FS_buttons_selected);
-
-            FS_TextEditor.setText(
-                    "print(\"Hello World\")"
-            );
-        });
-        FS_py.setOnAction(event -> {
-            Interactions_FS.setMode("py");
-
-            FS_fpl.setStyle(FS_Buttons_normal_style);
-            FS_java.setStyle(FS_Buttons_normal_style);
-            FS_cpp.setStyle(FS_Buttons_normal_style);
-            FS_lua.setStyle(FS_Buttons_normal_style);
-            FS_py.setStyle(FS_Buttons_normal_style);
-            FS_arkscript.setStyle(FS_Buttons_normal_style);
-            FS_typescript.setStyle(FS_Buttons_normal_style);
-
-            FS_py.setStyle(FS_Buttons_selected_style);
-            FS_py.setEffect(dropShadow_FS_buttons_selected);
-
-            FS_TextEditor.setText(
-                    "print(\"Hello World\")"
-            );
-        });
-        FS_arkscript.setOnAction(event -> {
-            Interactions_FS.setMode("ark");
-
-            FS_fpl.setStyle(FS_Buttons_normal_style);
-            FS_java.setStyle(FS_Buttons_normal_style);
-            FS_cpp.setStyle(FS_Buttons_normal_style);
-            FS_lua.setStyle(FS_Buttons_normal_style);
-            FS_py.setStyle(FS_Buttons_normal_style);
-            FS_arkscript.setStyle(FS_Buttons_normal_style);
-            FS_typescript.setStyle(FS_Buttons_normal_style);
-
-            FS_arkscript.setStyle(FS_Buttons_selected_style);
-            FS_arkscript.setEffect(dropShadow_FS_buttons_selected);
-
-            FS_TextEditor.setText(
-                    "(print \"Hello World\")"
-            );
-        });
-        FS_typescript.setOnAction(event -> {
-            Interactions_FS.setMode("ts");
-
-            FS_fpl.setStyle(FS_Buttons_normal_style);
-            FS_java.setStyle(FS_Buttons_normal_style);
-            FS_cpp.setStyle(FS_Buttons_normal_style);
-            FS_lua.setStyle(FS_Buttons_normal_style);
-            FS_py.setStyle(FS_Buttons_normal_style);
-            FS_arkscript.setStyle(FS_Buttons_normal_style);
-            FS_typescript.setStyle(FS_Buttons_normal_style);
-
-            FS_typescript.setStyle(FS_Buttons_selected_style);
-            FS_typescript.setEffect(dropShadow_FS_buttons_selected);
-
-            FS_TextEditor.setText(
-                    "console.log(\"Hello World!\");"
-            );
-        });
+        Config_FastScript_Button(
+                Arrays.asList(FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_typescript),
+                FS_Buttons_normal_style,
+                FS_Buttons_selected_style,
+                dropShadow_FS_buttons_selected,
+                FS_fpl,
+                FS_TextEditor,
+                "fpl",
+                "envoyer \"Hello World\";"
+                );
+        Config_FastScript_Button(
+                Arrays.asList(FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_typescript),
+                FS_Buttons_normal_style,
+                FS_Buttons_selected_style,
+                dropShadow_FS_buttons_selected,
+                FS_java,
+                FS_TextEditor,
+                "java",
+                "class java { \n" +
+                        "   public static void main(String[] args) { \n" +
+                        "       System.out.println(\"Hello World\"); \n" +
+                        "   } \n" +
+                        "}"
+        );
+        Config_FastScript_Button(
+                Arrays.asList(FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_typescript),
+                FS_Buttons_normal_style,
+                FS_Buttons_selected_style,
+                dropShadow_FS_buttons_selected,
+                FS_cpp,
+                FS_TextEditor,
+                "cpp",
+                "#include <iostream> \n\n" +
+                        "int main() { \n" +
+                        "    std::cout << \"Hello World!\" << std::endl; \n" +
+                        "}"
+        );
+        Config_FastScript_Button(
+                Arrays.asList(FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_typescript),
+                FS_Buttons_normal_style,
+                FS_Buttons_selected_style,
+                dropShadow_FS_buttons_selected,
+                FS_lua,
+                FS_TextEditor,
+                "lua",
+                "print(\"Hello World\")"
+        );
+        Config_FastScript_Button(
+                Arrays.asList(FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_typescript),
+                FS_Buttons_normal_style,
+                FS_Buttons_selected_style,
+                dropShadow_FS_buttons_selected,
+                FS_py,
+                FS_TextEditor,
+                "py",
+                "print(\"Hello World\")"
+        );
+        Config_FastScript_Button(
+                Arrays.asList(FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_typescript),
+                FS_Buttons_normal_style,
+                FS_Buttons_selected_style,
+                dropShadow_FS_buttons_selected,
+                FS_arkscript,
+                FS_TextEditor,
+                "ark",
+                "(print \"Hello World\")"
+        );
+        Config_FastScript_Button(
+                Arrays.asList(FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_typescript),
+                FS_Buttons_normal_style,
+                FS_Buttons_selected_style,
+                dropShadow_FS_buttons_selected,
+                FS_typescript,
+                FS_TextEditor,
+                "ts",
+                "console.log(\"Hello World!\");"
+        );
         FS_reset.setOnAction(event -> {
             Interactions_FS.writeInFile("fastscript/code/fpl.fpl", "");
             Interactions_FS.writeInFile("fastscript/code/java.java", "");
@@ -382,7 +249,6 @@ public class Main extends Application {
             FS_arkscript.setStyle(FS_Buttons_normal_style);
             FS_typescript.setStyle(FS_Buttons_normal_style);
         });
-
         FS_Execute.setOnAction(event -> {
             try {
                 Interactions_FS.execute(FS_TextEditor.getText(), FS_output);
@@ -390,6 +256,18 @@ public class Main extends Application {
 
             }
         });
+
+        FS_Execute.setOnMouseEntered(event -> FS_Execute.setEffect(dropShadow_green));
+        FS_Execute.setOnMouseExited(event -> FS_Execute.setEffect(null));
+        mouseHoverEffect_FS_Buttons(FS_fpl, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
+        mouseHoverEffect_FS_Buttons(FS_java, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
+        mouseHoverEffect_FS_Buttons(FS_cpp, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
+        mouseHoverEffect_FS_Buttons(FS_lua, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
+        mouseHoverEffect_FS_Buttons(FS_py, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
+        mouseHoverEffect_FS_Buttons(FS_arkscript, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
+        mouseHoverEffect_FS_Buttons(FS_typescript, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
+        FS_reset.setOnMouseEntered(event -> FS_reset.setEffect(dropShadow_red));
+        FS_reset.setOnMouseExited(event -> FS_reset.setEffect(null));
     }
 
     private void EffectMainButtonMenu_Hover(Button lua_btn, Button py_btn, Button ark_btn, DropShadow dropShadow_red) {
@@ -466,12 +344,35 @@ public class Main extends Application {
         return ds;
     }
 
-    private void applyEffectMouseHover_FS(Button button, String style, DropShadow ds_normal, DropShadow ds_new) {
-        String buttonStyle = button.getStyle();
-        if (buttonStyle.equals(style)) {
-            button.setEffect(ds_new);
-        } else {
-            button.setEffect(ds_normal);
-        }
+    private void mouseHoverEffect_FS_Buttons(Button button, DropShadow selectedEffect, DropShadow defaultEffect, String style) {
+        button.setOnMouseEntered(event -> {
+            String buttonStyle = button.getStyle();
+            if (buttonStyle.equals(style)) {
+                button.setEffect(selectedEffect);
+            } else {
+                button.setEffect(defaultEffect);
+            }
+        });
+
+        button.setOnMouseExited(event -> button.setEffect(null));
+    }
+
+    private void Config_FastScript_Button(List<Button> buttons, String normalStyleButton, String selectedStyleButton, DropShadow shadow, Button button, TextArea editor, String mode, String code) {
+        button.setOnAction(event -> {
+            Interactions_FS.setMode(mode);
+
+            // Réinitialisation de tous les boutons
+            for (Button b : buttons) {
+                b.setStyle(normalStyleButton);
+                b.setEffect(null);
+            }
+
+            // Configuration du bouton actuel
+            button.setStyle(selectedStyleButton);
+            button.setEffect(shadow);
+
+            // Configuration du texte de l'éditeur
+            editor.setText(code);
+        });
     }
 }
