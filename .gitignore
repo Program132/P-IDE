@@ -16,4 +16,4 @@ bin/jdk-20
 bin/fpl
 bin/ArkScript
 bin/nodejs
-bin/np
+bin/npm
