@@ -132,6 +132,7 @@ public class Main extends Application {
         Button FS_cpp = createButtonWithStyle("C++", FS_Buttons_normal_style);
         Button FS_lua = createButtonWithStyle("Lua", FS_Buttons_normal_style);
         Button FS_py = createButtonWithStyle("Python", FS_Buttons_normal_style);
+        Button FS_arkscript = createButtonWithStyle("ArkScript", FS_Buttons_normal_style);
         Button FS_reset = createButtonWithStyle("Reset", "-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-style: italic;");
 
         FS_Execute.setOnMouseEntered(event -> FS_Execute.setEffect(dropShadow_green));
@@ -187,6 +188,16 @@ public class Main extends Application {
         });
         FS_py.setOnMouseExited(event -> FS_py.setEffect(null));
 
+        FS_arkscript.setOnMouseEntered(event -> {
+            String buttonStyle = FS_arkscript.getStyle();
+            if (buttonStyle.equals(FS_Buttons_selected_style)) {
+                FS_arkscript.setEffect(dropShadow_FS_buttons_selected);
+            } else {
+                FS_arkscript.setEffect(dropShadow_blue);
+            }
+        });
+        FS_arkscript.setOnMouseExited(event -> FS_arkscript.setEffect(null));
+
         FS_reset.setOnMouseEntered(event -> FS_reset.setEffect(dropShadow_red));
         FS_reset.setOnMouseExited(event -> FS_reset.setEffect(null));
 
@@ -196,6 +207,7 @@ public class Main extends Application {
         FS_buttonsBox.getChildren().add(FS_cpp);
         FS_buttonsBox.getChildren().add(FS_lua);
         FS_buttonsBox.getChildren().add(FS_py);
+        FS_buttonsBox.getChildren().add(FS_arkscript);
         FS_buttonsBox.getChildren().add(FS_reset);
 
 
@@ -238,6 +250,7 @@ public class Main extends Application {
             FS_cpp.setStyle(FS_Buttons_normal_style);
             FS_lua.setStyle(FS_Buttons_normal_style);
             FS_py.setStyle(FS_Buttons_normal_style);
+            FS_arkscript.setStyle(FS_Buttons_normal_style);
 
             FS_fpl.setStyle(FS_Buttons_selected_style);
             FS_fpl.setEffect(dropShadow_FS_buttons_selected);
@@ -250,6 +263,7 @@ public class Main extends Application {
             FS_cpp.setStyle(FS_Buttons_normal_style);
             FS_lua.setStyle(FS_Buttons_normal_style);
             FS_py.setStyle(FS_Buttons_normal_style);
+            FS_arkscript.setStyle(FS_Buttons_normal_style);
 
             FS_java.setStyle(FS_Buttons_selected_style);
             FS_java.setEffect(dropShadow_FS_buttons_selected);
@@ -262,6 +276,7 @@ public class Main extends Application {
             FS_cpp.setStyle(FS_Buttons_normal_style);
             FS_lua.setStyle(FS_Buttons_normal_style);
             FS_py.setStyle(FS_Buttons_normal_style);
+            FS_arkscript.setStyle(FS_Buttons_normal_style);
 
             FS_cpp.setStyle(FS_Buttons_selected_style);
             FS_cpp.setEffect(dropShadow_FS_buttons_selected);
@@ -274,6 +289,7 @@ public class Main extends Application {
             FS_cpp.setStyle(FS_Buttons_normal_style);
             FS_lua.setStyle(FS_Buttons_normal_style);
             FS_py.setStyle(FS_Buttons_normal_style);
+            FS_arkscript.setStyle(FS_Buttons_normal_style);
 
             FS_lua.setStyle(FS_Buttons_selected_style);
             FS_lua.setEffect(dropShadow_FS_buttons_selected);
@@ -286,9 +302,23 @@ public class Main extends Application {
             FS_cpp.setStyle(FS_Buttons_normal_style);
             FS_lua.setStyle(FS_Buttons_normal_style);
             FS_py.setStyle(FS_Buttons_normal_style);
+            FS_arkscript.setStyle(FS_Buttons_normal_style);
 
             FS_py.setStyle(FS_Buttons_selected_style);
             FS_py.setEffect(dropShadow_FS_buttons_selected);
+        });
+        FS_arkscript.setOnAction(event -> {
+            Interactions_FS.setMode("ark");
+
+            FS_fpl.setStyle(FS_Buttons_normal_style);
+            FS_java.setStyle(FS_Buttons_normal_style);
+            FS_cpp.setStyle(FS_Buttons_normal_style);
+            FS_lua.setStyle(FS_Buttons_normal_style);
+            FS_py.setStyle(FS_Buttons_normal_style);
+            FS_arkscript.setStyle(FS_Buttons_normal_style);
+
+            FS_arkscript.setStyle(FS_Buttons_selected_style);
+            FS_arkscript.setEffect(dropShadow_FS_buttons_selected);
         });
         FS_reset.setOnAction(event -> {
             Interactions_FS.writeInFile("fastscript/code/fpl.fpl", "");
@@ -296,6 +326,7 @@ public class Main extends Application {
             Interactions_FS.writeInFile("fastscript/code/cpp.cpp", "");
             Interactions_FS.writeInFile("fastscript/code/lua.lua", "");
             Interactions_FS.writeInFile("fastscript/code/py.py", "");
+            Interactions_FS.writeInFile("fastscript/code/ark.ark", "");
             Interactions_FS.setMode("N/A");
             FS_output.setText("");
 
@@ -304,6 +335,7 @@ public class Main extends Application {
             FS_cpp.setStyle(FS_Buttons_normal_style);
             FS_lua.setStyle(FS_Buttons_normal_style);
             FS_py.setStyle(FS_Buttons_normal_style);
+            FS_arkscript.setStyle(FS_Buttons_normal_style);
         });
 
         FS_Execute.setOnAction(event -> {
