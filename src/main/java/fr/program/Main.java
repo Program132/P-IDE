@@ -240,6 +240,10 @@ public class Main extends Application {
 
             FS_fpl.setStyle(FS_Buttons_selected_style);
             FS_fpl.setEffect(dropShadow_FS_buttons_selected);
+
+            FS_TextEditor.setText(
+                    "envoyer \"Hello World\";"
+            );
         });
         FS_java.setOnAction(event -> {
             Interactions_FS.setMode("java");
@@ -253,6 +257,14 @@ public class Main extends Application {
 
             FS_java.setStyle(FS_Buttons_selected_style);
             FS_java.setEffect(dropShadow_FS_buttons_selected);
+
+            FS_TextEditor.setText(
+                    "class java { \n" +
+                    "   public static void main(String[] args] { \n" +
+                    "       System.out.println(\"Hello World\"); \n" +
+                    "   } \n" +
+                    "}"
+            );
         });
         FS_cpp.setOnAction(event -> {
             Interactions_FS.setMode("cpp");
@@ -266,6 +278,14 @@ public class Main extends Application {
 
             FS_cpp.setStyle(FS_Buttons_selected_style);
             FS_cpp.setEffect(dropShadow_FS_buttons_selected);
+
+
+            FS_TextEditor.setText(
+                    "#include <iostream> \n\n" +
+                    "int main() { \n" +
+                    "    std::cout << \"Hello World!\" << std::endl; \n" +
+                    "}"
+            );
         });
         FS_lua.setOnAction(event -> {
             Interactions_FS.setMode("lua");
@@ -279,6 +299,10 @@ public class Main extends Application {
 
             FS_lua.setStyle(FS_Buttons_selected_style);
             FS_lua.setEffect(dropShadow_FS_buttons_selected);
+
+            FS_TextEditor.setText(
+                    "print(\"Hello World\")"
+            );
         });
         FS_py.setOnAction(event -> {
             Interactions_FS.setMode("py");
@@ -292,6 +316,10 @@ public class Main extends Application {
 
             FS_py.setStyle(FS_Buttons_selected_style);
             FS_py.setEffect(dropShadow_FS_buttons_selected);
+
+            FS_TextEditor.setText(
+                    "print(\"Hello World\")"
+            );
         });
         FS_arkscript.setOnAction(event -> {
             Interactions_FS.setMode("ark");
@@ -305,6 +333,10 @@ public class Main extends Application {
 
             FS_arkscript.setStyle(FS_Buttons_selected_style);
             FS_arkscript.setEffect(dropShadow_FS_buttons_selected);
+
+            FS_TextEditor.setText(
+                    "(print \"Hello World\")"
+            );
         });
         FS_reset.setOnAction(event -> {
             Interactions_FS.writeInFile("fastscript/code/fpl.fpl", "");
