@@ -62,8 +62,9 @@ public class Main extends Application {
         Button cpp_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\cpp.png");
         Button lua_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\lua.png");
         Button py_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\python.png");
+        Button ark_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\arkscript.png");
         VBox buttonBox = new VBox(10);
-        buttonBox.getChildren().addAll(fpl_btn, java_btn, cpp_btn, lua_btn, py_btn);
+        buttonBox.getChildren().addAll(fpl_btn, java_btn, cpp_btn, lua_btn, py_btn, ark_btn);
         VBox.setMargin(buttonBox, new Insets(10));
         buttonBox.setAlignment(Pos.CENTER_LEFT);
         VBox.setMargin(fpl_btn, new Insets(0, 0, 0, 10));
@@ -71,6 +72,7 @@ public class Main extends Application {
         VBox.setMargin(cpp_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(lua_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(py_btn, new Insets(0, 0, 0, 10));
+        VBox.setMargin(ark_btn, new Insets(0, 0, 0, 10));
 
         DropShadow dropShadow_blue = new DropShadow();
         dropShadow_blue.setColor(Color.rgb(0, 0, 255, 0.7));
@@ -100,16 +102,8 @@ public class Main extends Application {
         dropShadow_green.setRadius(8);
         dropShadow_green.setSpread(0.1);
 
-        fpl_btn.setOnMouseEntered(event -> fpl_btn.setEffect(dropShadow_red));
-        fpl_btn.setOnMouseExited(event -> fpl_btn.setEffect(null));
-        java_btn.setOnMouseEntered(event -> java_btn.setEffect(dropShadow_red));
-        java_btn.setOnMouseExited(event -> java_btn.setEffect(null));
-        cpp_btn.setOnMouseEntered(event -> cpp_btn.setEffect(dropShadow_red));
-        cpp_btn.setOnMouseExited(event -> cpp_btn.setEffect(null));
-        lua_btn.setOnMouseEntered(event -> lua_btn.setEffect(dropShadow_red));
-        lua_btn.setOnMouseExited(event -> lua_btn.setEffect(null));
-        py_btn.setOnMouseEntered(event -> py_btn.setEffect(dropShadow_red));
-        py_btn.setOnMouseExited(event -> py_btn.setEffect(null));
+        EffectMainButtonMenu_Hover(fpl_btn, java_btn, cpp_btn, dropShadow_red);
+        EffectMainButtonMenu_Hover(lua_btn, py_btn, ark_btn, dropShadow_red);
 
         // Add title + buttons
         root.setCenter(buttonBox);
@@ -345,6 +339,15 @@ public class Main extends Application {
 
             }
         });
+    }
+
+    private void EffectMainButtonMenu_Hover(Button lua_btn, Button py_btn, Button ark_btn, DropShadow dropShadow_red) {
+        lua_btn.setOnMouseEntered(event -> lua_btn.setEffect(dropShadow_red));
+        lua_btn.setOnMouseExited(event -> lua_btn.setEffect(null));
+        py_btn.setOnMouseEntered(event -> py_btn.setEffect(dropShadow_red));
+        py_btn.setOnMouseExited(event -> py_btn.setEffect(null));
+        ark_btn.setOnMouseEntered(event -> ark_btn.setEffect(dropShadow_red));
+        ark_btn.setOnMouseExited(event -> ark_btn.setEffect(null));
     }
 
     private Button createImageButton(String imgpath, int width, int height) {
