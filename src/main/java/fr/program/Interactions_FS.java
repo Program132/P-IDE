@@ -29,9 +29,78 @@ public class Interactions_FS {
             // Running FPL V3 Parser...
         }
         else if (getMode().equalsIgnoreCase("java")) {
-            writeInFile("fastscript/code/java.java", content);
+            String real_content_java = "package fastscript.code; \n" + content;
+            writeInFile("fastscript/code/java.java", real_content_java);
 
-            executeCodeAndSeeOutput(output_zone, "bin/jre-1.8/bin/java.exe", "Java", "fastscript/code/java.java");
+            Service<String> run_bytecode_java = new Service<String>() {
+                @Override
+                protected Task<String> createTask() {
+                    return new Task<String>() {
+                        @Override
+                        protected String call() throws Exception {
+                            ProcessBuilder processBuilder = new ProcessBuilder("",
+                                    "bin/jre-1.8/bin/javac.exe",
+                                    "fastscript/code/java.java"
+                            );
+                            processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+                            Process process = processBuilder.start();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                            String line;
+                            String all_lines = "";
+                            while ((line = reader.readLine()) != null) {
+                                all_lines += line + "\n";
+                            }
+                            reader.close();
+
+                            return all_lines;
+                        }
+                    };
+                }
+            };
+
+            Service<String> run_java_class = new Service<String>() {
+                @Override
+                protected Task<String> createTask() {
+                    return new Task<String>() {
+                        @Override
+                        protected String call() throws Exception {
+                            ProcessBuilder processBuilder = new ProcessBuilder("",
+                                    "bin/jre-1.8/bin/java.exe",
+                                    "fastscript.code.java"
+                            );
+                            processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+                            Process process = processBuilder.start();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                            String line;
+                            String all_lines = "\nRunning in Java: \n";
+                            while ((line = reader.readLine()) != null) {
+                                all_lines += line + "\n";
+                            }
+                            reader.close();
+
+                            return all_lines;
+                        }
+                    };
+                }
+            };
+
+            run_bytecode_java.setOnSucceeded(event -> {
+                run_java_class.start();
+            });
+            run_bytecode_java.start();
+
+            run_java_class.setOnSucceeded(event -> {
+                output_zone.setText(run_java_class.getValue());
+
+                String file_class = projectRootPath + "/fastscript/java.class";
+
+                try {
+                    Files.deleteIfExists(Paths.get(file_class));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            run_java_class.start();
         }
         else if (getMode().equalsIgnoreCase("cpp")) {
             writeInFile("fastscript/code/cpp.cpp", content);
