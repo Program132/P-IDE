@@ -68,6 +68,9 @@ public class Main extends Application {
         titlePane.getChildren().add(titleBox);
 
         // Languages Buttons -> open project window (interaction)
+        VBox buttonBox = new VBox(10);
+        VBox.setMargin(buttonBox, new Insets(10));
+        buttonBox.setAlignment(Pos.CENTER_LEFT);
         Button fpl_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\fpl.png");
         Button java_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\java.png");
         Button cpp_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\cpp.png");
@@ -75,10 +78,6 @@ public class Main extends Application {
         Button py_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\python.png");
         Button ark_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\arkscript.png");
         Button typescript_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\typescript.png");
-        VBox buttonBox = new VBox(10);
-        buttonBox.getChildren().addAll(fpl_btn, java_btn, cpp_btn, lua_btn, py_btn, ark_btn, typescript_btn);
-        VBox.setMargin(buttonBox, new Insets(10));
-        buttonBox.setAlignment(Pos.CENTER_LEFT);
         VBox.setMargin(fpl_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(java_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(cpp_btn, new Insets(0, 0, 0, 10));
@@ -86,6 +85,7 @@ public class Main extends Application {
         VBox.setMargin(py_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(ark_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(typescript_btn, new Insets(0, 0, 0, 10));
+        buttonBox.getChildren().addAll(fpl_btn, java_btn, cpp_btn, lua_btn, py_btn, ark_btn, typescript_btn);
 
 
         DropShadow dropShadow_blue = createDropShadow(Color.rgb(0,0,255,0.7));
