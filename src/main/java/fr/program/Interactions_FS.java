@@ -85,14 +85,14 @@ public class Interactions_FS {
 
             run_bytecode_java.setOnSucceeded(event -> {
                 String result = run_bytecode_java.getValue();
-                output_zone.appendText(result);
+                output_zone.setText(result);
                 run_java_class.start();
             });
             run_bytecode_java.start();
 
             run_java_class.setOnSucceeded(event -> {
                 String result = run_java_class.getValue();
-                output_zone.appendText(result);
+                output_zone.setText(result);
             });
         }
         else if (getMode().equalsIgnoreCase("cpp")) {
