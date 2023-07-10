@@ -10,3 +10,4 @@ If you want to find them :
 - [Lua](https://www.lua.org/home.html)
 - [Python](https://www.python.org/)
 - [ArkScript](https://arkscript-lang.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
