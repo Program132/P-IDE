@@ -19,6 +19,7 @@ bin/nodejs
 bin/npm
 
 fastscript/code/__arkscript__
+fastscript/code/__arkscript__/ark.arkc
 fastscript/code/node_modules
 fastscript/code/package-lock.json
 fastscript/code/package.json
