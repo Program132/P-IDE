@@ -269,7 +269,6 @@ public class Interactions_FS {
                                     "--lib",
                                     "bin/ArkScript/lib"
                             );
-                            System.out.println(processBuilder.command());
                             processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
                             Process process = processBuilder.start();
                             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -290,6 +289,79 @@ public class Interactions_FS {
                 output_zone.setText(result);
             });
             arkscript.start();
+        }
+        else if (getMode().equalsIgnoreCase("ts")) {
+            writeInFile("fastscript/code/ts.ts", content);
+
+            Service<String> ts_build = new Service<String>() {
+                @Override
+                protected Task<String> createTask() {
+                    return new Task<String>() {
+                        @Override
+                        protected String call() throws Exception {
+                            ProcessBuilder processBuilder = new ProcessBuilder(
+                                    "bin/npm/tsc.cmd",
+                                    "fastscript/code/ts.ts"
+                            );
+                            processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+                            Process process = processBuilder.start();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                            String line;
+                            String all_lines = "";
+                            while ((line = reader.readLine()) != null) {
+                                all_lines += line + "\n";
+                            }
+                            reader.close();
+                            return all_lines;
+                        }
+                    };
+                }
+            };
+
+            Service<String> ts_run = new Service<String>() {
+                @Override
+                protected Task<String> createTask() {
+                    return new Task<String>() {
+                        @Override
+                        protected String call() throws Exception {
+                            ProcessBuilder processBuilder = new ProcessBuilder(
+                                    "bin/nodejs/node.exe",
+                                    "fastscript/code/ts.js"
+                            );
+                            processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+                            Process process = processBuilder.start();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                            String line;
+                            String all_lines = "Running in TypeScript: \n";
+                            while ((line = reader.readLine()) != null) {
+                                all_lines += line + "\n";
+                            }
+                            reader.close();
+                            return all_lines;
+                        }
+                    };
+                }
+            };
+
+            ts_build.setOnSucceeded(event -> {
+                String result = ts_build.getValue();
+                output_zone.setText(result);
+                ts_run.start();
+            });
+            ts_build.start();
+
+            ts_run.setOnSucceeded(event -> {
+                String result = ts_run.getValue();
+                output_zone.setText(result);
+
+                String file_class = projectRootPath.replace("\\", "/") + "/fastscript/code/ts.js";
+                File file = new File(file_class);
+
+                if (file.exists()) {
+                    file.delete();
+                    file.deleteOnExit();
+                }
+            });
         }
     }
 
