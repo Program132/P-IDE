@@ -93,6 +93,16 @@ public class Interactions_FS {
             run_java_class.setOnSucceeded(event -> {
                 String result = run_java_class.getValue();
                 output_zone.setText(result);
+
+                String file_class = projectRootPath + "\\fastscript\\code\\java.class";
+                File file = new File(file_class);
+
+                if (file.exists()) {
+                    file.delete();
+                    file.deleteOnExit();
+                } else {
+                    System.out.println(file_class);
+                }
             });
         }
         else if (getMode().equalsIgnoreCase("cpp")) {
