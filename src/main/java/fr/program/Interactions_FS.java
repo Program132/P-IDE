@@ -23,9 +23,9 @@ public class Interactions_FS {
         String projectRootPath = System.getProperty("user.dir");
 
         if (getMode().equalsIgnoreCase("fpl")) {
-            writeInFile(projectRootPath.replace("\\", "/")+"fastscript/code/fpl.fpl", content);
+            writeInFile("fastscript/code/fpl.fpl", content);
 
-            executeCodeAndSeeOutput(output_zone, projectRootPath.replace("\\", "/")+"bin/fpl/fpl-2.3.exe", "F.P.L",projectRootPath.replace("\\", "/")+"fastscript/code/fpl.fpl");
+            executeCodeAndSeeOutput(output_zone, "bin/fpl/fpl-2.3.exe", "F.P.L","fastscript/code/fpl.fpl");
             // Running FPL V3 Parser...
         }
         else if (getMode().equalsIgnoreCase("java")) {
@@ -38,10 +38,11 @@ public class Interactions_FS {
                     return new Task<String>() {
                         @Override
                         protected String call() throws Exception {
-                            ProcessBuilder processBuilder = new ProcessBuilder("",
-                                    "bin/jre-1.8/bin/javac.exe",
+                            ProcessBuilder processBuilder = new ProcessBuilder(
+                                    "bin/jdk-20/bin/javac.exe",
                                     "fastscript/code/java.java"
                             );
+                            System.out.println(processBuilder.command());
                             processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
                             Process process = processBuilder.start();
                             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -64,15 +65,15 @@ public class Interactions_FS {
                     return new Task<String>() {
                         @Override
                         protected String call() throws Exception {
-                            ProcessBuilder processBuilder = new ProcessBuilder("",
-                                    "bin/jre-1.8/bin/java.exe",
+                            ProcessBuilder processBuilder = new ProcessBuilder(
+                                    "bin/jdk-20/bin/java.exe",
                                     "fastscript.code.java"
                             );
                             processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
                             Process process = processBuilder.start();
                             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                             String line;
-                            String all_lines = "\nRunning in Java: \n";
+                            String all_lines = "Running in Java: \n";
                             while ((line = reader.readLine()) != null) {
                                 all_lines += line + "\n";
                             }
@@ -85,22 +86,22 @@ public class Interactions_FS {
             };
 
             run_bytecode_java.setOnSucceeded(event -> {
+                String result = run_bytecode_java.getValue();
+                output_zone.appendText(result);
                 run_java_class.start();
             });
             run_bytecode_java.start();
 
             run_java_class.setOnSucceeded(event -> {
-                output_zone.setText(run_java_class.getValue());
-
+                String result = run_java_class.getValue();
+                output_zone.appendText(result);
                 String file_class = projectRootPath + "/fastscript/java.class";
-
                 try {
                     Files.deleteIfExists(Paths.get(file_class));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
-            run_java_class.start();
         }
         else if (getMode().equalsIgnoreCase("cpp")) {
             writeInFile("fastscript/code/cpp.cpp", content);
@@ -174,7 +175,7 @@ public class Interactions_FS {
                 }
             };
 
-            Service<String> executeCode = new Service<String>() {
+            Service<String> run_exe = new Service<String>() {
                 @Override
                 protected Task<String> createTask() {
                     return new Task<String>() {
@@ -208,11 +209,11 @@ public class Interactions_FS {
             build_task_cmake.setOnSucceeded(event -> {
                 String result = build_task_cmake.getValue();
                 output_zone.appendText(result);
-                executeCode.start();
+                run_exe.start();
             });
 
-            executeCode.setOnSucceeded(event -> {
-                String result = executeCode.getValue();
+            run_exe.setOnSucceeded(event -> {
+                String result = run_exe.getValue();
                 output_zone.appendText(result);
 
                 String cache = projectRootPath + "/CMakeCache.txt";
@@ -311,6 +312,7 @@ public class Interactions_FS {
 
     private static String openShell(String pathApplication, String lang, String arg) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder(pathApplication, arg);
+        System.out.println(processBuilder.command());
         processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
         Process process = processBuilder.start();
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
