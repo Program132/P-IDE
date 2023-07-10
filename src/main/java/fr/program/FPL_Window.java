@@ -20,6 +20,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FPL_Window {
@@ -164,7 +166,7 @@ public class FPL_Window {
                             bufferedWriter.close();
                         }
 
-                        editor(zoneFolder_project.get());
+                        editor_show(zoneFolder_project.get());
                     } catch (IOException e) {
 
                     }
@@ -194,10 +196,148 @@ public class FPL_Window {
     }
 
 
-    private static void editor(String repository) {
+    private static void editor_show(String repository) {
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////   Base Window    ////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        int height = 400;
+        int width = 500;
+
+        Path projectPath = Paths.get(repository);
+        String projectName = projectPath.getFileName().toString();
+
+        Stage editor_fpl = new Stage();
+        editor_fpl.setTitle("P-IDE | F.P.L Project - " + repository);
+        editor_fpl.setHeight(height);
+        editor_fpl.setWidth(width);
+
+        BorderPane root = new BorderPane();
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////   Creating Elements to Window    ////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        VBox main_ui_box = new VBox();
+        main_ui_box.setAlignment(Pos.TOP_CENTER);
+
+        HBox utils_box_buttons = new HBox();
+        utils_box_buttons.setAlignment(Pos.TOP_LEFT);
+
+        Label title_utils = new Label();
+        title_utils.setText("Projet : ");
+        title_utils.setStyle("-fx-font-size: 13px; -fx-text-fill: #fcfcfc; -fx-font-weight: bold");
+
+        Label current_project_utils = new Label();
+        current_project_utils.setText(repository);
+        current_project_utils.setStyle("-fx-font-size: 13px; -fx-text-fill: #fcfcfc; -fx-font-style: italic");
+
+        DropShadow buttonHover = createDropShadow(Color.LIGHTGREEN);
+        String run_buttons = "-fx-background-color: #2a8a09; -fx-font-size: 13px; -fx-text-fill: #d9d9d9; -fx-font-weight: bold;";
+
+        Button run_button = new Button();
+        run_button.setText("Exécuter");
+        run_button.setStyle(run_buttons);
+
+        Button build_button = new Button();
+        build_button.setText("Construire le projet");
+        build_button.setStyle(run_buttons);
+
+        mouseHoverEffect_Buttons(run_button, buttonHover);
+        mouseHoverEffect_Buttons(build_button, buttonHover);
+
+        utils_box_buttons.setMargin(title_utils, new Insets(15, 2, 0, 5));
+        utils_box_buttons.setMargin(current_project_utils, new Insets(15, 10, 0, 0));
+        utils_box_buttons.setMargin(run_button, new Insets(10, 10, 0, 10));
+        utils_box_buttons.setMargin(build_button, new Insets(10, 10, 0, 10));
+
+
+
+        HBox main_editor = new HBox();
+        main_editor.setAlignment(Pos.CENTER);
+
+
+        Label title_explorer = new Label();
+        title_explorer.setText("Project:");
+        title_explorer.setStyle("-fx-font-size: 13px; -fx-text-fill: #ffffff; -fx-font-weight: bold");
+
+        Label projectName_explorer = new Label();
+        projectName_explorer.setText(repository);
+        projectName_explorer.setStyle("-fx-font-size: 12px; -fx-text-fill: #dcdcdc; -fx-font-style: italic");
+
+        String explorer_buttons_style = "-fx-background-color: #cecece; -fx-font-size: 13px; -fx-text-fill: #a41d1d; -fx-font-weight: bold;";
+
+        Button explorer_add_file = new Button();
+        explorer_add_file.setText("Ajouter...");
+        explorer_add_file.setStyle(explorer_buttons_style);
+        Button explorer_remove_file = new Button();
+        explorer_remove_file.setText("Retirer...");
+        explorer_remove_file.setStyle(explorer_buttons_style);
+
+        File rootDirectory = new File(repository);
+        TreeItem<String> rootItem = createTreeItem(rootDirectory);
+        TreeView<String> explorer_TreeView = new TreeView<>();
+        explorer_TreeView.setRoot(rootItem);
+
+        VBox explorer_box = new VBox();
+        explorer_box.setAlignment(Pos.CENTER_LEFT);
+
+        HBox explorer_buttons = new HBox();
+        explorer_buttons.setAlignment(Pos.CENTER_LEFT);
+
+        explorer_buttons.setMargin(title_explorer, new Insets(10, 2, 10, 10));
+        explorer_buttons.setMargin(projectName_explorer, new Insets(10, 0, 10, 0));
+        explorer_buttons.setMargin(explorer_add_file, new Insets(10, 5, 10, 7));
+        explorer_buttons.setMargin(explorer_remove_file, new Insets(10, 0, 10, 7));
+        main_editor.setMargin(explorer_TreeView, new Insets(10, 0, 0, 0));
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////   Adding Elements to Window    ////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        utils_box_buttons.getChildren().addAll(title_utils, current_project_utils, run_button, build_button);
+
+        explorer_buttons.getChildren().addAll(title_explorer, projectName_explorer, explorer_add_file, explorer_remove_file);
+        explorer_box.getChildren().addAll(explorer_buttons, explorer_TreeView);
+
+        main_editor.getChildren().add(explorer_box);
+
+        main_ui_box.getChildren().addAll(utils_box_buttons, main_editor);
+
+        root.setCenter(main_ui_box);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////   Show Window    ////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        StackPane container = new StackPane();
+        container.setStyle("-fx-background-color: #333333;");
+        container.getChildren().add(root);
+
+        Scene scene = new Scene(container, width, height);
+        editor_fpl.setScene(scene);
+
+        editor_fpl.show();
+        editor_fpl.centerOnScreen();
     }
 
+    private static TreeItem<String> createTreeItem(File file) {
+        TreeItem<String> item = new TreeItem<>(file.getName());
+
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (File childFile : files) {
+                    TreeItem<String> childItem = createTreeItem(childFile);
+                    item.getChildren().add(childItem);
+                }
+            }
+        }
+
+        return item;
+    }
 
     private static DropShadow createDropShadow(Color color) {
         DropShadow ds = new DropShadow();
