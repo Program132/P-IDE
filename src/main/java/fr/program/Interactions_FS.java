@@ -5,7 +5,10 @@ import javafx.concurrent.Task;
 import javafx.scene.control.TextArea;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.stream.Stream;
 
 public class Interactions_FS {
     private static String mode = "N/A";
@@ -40,6 +43,8 @@ public class Interactions_FS {
             String gppPath = projectRootPath + "\\bin\\mingw64\\bin\\g++.exe";
             String gccPath = projectRootPath + "\\bin\\mingw64\\bin\\gcc.exe";
             String codePath = projectRootPath + "\\fastscript\\code\\";
+
+            output_zone.setText("Please be patient...\n");
 
             Service<String> build_cmake = new Service<String>() {
                 @Override
@@ -125,7 +130,7 @@ public class Interactions_FS {
 
             build_cmake.setOnSucceeded(event -> {
                 String result = build_cmake.getValue();
-                output_zone.setText(result);
+                output_zone.appendText(result);
                 build_task_cmake.start();
             });
             build_cmake.start();
@@ -144,11 +149,27 @@ public class Interactions_FS {
                 String install = projectRootPath + "/cmake_install.cmake";
                 String make = projectRootPath + "/Makefile";
                 String exe = projectRootPath + "/cpp.exe";
+
+
+                String cmakeFiles = projectRootPath + "/CMakeFiles/";
+
                 try {
                     Files.deleteIfExists(Paths.get(cache));
                     Files.deleteIfExists(Paths.get(install));
                     Files.deleteIfExists(Paths.get(make));
                     Files.deleteIfExists(Paths.get(exe));
+
+                    Path directory = Paths.get(cmakeFiles);
+
+                    Files.walk(directory)
+                            .sorted(Comparator.reverseOrder())
+                            .forEach(path -> {
+                                try {
+                                    Files.delete(path);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
