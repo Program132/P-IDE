@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FPL_Window {
@@ -163,12 +161,12 @@ public class FPL_Window {
                         if (v_2_3.isSelected()) {
                             bufferedWriter.write("envoyer \"Hello World\";");
                             bufferedWriter.close();
+                            editor_show(zoneFolder_project.get(), "2.3");
                         } else if (v_3_0.isSelected()) {
                             bufferedWriter.write("envoyer \"Hello World\"");
                             bufferedWriter.close();
+                            editor_show(zoneFolder_project.get(), "3.0");
                         }
-
-                        editor_show(zoneFolder_project.get());
                     } catch (IOException e) {
 
                     }
@@ -203,7 +201,7 @@ public class FPL_Window {
 
 
 
-    private static void editor_show(String repository) {
+    private static void editor_show(String repository, String version) {
         String projectRootPath = System.getProperty("user.dir");
         AtomicReference<String> currentFile = new AtomicReference<>("N/A");
 
