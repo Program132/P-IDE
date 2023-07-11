@@ -1,4 +1,4 @@
-package fr.program;
+package fr.program.windows;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;

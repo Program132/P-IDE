@@ -1,5 +1,6 @@
 package fr.program;
 
+import fr.program.windows.FPL_Window;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
