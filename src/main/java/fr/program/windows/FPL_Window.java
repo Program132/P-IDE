@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FPL_Window {
@@ -196,6 +198,11 @@ public class FPL_Window {
     }
 
 
+
+
+
+
+
     private static void editor_show(String repository) {
         String projectRootPath = System.getProperty("user.dir");
         AtomicReference<String> currentFile = new AtomicReference<>("N/A");
@@ -306,10 +313,6 @@ public class FPL_Window {
         File rootDirectory = new File(repository);
         TreeItem<String> rootItem = createTreeItem(rootDirectory);
 
-        TreeView<String> explorer_TreeView = new TreeView<>();
-        explorer_TreeView.setRoot(rootItem);
-        explorer_TreeView.setStyle("-fx-control-inner-background: #3d3d3d; -fx-focus-color: transparent; -fx-border-color: transparent;");
-
 
         VBox explorer_box = new VBox();
         explorer_box.setAlignment(Pos.CENTER_LEFT);
@@ -328,52 +331,10 @@ public class FPL_Window {
         TextArea codeEditor = new TextArea();
         codeEditor.setStyle("-fx-control-inner-background: #212121; -fx-text-fill: #dadada; -fx-focus-color: transparent; -fx-text-box-border: transparent;");
 
-        explorer_TreeView.setCellFactory(treeView -> {
-            TreeCell<String> cell = new TreeCell<>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
-                        setGraphic(null);
-                    } else {
-                        setText(item);
-                        setStyle("-fx-text-fill: #cccccc; -fx-background-color: #3d3d3d; -fx-font-weight: bold;");
-
-                        if (getTreeItem().isLeaf() && item.endsWith(".fpl")) {
-                            String imagePath = projectRootPath + "\\img\\extension\\fpl.png";
-                            ImageView imageView = new ImageView(new Image(imagePath));
-                            imageView.setFitWidth(16);
-                            imageView.setFitHeight(16);
-                            setGraphic(imageView);
-                        } else {
-                            setGraphic(null);
-                        }
-                    }
-                }
-            };
-
-            cell.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && !cell.isEmpty()) {
-                    TreeItem<String> selectedItem = cell.getTreeItem();
-                    String filePath = selectedItem.getValue();
-                    String fileContent = "";
-                    try {
-                        fileContent = getFileContent(repository + "\\" + filePath);
-                        currentFile.set(filePath);
-                    } catch (IOException e) {
-
-                    }
-                    codeEditor.setText(fileContent);
-
-                    cell.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-                } else if (event.getClickCount() == 1 && !cell.isEmpty()) {
-                    cell.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-                }
-            });
-
-            return cell;
-        });
+        TreeView<String> explorer_TreeView = new TreeView<>();
+        explorer_TreeView.setRoot(rootItem);
+        explorer_TreeView.setStyle("-fx-control-inner-background: #3d3d3d; -fx-focus-color: transparent; -fx-border-color: transparent;");
+        refreshTreeView(explorer_TreeView, rootDirectory, projectRootPath, repository, currentFile, codeEditor);
 
 
 
@@ -408,6 +369,9 @@ public class FPL_Window {
         titleTerminal_box.setMargin(title_terminal, new Insets(30, 0, 0, 20));
         main_ui_box.setMargin(terminal_window, new Insets(10, 30, 10, 30));
 
+
+
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////   Adding Elements to Window    ////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -425,6 +389,9 @@ public class FPL_Window {
 
         root.setCenter(main_ui_box);
 
+
+
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////   Show Window    ////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -440,6 +407,9 @@ public class FPL_Window {
         editor_fpl.show();
         editor_fpl.centerOnScreen();
 
+
+
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////   Events Window    ////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -452,6 +422,66 @@ public class FPL_Window {
                 String currentCode = codeEditor.getText();
                 writeInFile(path, currentCode);
             }
+        });
+
+        AtomicReference<String> saveAs_fileName_Selected = new AtomicReference<>("unknown");
+
+        Stage save_as_stage = new Stage();
+        save_as_stage.setTitle("P-IDE | F.P.L Project -"  + projectName + " (Sauvegarder sous)");
+        save_as_stage.setHeight(100);
+        save_as_stage.setWidth(500);
+        save_as_stage.setResizable(false);
+        BorderPane save_as_stage_root = new BorderPane();
+
+        HBox ui_saveAs = new HBox();
+        ui_saveAs.setAlignment(Pos.CENTER);
+
+        Label saveAs_Title = new Label();
+        saveAs_Title.setText("Nom du fichier (sans .fpl) : ");
+        saveAs_Title.setStyle("-fx-font-size: 13px; -fx-text-fill: #ffffff;");
+
+        TextField saveAs_FileName = new TextField();
+        saveAs_FileName.setText(saveAs_fileName_Selected.get());
+        saveAs_FileName.setStyle("-fx-background-color: #383838; -fx-font-size: 13px; -fx-text-fill: #eaeaea; -fx-font-style: italic;");
+
+        Button ok_button = new Button();
+        ok_button.setText("Sauvegarder");
+        ok_button.setStyle("-fx-background-color: #565656; -fx-font-size: 13px; -fx-text-fill: #008506; -fx-font-weight: bold;");
+        mouseHoverEffect_Buttons(ok_button, explorer_buttons_DropShadow);
+
+        ui_saveAs.getChildren().addAll(saveAs_Title, saveAs_FileName, ok_button);
+
+        save_as_stage_root.setCenter(ui_saveAs);
+
+        StackPane save_as_stage_container = new StackPane();
+        save_as_stage_container.setStyle("-fx-background-color: #3C3F41;");
+        save_as_stage_container.getChildren().add(save_as_stage_root);
+
+        Scene save_as_stage_scene = new Scene(save_as_stage_container, 100, 100);
+        save_as_stage.setScene(save_as_stage_scene);
+
+        ok_button.setOnAction(event -> {
+            saveAs_fileName_Selected.set(saveAs_FileName.getText() + ".fpl");
+
+            String currentCode = codeEditor.getText();
+            try {
+                File SaveAs_file = new File(new File(repository), saveAs_fileName_Selected.get());
+                FileWriter SaveAs_fileWriter = new FileWriter(SaveAs_file);
+                BufferedWriter SaveAs_bufferedWriter = new BufferedWriter(SaveAs_fileWriter);
+                SaveAs_bufferedWriter.write(currentCode);
+                SaveAs_bufferedWriter.close();
+            } catch (IOException ignored) {}
+
+            refreshTreeView(explorer_TreeView, rootDirectory, projectRootPath, repository, currentFile, codeEditor);
+
+            save_as_stage.close();
+        });
+
+        save_as_button.setOnAction(event -> {
+            String path = "";
+
+            save_as_stage.show();
+            save_as_stage.centerOnScreen();
         });
     }
 
@@ -505,4 +535,56 @@ public class FPL_Window {
             }
         }
     }
+
+    private static void refreshTreeView(TreeView<String> m_treeView, File rootDirectory, String projectRootPath, String repository, AtomicReference<String> currentFile, TextArea codeEditor) {
+        TreeItem<String> newRootItem = createTreeItem(rootDirectory);
+        m_treeView.setRoot(newRootItem);
+        m_treeView.setCellFactory(treeView -> {
+            TreeCell<String> cell = new TreeCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        setText(item);
+                        setStyle("-fx-text-fill: #cccccc; -fx-background-color: #3d3d3d; -fx-font-weight: bold;");
+
+                        if (getTreeItem().isLeaf() && item.endsWith(".fpl")) {
+                            String imagePath = projectRootPath + "\\img\\extension\\fpl.png";
+                            ImageView imageView = new ImageView(new Image(imagePath));
+                            imageView.setFitWidth(16);
+                            imageView.setFitHeight(16);
+                            setGraphic(imageView);
+                        } else {
+                            setGraphic(null);
+                        }
+                    }
+                }
+            };
+
+            cell.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !cell.isEmpty()) {
+                    TreeItem<String> selectedItem = cell.getTreeItem();
+                    String filePath = selectedItem.getValue();
+                    String fileContent = "";
+                    try {
+                        fileContent = getFileContent(repository + "\\" + filePath);
+                        currentFile.set(filePath);
+                    } catch (IOException e) {
+                        // Gérer l'erreur
+                    }
+                    codeEditor.setText(fileContent);
+
+                    cell.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+                } else if (event.getClickCount() == 1 && !cell.isEmpty()) {
+                    cell.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+                }
+            });
+
+            return cell;
+        });
+    }
+
 }
