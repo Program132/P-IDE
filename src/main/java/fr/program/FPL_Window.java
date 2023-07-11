@@ -1,17 +1,16 @@
 package fr.program;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -202,56 +201,68 @@ public class FPL_Window {
         ////////////////////////////////////////////////   Base Window    ////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        int height = 400;
-        int width = 500;
+        int height = 675;
+        int width = 850;
 
         Path projectPath = Paths.get(repository);
         String projectName = projectPath.getFileName().toString();
 
         Stage editor_fpl = new Stage();
-        editor_fpl.setTitle("P-IDE | F.P.L Project - " + repository);
+        editor_fpl.setTitle("P-IDE | F.P.L Project - " + projectName);
         editor_fpl.setHeight(height);
         editor_fpl.setWidth(width);
 
-        BorderPane root = new BorderPane();
+        editor_fpl.setMinWidth(width);
+        editor_fpl.setMinHeight(height);
 
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////   Creating Elements to Window    ////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        BorderPane root = new BorderPane();
 
         VBox main_ui_box = new VBox();
         main_ui_box.setAlignment(Pos.TOP_CENTER);
 
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////   Top Window    ////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         HBox utils_box_buttons = new HBox();
-        utils_box_buttons.setAlignment(Pos.TOP_LEFT);
+        utils_box_buttons.setAlignment(Pos.TOP_RIGHT);
 
-        Label title_utils = new Label();
-        title_utils.setText("Projet : ");
-        title_utils.setStyle("-fx-font-size: 13px; -fx-text-fill: #fcfcfc; -fx-font-weight: bold");
+        HBox title_buttons_box = new HBox();
+        title_buttons_box.setAlignment(Pos.TOP_LEFT);
 
-        Label current_project_utils = new Label();
-        current_project_utils.setText(repository);
-        current_project_utils.setStyle("-fx-font-size: 13px; -fx-text-fill: #fcfcfc; -fx-font-style: italic");
+        HBox buttons_code_box = new HBox();
+        buttons_code_box.setAlignment(Pos.TOP_RIGHT);
 
-        DropShadow buttonHover = createDropShadow(Color.LIGHTGREEN);
-        String run_buttons = "-fx-background-color: #2a8a09; -fx-font-size: 13px; -fx-text-fill: #d9d9d9; -fx-font-weight: bold;";
+        Label title_buttons = new Label();
+        title_buttons.setText("French Programming Language Project");
+        title_buttons.setStyle("-fx-font-size: 13px; -fx-text-fill: #fcfcfc; -fx-font-weight: bold");
+
+        DropShadow topButtons_mouseHover_DropShadow = createDropShadow(Color.LIGHTGREEN);
+        String codeButtons_Style = "-fx-background-color: #2a8a09; -fx-font-size: 13px; -fx-text-fill: #d9d9d9; -fx-font-weight: bold;";
 
         Button run_button = new Button();
         run_button.setText("Exécuter");
-        run_button.setStyle(run_buttons);
+        run_button.setStyle(codeButtons_Style);
 
         Button build_button = new Button();
         build_button.setText("Construire le projet");
-        build_button.setStyle(run_buttons);
+        build_button.setStyle(codeButtons_Style);
 
-        mouseHoverEffect_Buttons(run_button, buttonHover);
-        mouseHoverEffect_Buttons(build_button, buttonHover);
+        mouseHoverEffect_Buttons(run_button, topButtons_mouseHover_DropShadow);
+        mouseHoverEffect_Buttons(build_button, topButtons_mouseHover_DropShadow);
 
-        utils_box_buttons.setMargin(title_utils, new Insets(15, 2, 0, 5));
-        utils_box_buttons.setMargin(current_project_utils, new Insets(15, 10, 0, 0));
-        utils_box_buttons.setMargin(run_button, new Insets(10, 10, 0, 10));
-        utils_box_buttons.setMargin(build_button, new Insets(10, 10, 0, 10));
+        title_buttons_box.setMargin(title_buttons, new Insets(15, 0, 0, 15));
+        buttons_code_box.setMargin(run_button, new Insets(10, 0, 0, 0));
+        buttons_code_box.setMargin(build_button, new Insets(10, 0, 0, 10));
 
+        HBox.setHgrow(title_buttons_box, Priority.ALWAYS);
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////   Explorer + Code Editor Window    ////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
         HBox main_editor = new HBox();
@@ -266,13 +277,13 @@ public class FPL_Window {
         projectName_explorer.setText(repository);
         projectName_explorer.setStyle("-fx-font-size: 12px; -fx-text-fill: #dcdcdc; -fx-font-style: italic");
 
-        String explorer_buttons_style = "-fx-background-color: #cecece; -fx-font-size: 13px; -fx-text-fill: #a41d1d; -fx-font-weight: bold;";
+        String explorer_buttons_style = "-fx-background-color: #565656; -fx-font-size: 13px; -fx-text-fill: #1893f6; -fx-font-weight: bold;";
 
         Button explorer_add_file = new Button();
-        explorer_add_file.setText("Ajouter...");
+        explorer_add_file.setText("Ajouter");
         explorer_add_file.setStyle(explorer_buttons_style);
         Button explorer_remove_file = new Button();
-        explorer_remove_file.setText("Retirer...");
+        explorer_remove_file.setText("Retirer");
         explorer_remove_file.setStyle(explorer_buttons_style);
 
         File rootDirectory = new File(repository);
@@ -288,22 +299,57 @@ public class FPL_Window {
 
         explorer_buttons.setMargin(title_explorer, new Insets(10, 2, 10, 10));
         explorer_buttons.setMargin(projectName_explorer, new Insets(10, 0, 10, 0));
-        explorer_buttons.setMargin(explorer_add_file, new Insets(10, 5, 10, 7));
-        explorer_buttons.setMargin(explorer_remove_file, new Insets(10, 0, 10, 7));
-        main_editor.setMargin(explorer_TreeView, new Insets(10, 0, 0, 0));
+        explorer_buttons.setMargin(explorer_add_file, new Insets(10, 5, 10, 5));
+        explorer_buttons.setMargin(explorer_remove_file, new Insets(10, 0, 10, 5));
+
+        TextArea codeEditor = new TextArea();
+        codeEditor.setStyle("-fx-control-inner-background: #2B2B2B; -fx-text-fill: #dadada; -fx-pref-height: 90%;");
+
+        explorer_box.setMargin(explorer_TreeView, new Insets(10, 0, 0, 15));
+        main_editor.setMargin(codeEditor, new Insets(10, 10, 0, 10));
+
+        HBox.setHgrow(explorer_TreeView, Priority.ALWAYS);
+        HBox.setHgrow(codeEditor, Priority.ALWAYS);
+
+        VBox.setVgrow(explorer_TreeView, Priority.ALWAYS);
+        VBox.setVgrow(codeEditor, Priority.ALWAYS);
+        VBox.setVgrow(main_editor, Priority.ALWAYS);
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////   Terminal Window    ////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        Label title_terminal = new Label();
+        title_terminal.setText("Résultats :");
+        title_terminal.setStyle("-fx-font-size: 13px; -fx-text-fill: #ffffff; -fx-font-weight: bold");
+        title_terminal.setAlignment(Pos.CENTER_LEFT);
+
+        HBox titleTerminal_box = new HBox();
+        titleTerminal_box.setAlignment(Pos.CENTER_LEFT);
+        titleTerminal_box.getChildren().add(title_terminal);
+
+        TextArea terminal_window = new TextArea();
+        terminal_window.setEditable(false);
+        terminal_window.setStyle("-fx-control-inner-background: #2a2a2a; -fx-text-fill: #cccccc; -fx-focus-color: transparent; -fx-text-box-border: transparent;");
+
+        titleTerminal_box.setMargin(title_terminal, new Insets(15, 0, 0, 20));
+        main_ui_box.setMargin(terminal_window, new Insets(10, 30, 10, 30));
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////   Adding Elements to Window    ////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        utils_box_buttons.getChildren().addAll(title_utils, current_project_utils, run_button, build_button);
+        title_buttons_box.getChildren().add(title_buttons);
+        buttons_code_box.getChildren().addAll(run_button, build_button);
+        utils_box_buttons.getChildren().addAll(title_buttons_box, buttons_code_box);
 
         explorer_buttons.getChildren().addAll(title_explorer, projectName_explorer, explorer_add_file, explorer_remove_file);
         explorer_box.getChildren().addAll(explorer_buttons, explorer_TreeView);
 
-        main_editor.getChildren().add(explorer_box);
+        main_editor.getChildren().addAll(explorer_box, codeEditor);
 
-        main_ui_box.getChildren().addAll(utils_box_buttons, main_editor);
+        main_ui_box.getChildren().addAll(utils_box_buttons, main_editor, titleTerminal_box, terminal_window);
 
         root.setCenter(main_ui_box);
 
@@ -313,7 +359,7 @@ public class FPL_Window {
 
 
         StackPane container = new StackPane();
-        container.setStyle("-fx-background-color: #333333;");
+        container.setStyle("-fx-background-color: #3C3F41;");
         container.getChildren().add(root);
 
         Scene scene = new Scene(container, width, height);
