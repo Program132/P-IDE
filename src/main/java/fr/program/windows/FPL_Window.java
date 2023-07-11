@@ -1,9 +1,7 @@
 package fr.program.windows;
 
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -199,8 +197,8 @@ public class FPL_Window {
 
 
     private static void editor_show(String repository) {
-
         String projectRootPath = System.getProperty("user.dir");
+        AtomicReference<String> currentFile = new AtomicReference<>("N/A");
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////   Base Window    ////////////////////////////////////////////////
@@ -362,6 +360,7 @@ public class FPL_Window {
                     String fileContent = "";
                     try {
                         fileContent = getFileContent(repository + "\\" + filePath);
+                        currentFile.set(filePath);
                     } catch (IOException e) {
 
                     }
@@ -440,6 +439,20 @@ public class FPL_Window {
 
         editor_fpl.show();
         editor_fpl.centerOnScreen();
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////   Events Window    ////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        save_button.setOnAction(event -> {
+            String path = "";
+            if (!currentFile.get().equalsIgnoreCase("N/A")) {
+                path = repository + "\\" + currentFile.get();
+
+                String currentCode = codeEditor.getText();
+                writeInFile(path, currentCode);
+            }
+        });
     }
 
     private static String getFileContent(String filePath) throws IOException {
@@ -478,5 +491,18 @@ public class FPL_Window {
         });
 
         button.setOnMouseExited(event -> button.setEffect(null));
+    }
+
+    public static void writeInFile(String path, String content) {
+        File file = new File(path);
+        if (file.exists() && file.isFile()) {
+            try {
+                FileWriter writer = new FileWriter(file);
+                writer.write(content);
+                writer.close();
+            } catch (IOException e) {
+                //
+            }
+        }
     }
 }
