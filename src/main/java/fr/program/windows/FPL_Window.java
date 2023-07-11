@@ -288,8 +288,24 @@ public class FPL_Window {
 
         File rootDirectory = new File(repository);
         TreeItem<String> rootItem = createTreeItem(rootDirectory);
+
         TreeView<String> explorer_TreeView = new TreeView<>();
         explorer_TreeView.setRoot(rootItem);
+        explorer_TreeView.setStyle("-fx-control-inner-background: #3d3d3d; -fx-focus-color: transparent; -fx-border-color: transparent;");
+        explorer_TreeView.setCellFactory(treeView -> new TreeCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(item);
+                    setStyle("-fx-text-fill: #cccccc; -fx-background-color: #3d3d3d; -fx-font-weight: bold;");
+                }
+            }
+        });
+
 
         VBox explorer_box = new VBox();
         explorer_box.setAlignment(Pos.CENTER_LEFT);
@@ -303,7 +319,7 @@ public class FPL_Window {
         explorer_buttons.setMargin(explorer_remove_file, new Insets(10, 0, 10, 5));
 
         TextArea codeEditor = new TextArea();
-        codeEditor.setStyle("-fx-control-inner-background: #2B2B2B; -fx-text-fill: #dadada; -fx-pref-height: 90%;");
+        codeEditor.setStyle("-fx-control-inner-background: #212121; -fx-text-fill: #dadada; -fx-focus-color: transparent; -fx-text-box-border: transparent;");
 
         explorer_box.setMargin(explorer_TreeView, new Insets(10, 0, 0, 15));
         main_editor.setMargin(codeEditor, new Insets(10, 10, 0, 10));
@@ -333,7 +349,7 @@ public class FPL_Window {
         terminal_window.setEditable(false);
         terminal_window.setStyle("-fx-control-inner-background: #2a2a2a; -fx-text-fill: #cccccc; -fx-focus-color: transparent; -fx-text-box-border: transparent;");
 
-        titleTerminal_box.setMargin(title_terminal, new Insets(15, 0, 0, 20));
+        titleTerminal_box.setMargin(title_terminal, new Insets(30, 0, 0, 20));
         main_ui_box.setMargin(terminal_window, new Insets(10, 30, 10, 30));
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
