@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
@@ -19,6 +21,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicReference;
@@ -197,6 +200,8 @@ public class FPL_Window {
 
     private static void editor_show(String repository) {
 
+        String projectRootPath = System.getProperty("user.dir");
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////   Base Window    ////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -240,7 +245,16 @@ public class FPL_Window {
         title_buttons.setStyle("-fx-font-size: 13px; -fx-text-fill: #fcfcfc; -fx-font-weight: bold");
 
         DropShadow topButtons_mouseHover_DropShadow = createDropShadow(Color.LIGHTGREEN);
+        DropShadow topButtons_mouseHover_DropShadow_SAVES = createDropShadow(Color.LIGHTBLUE);
         String codeButtons_Style = "-fx-background-color: #2a8a09; -fx-font-size: 13px; -fx-text-fill: #d9d9d9; -fx-font-weight: bold;";
+
+        Button save_button = new Button();
+        save_button.setText("Sauvegarder");
+        save_button.setStyle("-fx-background-color: #09598a; -fx-font-size: 12px; -fx-text-fill: #d9d9d9; ");
+
+        Button save_as_button = new Button();
+        save_as_button.setText("Sauvegarder sous");
+        save_as_button.setStyle("-fx-background-color: #09598a; -fx-font-size: 12px; -fx-text-fill: #d9d9d9; ");
 
         Button run_button = new Button();
         run_button.setText("Exécuter");
@@ -252,9 +266,13 @@ public class FPL_Window {
 
         mouseHoverEffect_Buttons(run_button, topButtons_mouseHover_DropShadow);
         mouseHoverEffect_Buttons(build_button, topButtons_mouseHover_DropShadow);
+        mouseHoverEffect_Buttons(save_button, topButtons_mouseHover_DropShadow_SAVES);
+        mouseHoverEffect_Buttons(save_as_button, topButtons_mouseHover_DropShadow_SAVES);
 
         title_buttons_box.setMargin(title_buttons, new Insets(15, 0, 0, 15));
-        buttons_code_box.setMargin(run_button, new Insets(10, 0, 0, 0));
+        buttons_code_box.setMargin(save_button, new Insets(11, 0, 0, 0));
+        buttons_code_box.setMargin(save_as_button, new Insets(11, 15, 0, 5));
+        buttons_code_box.setMargin(run_button, new Insets(10, 0, 0, 10));
         buttons_code_box.setMargin(build_button, new Insets(10, 0, 0, 10));
 
         HBox.setHgrow(title_buttons_box, Priority.ALWAYS);
@@ -268,9 +286,10 @@ public class FPL_Window {
         HBox main_editor = new HBox();
         main_editor.setAlignment(Pos.CENTER);
 
+        DropShadow explorer_buttons_DropShadow = createDropShadow(Color.LIGHTGRAY);
 
         Label title_explorer = new Label();
-        title_explorer.setText("Project:");
+        title_explorer.setText("Projet :");
         title_explorer.setStyle("-fx-font-size: 13px; -fx-text-fill: #ffffff; -fx-font-weight: bold");
 
         Label projectName_explorer = new Label();
@@ -292,19 +311,6 @@ public class FPL_Window {
         TreeView<String> explorer_TreeView = new TreeView<>();
         explorer_TreeView.setRoot(rootItem);
         explorer_TreeView.setStyle("-fx-control-inner-background: #3d3d3d; -fx-focus-color: transparent; -fx-border-color: transparent;");
-        explorer_TreeView.setCellFactory(treeView -> new TreeCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    setText(item);
-                    setStyle("-fx-text-fill: #cccccc; -fx-background-color: #3d3d3d; -fx-font-weight: bold;");
-                }
-            }
-        });
 
 
         VBox explorer_box = new VBox();
@@ -313,6 +319,9 @@ public class FPL_Window {
         HBox explorer_buttons = new HBox();
         explorer_buttons.setAlignment(Pos.CENTER_LEFT);
 
+        mouseHoverEffect_Buttons(explorer_add_file, explorer_buttons_DropShadow);
+        mouseHoverEffect_Buttons(explorer_remove_file, explorer_buttons_DropShadow);
+
         explorer_buttons.setMargin(title_explorer, new Insets(10, 2, 10, 10));
         explorer_buttons.setMargin(projectName_explorer, new Insets(10, 0, 10, 0));
         explorer_buttons.setMargin(explorer_add_file, new Insets(10, 5, 10, 5));
@@ -320,6 +329,54 @@ public class FPL_Window {
 
         TextArea codeEditor = new TextArea();
         codeEditor.setStyle("-fx-control-inner-background: #212121; -fx-text-fill: #dadada; -fx-focus-color: transparent; -fx-text-box-border: transparent;");
+
+        explorer_TreeView.setCellFactory(treeView -> {
+            TreeCell<String> cell = new TreeCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        setText(item);
+                        setStyle("-fx-text-fill: #cccccc; -fx-background-color: #3d3d3d; -fx-font-weight: bold;");
+
+                        if (getTreeItem().isLeaf() && item.endsWith(".fpl")) {
+                            String imagePath = projectRootPath + "\\img\\extension\\fpl.png";
+                            ImageView imageView = new ImageView(new Image(imagePath));
+                            imageView.setFitWidth(16);
+                            imageView.setFitHeight(16);
+                            setGraphic(imageView);
+                        } else {
+                            setGraphic(null);
+                        }
+                    }
+                }
+            };
+
+            cell.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !cell.isEmpty()) {
+                    TreeItem<String> selectedItem = cell.getTreeItem();
+                    String filePath = selectedItem.getValue();
+                    String fileContent = "";
+                    try {
+                        fileContent = getFileContent(repository + "\\" + filePath);
+                    } catch (IOException e) {
+
+                    }
+                    codeEditor.setText(fileContent);
+
+                    cell.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+                } else if (event.getClickCount() == 1 && !cell.isEmpty()) {
+                    cell.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+                }
+            });
+
+            return cell;
+        });
+
+
 
         explorer_box.setMargin(explorer_TreeView, new Insets(10, 0, 0, 15));
         main_editor.setMargin(codeEditor, new Insets(10, 10, 0, 10));
@@ -357,7 +414,7 @@ public class FPL_Window {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         title_buttons_box.getChildren().add(title_buttons);
-        buttons_code_box.getChildren().addAll(run_button, build_button);
+        buttons_code_box.getChildren().addAll(save_button,  save_as_button, run_button, build_button);
         utils_box_buttons.getChildren().addAll(title_buttons_box, buttons_code_box);
 
         explorer_buttons.getChildren().addAll(title_explorer, projectName_explorer, explorer_add_file, explorer_remove_file);
@@ -383,6 +440,10 @@ public class FPL_Window {
 
         editor_fpl.show();
         editor_fpl.centerOnScreen();
+    }
+
+    private static String getFileContent(String filePath) throws IOException {
+        return Files.readString(Path.of(filePath));
     }
 
     private static TreeItem<String> createTreeItem(File file) {
