@@ -21,6 +21,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FPL_Window {
@@ -496,6 +497,26 @@ public class FPL_Window {
             }
         });
 
+        build_button.setOnAction(event -> {
+            String path = repository + "\\" + currentFile.get();
+            writeInFile(path, codeEditor.getText());
+
+            File buildDir = new File(repository + "\\build");
+            if (!buildDir.exists()) {
+                buildDir.mkdir();
+            }
+
+            copyPasteFile(buildDir, repository + "\\" + currentFile.get(), currentFile.get());
+
+            if (version.equals("2.3")) {
+                copyPasteFile(buildDir, "bin/fpl/fpl-2.3.exe", "fpl-2.3.exe");
+            } else if (version.equals("3.0")) {
+                copyPasteFile(buildDir, "bin/fpl/fpl-3.exe", "fpl-3.exe");
+            }
+
+            refreshTreeView(explorer_TreeView, rootDirectory, projectRootPath, repository, currentFile, codeEditor);
+        });
+
         terminal_clear.setOnAction(event -> {
             terminal_window.setText("");
         });
@@ -645,5 +666,13 @@ public class FPL_Window {
         Button b = new Button(content);
         b.setStyle(style);
         return b;
+    }
+
+    private static void copyPasteFile(File buildDir, String path, String child) {
+        File exeFile = new File(path);
+        Path target = new File(buildDir, child).toPath();
+        try {
+            Files.copy(exeFile.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ignored) {}
     }
 }
