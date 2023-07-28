@@ -203,6 +203,7 @@ public class FPL_Window {
     private static void editor_show(String repository, String version) {
         String projectRootPath = System.getProperty("user.dir");
         AtomicReference<String> currentFile = new AtomicReference<>("N/A");
+        DropShadow dropShadow_red = createDropShadow(Color.rgb(255,0,0,0.7));
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////   Base Window    ////////////////////////////////////////////////
@@ -226,8 +227,6 @@ public class FPL_Window {
 
         VBox main_ui_box = new VBox();
         main_ui_box.setAlignment(Pos.TOP_CENTER);
-
-
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////   Top Window    ////////////////////////////////////////////////
@@ -363,7 +362,12 @@ public class FPL_Window {
         terminal_window.setEditable(false);
         terminal_window.setStyle("-fx-control-inner-background: #2a2a2a; -fx-text-fill: #cccccc; -fx-focus-color: transparent; -fx-text-box-border: transparent;");
 
+        Button terminal_clear = createButtonWithStyle("Vider le terminal", "-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-style: italic;");
+        terminal_clear.setOnMouseEntered(event -> terminal_clear.setEffect(dropShadow_red));
+        terminal_clear.setOnMouseExited(event -> terminal_clear.setEffect(null));
+
         titleTerminal_box.setMargin(title_terminal, new Insets(30, 0, 0, 20));
+        titleTerminal_box.setMargin(terminal_clear, new Insets(30, 0, 0, 10));
         main_ui_box.setMargin(terminal_window, new Insets(10, 30, 10, 30));
 
 
@@ -381,6 +385,8 @@ public class FPL_Window {
         explorer_box.getChildren().addAll(explorer_buttons, explorer_TreeView);
 
         main_editor.getChildren().addAll(explorer_box, codeEditor);
+
+        titleTerminal_box.getChildren().addAll(terminal_window, terminal_clear);
 
         main_ui_box.getChildren().addAll(utils_box_buttons, main_editor, titleTerminal_box, terminal_window);
 
@@ -488,6 +494,10 @@ public class FPL_Window {
             } else if (version.equals("3.0")) {
                 executeCodeAndSeeOutput(terminal_window, "bin/fpl/fpl-3.exe", "F.P.L", path);
             }
+        });
+
+        terminal_clear.setOnAction(event -> {
+            terminal_window.setText("");
         });
     }
 
@@ -625,5 +635,11 @@ public class FPL_Window {
             output_zone.setText(result);
         });
         service.start();
+    }
+
+    private static Button createButtonWithStyle(String content, String style) {
+        Button b = new Button(content);
+        b.setStyle(style);
+        return b;
     }
 }
