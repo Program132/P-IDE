@@ -24,8 +24,7 @@ public class Interactions_FS {
         if (getMode().equalsIgnoreCase("fpl")) {
             writeInFile("fastscript/code/fpl.fpl", content);
 
-            executeCodeAndSeeOutput(output_zone, "bin/fpl/fpl-2.3.exe", "F.P.L","fastscript/code/fpl.fpl");
-            // Running FPL V3 Parser...
+            executeCodeAndSeeOutput(output_zone, "bin/fpl/fpl-3.exe", "F.P.L","fastscript/code/fpl.fpl");
         }
         else if (getMode().equalsIgnoreCase("java")) {
             String real_content_java = "package fastscript.code; \n" + content;

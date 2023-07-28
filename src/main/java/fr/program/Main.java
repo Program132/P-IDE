@@ -176,7 +176,7 @@ public class Main extends Application {
                 FS_fpl,
                 FS_TextEditor,
                 "fpl",
-                "envoyer \"Hello World\";"
+                "envoyer \"Hello World\""
                 );
         Config_FastScript_Button(
                 Arrays.asList(FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_typescript),

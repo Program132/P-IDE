@@ -1,5 +1,7 @@
 package fr.program.windows;
 
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,10 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -476,10 +475,19 @@ public class FPL_Window {
         });
 
         save_as_button.setOnAction(event -> {
-            String path = "";
-
             save_as_stage.show();
             save_as_stage.centerOnScreen();
+        });
+
+        run_button.setOnAction(event -> {
+            String path = repository + "\\" + currentFile.get();
+            writeInFile(path, codeEditor.getText());
+
+            if (version.equals("2.3")) {
+                executeCodeAndSeeOutput(terminal_window, "bin/fpl/fpl-2.3.exe", "F.P.L", path);
+            } else if (version.equals("3.0")) {
+                executeCodeAndSeeOutput(terminal_window, "bin/fpl/fpl-3.exe", "F.P.L", path);
+            }
         });
     }
 
@@ -585,4 +593,37 @@ public class FPL_Window {
         });
     }
 
+    private static String openShell(String pathApplication, String lang, String arg) throws IOException, InterruptedException {
+        ProcessBuilder processBuilder = new ProcessBuilder(pathApplication, arg);
+        processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+        Process process = processBuilder.start();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        String all_lines = "Running in " + lang + ": \n";
+        while ((line = reader.readLine()) != null) {
+            all_lines += line + "\n";
+        }
+        reader.close();
+
+        return all_lines;
+    }
+
+    private static void executeCodeAndSeeOutput(TextArea output_zone, String pathApp, String lang, String arg) {
+        Service<String> service = new Service<String>() {
+            @Override
+            protected Task<String> createTask() {
+                return new Task<String>() {
+                    @Override
+                    protected String call() throws Exception {
+                        return openShell(pathApp, lang, arg);
+                    }
+                };
+            }
+        };
+        service.setOnSucceeded(event -> {
+            String result = service.getValue();
+            output_zone.setText(result);
+        });
+        service.start();
+    }
 }
