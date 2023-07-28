@@ -167,16 +167,12 @@ public class FPL_Window {
                             bufferedWriter.close();
                             editor_show(zoneFolder_project.get(), "3.0");
                         }
-                    } catch (IOException e) {
-
-                    }
+                    } catch (IOException ignored) {}
                 }
             }
         });
 
-        cancelBTN.setOnAction(event -> {
-            fpl_createProject.close();
-        });
+        cancelBTN.setOnAction(event -> fpl_createProject.close());
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////   Show Window    ////////////////////////////////////////////////
@@ -419,9 +415,8 @@ public class FPL_Window {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         save_button.setOnAction(event -> {
-            String path = "";
             if (!currentFile.get().equalsIgnoreCase("N/A")) {
-                path = repository + "\\" + currentFile.get();
+                String path = repository + "\\" + currentFile.get();
 
                 String currentCode = codeEditor.getText();
                 writeInFile(path, currentCode);
@@ -517,9 +512,7 @@ public class FPL_Window {
             refreshTreeView(explorer_TreeView, rootDirectory, projectRootPath, repository, currentFile, codeEditor);
         });
 
-        terminal_clear.setOnAction(event -> {
-            terminal_window.setText("");
-        });
+        terminal_clear.setOnAction(event -> terminal_window.setText(""));
     }
 
     private static String getFileContent(String filePath) throws IOException {
@@ -553,10 +546,7 @@ public class FPL_Window {
     }
 
     private static void mouseHoverEffect_Buttons(Button button, DropShadow defaultEffect) {
-        button.setOnMouseEntered(event -> {
-            button.setEffect(defaultEffect);
-        });
-
+        button.setOnMouseEntered(event -> button.setEffect(defaultEffect));
         button.setOnMouseExited(event -> button.setEffect(null));
     }
 
@@ -628,19 +618,19 @@ public class FPL_Window {
         });
     }
 
-    private static String openShell(String pathApplication, String lang, String arg) throws IOException, InterruptedException {
+    private static String openShell(String pathApplication, String lang, String arg) throws IOException {
         ProcessBuilder processBuilder = new ProcessBuilder(pathApplication, arg);
         processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
         Process process = processBuilder.start();
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line;
-        String all_lines = "Running in " + lang + ": \n";
+        StringBuilder all_lines = new StringBuilder("Running in " + lang + ": \n");
         while ((line = reader.readLine()) != null) {
-            all_lines += line + "\n";
+            all_lines.append(line).append("\n");
         }
         reader.close();
 
-        return all_lines;
+        return all_lines.toString();
     }
 
     private static void executeCodeAndSeeOutput(TextArea output_zone, String pathApp, String lang, String arg) {

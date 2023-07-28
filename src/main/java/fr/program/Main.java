@@ -161,10 +161,7 @@ public class Main extends Application {
 
         // Events Main Menu
 
-        fpl_btn.setOnAction(event -> {
-            FPL_Window.show_createProject();
-        });
-
+        fpl_btn.setOnAction(event -> FPL_Window.show_createProject());
 
         // Events FS
 
@@ -186,11 +183,12 @@ public class Main extends Application {
                 FS_java,
                 FS_TextEditor,
                 "java",
-                "class java { \n" +
-                        "   public static void main(String[] args) { \n" +
-                        "       System.out.println(\"Hello World\"); \n" +
-                        "   } \n" +
-                        "}"
+                """
+                        class java {\s
+                           public static void main(String[] args) {\s
+                               System.out.println("Hello World");\s
+                           }\s
+                        }"""
         );
         Config_FastScript_Button(
                 Arrays.asList(FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_typescript),
@@ -200,10 +198,12 @@ public class Main extends Application {
                 FS_cpp,
                 FS_TextEditor,
                 "cpp",
-                "#include <iostream> \n\n" +
-                        "int main() { \n" +
-                        "    std::cout << \"Hello World!\" << std::endl; \n" +
-                        "}"
+                """
+                        #include <iostream>\s
+
+                        int main() {\s
+                            std::cout << "Hello World!" << std::endl;\s
+                        }"""
         );
         Config_FastScript_Button(
                 Arrays.asList(FS_fpl, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_typescript),
@@ -267,9 +267,7 @@ public class Main extends Application {
         FS_Execute.setOnAction(event -> {
             try {
                 Interactions_FS.execute(FS_TextEditor.getText(), FS_output);
-            } catch (IOException e) {
-
-            }
+            } catch (IOException ignored) {}
         });
 
         FS_Execute.setOnMouseEntered(event -> FS_Execute.setEffect(dropShadow_green));
