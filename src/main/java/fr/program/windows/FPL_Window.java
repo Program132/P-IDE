@@ -348,10 +348,7 @@ public class FPL_Window {
         ///////////////////////////////////////////   Terminal Window    ////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        Label title_terminal = new Label();
-        title_terminal.setText("Résultats :");
-        title_terminal.setStyle("-fx-font-size: 13px; -fx-text-fill: #ffffff; -fx-font-weight: bold");
-        title_terminal.setAlignment(Pos.CENTER_LEFT);
+        Label title_terminal = getTitleTerminal();
 
         HBox titleTerminal_box = new HBox();
         titleTerminal_box.setAlignment(Pos.CENTER_LEFT);
@@ -595,6 +592,14 @@ public class FPL_Window {
                 }
             } catch (IOException ignored) {}
         });
+    }
+
+    private static Label getTitleTerminal() {
+        Label title_terminal = new Label();
+        title_terminal.setText("Résultats :");
+        title_terminal.setStyle("-fx-font-size: 13px; -fx-text-fill: #ffffff; -fx-font-weight: bold");
+        title_terminal.setAlignment(Pos.CENTER_LEFT);
+        return title_terminal;
     }
 
     private static String getFileContent(String filePath) throws IOException {
