@@ -414,15 +414,6 @@ public class FPL_Window {
         ////////////////////////////////////////////////   Events Window    ////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        save_button.setOnAction(event -> {
-            if (!currentFile.get().equalsIgnoreCase("N/A")) {
-                String path = repository + "\\" + currentFile.get();
-
-                String currentCode = codeEditor.getText();
-                writeInFile(path, currentCode);
-            }
-        });
-
         AtomicReference<String> saveAs_fileName_Selected = new AtomicReference<>("unknown");
 
         Stage save_as_stage = new Stage();
@@ -458,6 +449,30 @@ public class FPL_Window {
 
         Scene save_as_stage_scene = new Scene(save_as_stage_container, 100, 100);
         save_as_stage.setScene(save_as_stage_scene);
+
+        explorer_remove_file.setOnAction(event -> {
+            if (!currentFile.get().equalsIgnoreCase("N/A")) {
+                String path = repository + "\\" + currentFile.get();
+                File file = new File(path);
+                if (file.exists() && file.delete()) {
+                    refreshTreeView(explorer_TreeView, rootDirectory, projectRootPath, repository, currentFile, codeEditor);
+                }
+            }
+        });
+
+        explorer_add_file.setOnAction(event -> {
+            save_as_stage.show();
+            save_as_stage.centerOnScreen();
+        });
+
+        save_button.setOnAction(event -> {
+            if (!currentFile.get().equalsIgnoreCase("N/A")) {
+                String path = repository + "\\" + currentFile.get();
+
+                String currentCode = codeEditor.getText();
+                writeInFile(path, currentCode);
+            }
+        });
 
         ok_button.setOnAction(event -> {
             saveAs_fileName_Selected.set(saveAs_FileName.getText() + ".fpl");
