@@ -12,6 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
@@ -107,14 +109,14 @@ public class FPL_Window {
         mouseHoverEffect_Buttons(createBTN, buttonHover);
         mouseHoverEffect_Buttons(cancelBTN, buttonHover);
 
-        versionBox.setMargin(title_version, new Insets(30, 0, 0, 0));
-        versionBox.setMargin(v_2_3, new Insets(30, 10, 0, 10));
-        versionBox.setMargin(v_3_0, new Insets(30, 10, 0, 10));
-        pathBox.setMargin(title_path, new Insets(33, 0, 0, 0));
-        pathBox.setMargin(textZonePath, new Insets(30, 5, 0, 5));
-        pathBox.setMargin(buttonToSelectZoneProject, new Insets(31, 5, 0, 5));
-        actionButtonsBox.setMargin(createBTN, new Insets(50, 10, 0, 10));
-        actionButtonsBox.setMargin(cancelBTN, new Insets(50, 10, 0, 10));
+        HBox.setMargin(title_version, new Insets(30, 0, 0, 0));
+        HBox.setMargin(v_2_3, new Insets(30, 10, 0, 10));
+        HBox.setMargin(v_3_0, new Insets(30, 10, 0, 10));
+        HBox.setMargin(title_path, new Insets(33, 0, 0, 0));
+        HBox.setMargin(textZonePath, new Insets(30, 5, 0, 5));
+        HBox.setMargin(buttonToSelectZoneProject, new Insets(31, 5, 0, 5));
+        HBox.setMargin(createBTN, new Insets(50, 10, 0, 10));
+        HBox.setMargin(cancelBTN, new Insets(50, 10, 0, 10));
 
 
 
@@ -267,11 +269,11 @@ public class FPL_Window {
         mouseHoverEffect_Buttons(save_button, topButtons_mouseHover_DropShadow_SAVES);
         mouseHoverEffect_Buttons(save_as_button, topButtons_mouseHover_DropShadow_SAVES);
 
-        title_buttons_box.setMargin(title_buttons, new Insets(15, 0, 0, 15));
-        buttons_code_box.setMargin(save_button, new Insets(11, 0, 0, 0));
-        buttons_code_box.setMargin(save_as_button, new Insets(11, 15, 0, 5));
-        buttons_code_box.setMargin(run_button, new Insets(10, 0, 0, 10));
-        buttons_code_box.setMargin(build_button, new Insets(10, 0, 0, 10));
+        HBox.setMargin(title_buttons, new Insets(15, 0, 0, 15));
+        HBox.setMargin(save_button, new Insets(11, 0, 0, 0));
+        HBox.setMargin(save_as_button, new Insets(11, 15, 0, 5));
+        HBox.setMargin(run_button, new Insets(10, 0, 0, 10));
+        HBox.setMargin(build_button, new Insets(10, 0, 0, 10));
 
         HBox.setHgrow(title_buttons_box, Priority.ALWAYS);
 
@@ -316,10 +318,10 @@ public class FPL_Window {
         mouseHoverEffect_Buttons(explorer_add_file, explorer_buttons_DropShadow);
         mouseHoverEffect_Buttons(explorer_remove_file, explorer_buttons_DropShadow);
 
-        explorer_buttons.setMargin(title_explorer, new Insets(10, 2, 10, 10));
-        explorer_buttons.setMargin(projectName_explorer, new Insets(10, 0, 10, 0));
-        explorer_buttons.setMargin(explorer_add_file, new Insets(10, 5, 10, 5));
-        explorer_buttons.setMargin(explorer_remove_file, new Insets(10, 0, 10, 5));
+        HBox.setMargin(title_explorer, new Insets(10, 2, 10, 10));
+        HBox.setMargin(projectName_explorer, new Insets(10, 0, 10, 0));
+        HBox.setMargin(explorer_add_file, new Insets(10, 5, 10, 5));
+        HBox.setMargin(explorer_remove_file, new Insets(10, 0, 10, 5));
 
         TextArea codeEditor = new TextArea();
         codeEditor.setStyle("-fx-control-inner-background: #212121; -fx-text-fill: #dadada; -fx-focus-color: transparent; -fx-text-box-border: transparent;");
@@ -331,8 +333,8 @@ public class FPL_Window {
 
 
 
-        explorer_box.setMargin(explorer_TreeView, new Insets(10, 0, 0, 15));
-        main_editor.setMargin(codeEditor, new Insets(10, 10, 0, 10));
+        VBox.setMargin(explorer_TreeView, new Insets(10, 0, 0, 15));
+        HBox.setMargin(codeEditor, new Insets(10, 10, 0, 10));
 
         HBox.setHgrow(explorer_TreeView, Priority.ALWAYS);
         HBox.setHgrow(codeEditor, Priority.ALWAYS);
@@ -363,9 +365,9 @@ public class FPL_Window {
         terminal_clear.setOnMouseEntered(event -> terminal_clear.setEffect(dropShadow_red));
         terminal_clear.setOnMouseExited(event -> terminal_clear.setEffect(null));
 
-        titleTerminal_box.setMargin(title_terminal, new Insets(30, 0, 0, 20));
-        titleTerminal_box.setMargin(terminal_clear, new Insets(30, 0, 0, 10));
-        main_ui_box.setMargin(terminal_window, new Insets(10, 30, 10, 30));
+        HBox.setMargin(title_terminal, new Insets(30, 0, 0, 20));
+        HBox.setMargin(terminal_clear, new Insets(30, 0, 0, 10));
+        VBox.setMargin(terminal_window, new Insets(10, 30, 10, 30));
 
 
 
@@ -417,7 +419,7 @@ public class FPL_Window {
         AtomicReference<String> saveAs_fileName_Selected = new AtomicReference<>("unknown");
 
         Stage save_as_stage = new Stage();
-        save_as_stage.setTitle("P-IDE | F.P.L Project -"  + projectName + " (Sauvegarder sous)");
+        save_as_stage.setTitle("P-IDE | F.P.L Project - "  + projectName);
         save_as_stage.setHeight(100);
         save_as_stage.setWidth(500);
         save_as_stage.setResizable(false);
@@ -431,7 +433,7 @@ public class FPL_Window {
         saveAs_Title.setStyle("-fx-font-size: 13px; -fx-text-fill: #ffffff;");
 
         TextField saveAs_FileName = new TextField();
-        saveAs_FileName.setText(saveAs_fileName_Selected.get());
+        saveAs_FileName.setText("unknown");
         saveAs_FileName.setStyle("-fx-background-color: #383838; -fx-font-size: 13px; -fx-text-fill: #eaeaea; -fx-font-style: italic;");
 
         Button ok_button = new Button();
@@ -528,6 +530,71 @@ public class FPL_Window {
         });
 
         terminal_clear.setOnAction(event -> terminal_window.setText(""));
+
+
+        Stage stage_rename_file = new Stage();
+        stage_rename_file.setTitle("P-IDE | F.P.L Project - "  + projectName + "( Renommer )");
+        stage_rename_file.setHeight(100);
+        stage_rename_file.setWidth(500);
+        stage_rename_file.setResizable(false);
+        BorderPane BP_stage_rename_file = new BorderPane();
+
+        HBox ui_rename = new HBox();
+        ui_rename.setAlignment(Pos.CENTER);
+
+        Label rename_Title = new Label();
+        rename_Title.setText("Nouveau nom (sans .fpl) : ");
+        rename_Title.setStyle("-fx-font-size: 13px; -fx-text-fill: #ffffff;");
+
+        TextField rename_FileName = new TextField();
+        rename_FileName.setText(saveAs_fileName_Selected.get());
+        rename_FileName.setStyle("-fx-background-color: #383838; -fx-font-size: 13px; -fx-text-fill: #eaeaea; -fx-font-style: italic;");
+
+        Button rename_button = new Button();
+        rename_button.setText("Renommer");
+        rename_button.setStyle("-fx-background-color: #565656; -fx-font-size: 13px; -fx-text-fill: #008506; -fx-font-weight: bold;");
+        mouseHoverEffect_Buttons(rename_button, explorer_buttons_DropShadow);
+
+        ui_rename.getChildren().addAll(rename_Title, rename_FileName, rename_button);
+
+        BP_stage_rename_file.setCenter(ui_rename);
+
+        StackPane rename_container = new StackPane();
+        rename_container.setStyle("-fx-background-color: #4b4b4b;");
+        rename_container.getChildren().add(BP_stage_rename_file);
+
+        Scene rename_scene = new Scene(rename_container, width, height);
+        stage_rename_file.setScene(rename_scene);
+
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.F2) {
+                stage_rename_file.show();
+                stage_rename_file.centerOnScreen();
+                event.consume();
+            }
+        });
+
+
+        rename_button.setOnAction(event -> {
+            try {
+                String fileName = rename_FileName.getText();
+                String currentCode = codeEditor.getText();
+                File newfile = new File(new File(repository), fileName + ".fpl");
+                FileWriter newfile_Writer = new FileWriter(newfile);
+                BufferedWriter newfile_bufferedWriter = new BufferedWriter(newfile_Writer);
+                newfile_bufferedWriter.write(currentCode);
+                newfile_bufferedWriter.close();
+
+                if (!currentFile.get().equalsIgnoreCase("N/A")) {
+                    String path = repository + "\\" + currentFile.get();
+                    File file = new File(path);
+                    if (file.exists() && file.delete()) {
+                        stage_rename_file.close();
+                        refreshTreeView(explorer_TreeView, rootDirectory, projectRootPath, repository, currentFile, codeEditor);
+                    }
+                }
+            } catch (IOException ignored) {}
+        });
     }
 
     private static String getFileContent(String filePath) throws IOException {
@@ -649,10 +716,10 @@ public class FPL_Window {
     }
 
     private static void executeCodeAndSeeOutput(TextArea output_zone, String pathApp, String lang, String arg) {
-        Service<String> service = new Service<String>() {
+        Service<String> service = new Service<>() {
             @Override
             protected Task<String> createTask() {
-                return new Task<String>() {
+                return new Task<>() {
                     @Override
                     protected String call() throws Exception {
                         return openShell(pathApp, lang, arg);
