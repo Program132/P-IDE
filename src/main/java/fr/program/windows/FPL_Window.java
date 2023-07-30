@@ -38,7 +38,7 @@ public class FPL_Window {
         AtomicReference<String> zoneFolder_project = new AtomicReference<>("N/A");
 
         Stage fpl_createProject = new Stage();
-        fpl_createProject.setTitle("P-IDE | Créer un nouveau projet (F.P.L)");
+        fpl_createProject.setTitle("P-IDE | Créer/Ouvrir un nouveau projet (F.P.L)");
         fpl_createProject.setHeight(height);
         fpl_createProject.setWidth(width);
         fpl_createProject.setResizable(false);
@@ -53,7 +53,7 @@ public class FPL_Window {
         titleBox.setAlignment(Pos.CENTER);
 
         Label titleLabel = new Label();
-        titleLabel.setText("Créer un nouveau projet en F.P.L");
+        titleLabel.setText("Créer/Ouvrir un nouveau projet en F.P.L");
         titleLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: #fdfdfd; -fx-font-weight: bold;");
 
 
@@ -88,7 +88,7 @@ public class FPL_Window {
         textZonePath.setStyle("-fx-background-color: #858585; -fx-font-size: 13px; -fx-text-fill: #802020; -fx-font-style: italic; -fx-font-weight: bold;  -fx-pref-width: 200px; -fx-pref-height: 10px;");
 
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Sélectionnez un répertoire pour votre projet F.P.L");
+        directoryChooser.setTitle("Sélectionnez un répertoire");
 
         Button buttonToSelectZoneProject = new Button();
         buttonToSelectZoneProject.setText("Sélectionner");
@@ -110,7 +110,7 @@ public class FPL_Window {
         DropShadow buttonHover = createDropShadow(Color.rgb(100,100,100,0.8));
 
         Button createBTN = new Button();
-        createBTN.setText("Créer");
+        createBTN.setText("Coder");
         createBTN.setStyle("-fx-background-color: #098a1d; -fx-font-size: 18px; -fx-text-fill: #d9d9d9; -fx-font-weight: bold; -fx-pref-width: 100px; -fx-pref-height: 20px;");
 
         Button cancelBTN = new Button();
