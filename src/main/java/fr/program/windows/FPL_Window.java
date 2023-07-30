@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FPL_Window {
@@ -93,6 +94,16 @@ public class FPL_Window {
         buttonToSelectZoneProject.setText("Sélectionner");
         buttonToSelectZoneProject.setStyle("-fx-background-color: #252525; -fx-font-size: 11px; -fx-text-fill: #30779d; -fx-font-weight: bold;");
 
+        CheckBox checkBox = new CheckBox();
+        AtomicBoolean isChecked = new AtomicBoolean(false);
+        Label title = new Label("Créer un fichier main.fpl");
+        title.setStyle("-fx-font-size: 13px; -fx-text-fill: #fcfcfc; -fx-font-style: italic");
+        HBox createMainFPL_box = new HBox(10);
+        createMainFPL_box.setAlignment(Pos.CENTER);
+        createMainFPL_box.getChildren().addAll(title, checkBox);
+        createMainFPL_box.setPadding(new Insets(10));
+
+
         HBox actionButtonsBox = new HBox(0);
         actionButtonsBox.setAlignment(Pos.TOP_CENTER);
 
@@ -133,7 +144,7 @@ public class FPL_Window {
 
         actionButtonsBox.getChildren().addAll(createBTN, cancelBTN);
 
-        mainBox.getChildren().addAll(versionBox, pathBox, actionButtonsBox);
+        mainBox.getChildren().addAll(versionBox, pathBox, createMainFPL_box, actionButtonsBox);
 
         root.setTop(titlePane);
         root.setCenter(mainBox);
@@ -155,26 +166,39 @@ public class FPL_Window {
             if (!zoneFolder_project.get().equalsIgnoreCase("N/A")) {
                 if (v_2_3.isSelected() || v_3_0.isSelected()) {
                     fpl_createProject.close();
-                    try {
-                        File directory = new File(zoneFolder_project.get());
-                        File file = new File(directory, "main.fpl");
-                        FileWriter fileWriter = new FileWriter(file);
-                        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+                    if (isChecked.get()) {
+                        try {
+                            File directory = new File(zoneFolder_project.get());
+                            File file = new File(directory, "main.fpl");
+                            FileWriter fileWriter = new FileWriter(file);
+                            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                            if (v_2_3.isSelected()) {
+                                bufferedWriter.write("envoyer \"Hello World\";");
+                                bufferedWriter.close();
+                                editor_show(zoneFolder_project.get(), "2.3");
+                            } else if (v_3_0.isSelected()) {
+                                bufferedWriter.write("envoyer \"Hello World\"");
+                                bufferedWriter.close();
+                                editor_show(zoneFolder_project.get(), "3.0");
+                            }
+                        } catch (IOException ignored) {}
+                    } else {
                         if (v_2_3.isSelected()) {
-                            bufferedWriter.write("envoyer \"Hello World\";");
-                            bufferedWriter.close();
                             editor_show(zoneFolder_project.get(), "2.3");
                         } else if (v_3_0.isSelected()) {
-                            bufferedWriter.write("envoyer \"Hello World\"");
-                            bufferedWriter.close();
                             editor_show(zoneFolder_project.get(), "3.0");
                         }
-                    } catch (IOException ignored) {}
+                    }
                 }
             }
         });
 
         cancelBTN.setOnAction(event -> fpl_createProject.close());
+
+        checkBox.setOnAction(event -> {
+            isChecked.set(checkBox.isSelected());
+        });
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////   Show Window    ////////////////////////////////////////////////
