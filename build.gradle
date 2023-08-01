@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+}
+
+dependencies {
+    implementation 'org.fxmisc.richtext:richtextfx:0.10.9'
+}
+
+repositories {
+    mavenCentral()
+}
+
+javafx {
+    version = "19"
+    modules = [ 'javafx.controls' ]
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'fr.program.Main'
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+mainClassName = 'fr.program.Main'
