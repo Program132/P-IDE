@@ -18,6 +18,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.fxmisc.richtext.CodeArea;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -28,6 +29,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FPL_Window {
+
+    private static final String[] HIGHLIGHT_Instructions = {
+            "envoyer", "variable", "definir", "paquet", "appeler", "saisir", "math", "convertir", "retirer", "importer", "globale", "constante", "verifier"
+    };
+
+    private static final String[] HIGHLIGHT_Types = {
+            "entier", "decimal", "booleen", "bool", "texte"
+    };
+
     public static void show_createProject() {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////   Base Window    ////////////////////////////////////////////////
@@ -196,9 +206,7 @@ public class FPL_Window {
 
         cancelBTN.setOnAction(event -> fpl_createProject.close());
 
-        checkBox.setOnAction(event -> {
-            isChecked.set(checkBox.isSelected());
-        });
+        checkBox.setOnAction(event -> isChecked.set(checkBox.isSelected()));
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////   Show Window    ////////////////////////////////////////////////
@@ -347,7 +355,7 @@ public class FPL_Window {
         HBox.setMargin(explorer_add_file, new Insets(10, 5, 10, 5));
         HBox.setMargin(explorer_remove_file, new Insets(10, 0, 10, 5));
 
-        TextArea codeEditor = new TextArea();
+        CodeArea codeEditor = new CodeArea();
         codeEditor.setStyle("-fx-control-inner-background: #212121; -fx-text-fill: #dadada; -fx-focus-color: transparent; -fx-text-box-border: transparent;");
 
         TreeView<String> explorer_TreeView = new TreeView<>();
@@ -674,7 +682,7 @@ public class FPL_Window {
         }
     }
 
-    private static void refreshTreeView(TreeView<String> m_treeView, File rootDirectory, String projectRootPath, String repository, AtomicReference<String> currentFile, TextArea codeEditor) {
+    private static void refreshTreeView(TreeView<String> m_treeView, File rootDirectory, String projectRootPath, String repository, AtomicReference<String> currentFile, CodeArea codeEditor) {
         TreeItem<String> newRootItem = createTreeItem(rootDirectory);
         m_treeView.setRoot(newRootItem);
         m_treeView.setCellFactory(treeView -> {
@@ -717,7 +725,7 @@ public class FPL_Window {
                     } catch (IOException e) {
                         // Gérer l'erreur
                     }
-                    codeEditor.setText(fileContent);
+                    codeEditor.replaceText(fileContent);
 
                     cell.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
                 } else if (event.getClickCount() == 1 && !cell.isEmpty()) {
