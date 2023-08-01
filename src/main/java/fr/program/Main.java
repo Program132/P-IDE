@@ -40,6 +40,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        String projectRootPath = System.getProperty("user.dir");
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////   Base Window    ////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,13 +74,13 @@ public class Main extends Application {
         VBox buttonBox = new VBox(10);
         VBox.setMargin(buttonBox, new Insets(10));
         buttonBox.setAlignment(Pos.CENTER_LEFT);
-        Button fpl_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\fpl.png");
-        Button java_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\java.png");
-        Button cpp_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\cpp.png");
-        Button lua_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\lua.png");
-        Button py_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\python.png");
-        Button ark_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\arkscript.png");
-        Button typescript_btn = createImageButtonWithStyle("D:\\GitHub\\P-IDE\\img\\btn\\typescript.png");
+        Button fpl_btn = createImageButtonWithStyle(projectRootPath+"\\img\\btn\\fpl.png");
+        Button java_btn = createImageButtonWithStyle(projectRootPath+"\\img\\btn\\java.png");
+        Button cpp_btn = createImageButtonWithStyle(projectRootPath+"\\img\\btn\\cpp.png");
+        Button lua_btn = createImageButtonWithStyle(projectRootPath+"\\img\\btn\\lua.png");
+        Button py_btn = createImageButtonWithStyle(projectRootPath+"\\img\\btn\\python.png");
+        Button ark_btn = createImageButtonWithStyle(projectRootPath+"\\img\\btn\\arkscript.png");
+        Button typescript_btn = createImageButtonWithStyle(projectRootPath+"\\img\\btn\\typescript.png");
         VBox.setMargin(fpl_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(java_btn, new Insets(0, 0, 0, 10));
         VBox.setMargin(cpp_btn, new Insets(0, 0, 0, 10));
