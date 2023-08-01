@@ -1,0 +1,17 @@
+#codeEditor {
+    -fx-font-size: 15px;
+    -fx-font-family: Consolas;
+    -fx-background-color: #212121;
+}
+
+#codeEditor .text {
+    -fx-fill: #eaeaea;
+}
+
+#codeEditor .instruction {
+    -fx-fill: #b27500;
+}
+
+#codeEditor .types {
+    -fx-fill: #8300ad;
+}
