@@ -1,11 +1,8 @@
 package fr.program.windows;
 
 import fr.program.FuncUtils;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
@@ -21,8 +18,6 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
-import org.reactfx.Subscription;
-import org.reactfx.value.Val;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -36,9 +31,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static fr.program.FuncUtils.openShell;
-import static javafx.scene.control.PopupControl.USE_PREF_SIZE;
 
 public class FPL_Window {
 
@@ -526,7 +518,7 @@ public class FPL_Window {
                 String path = repository + "\\" + currentFile.get();
 
                 String currentCode = codeEditor.getText();
-                writeInFile(path, currentCode);
+                FuncUtils.writeInFile(path, currentCode);
             }
         });
 
@@ -554,7 +546,7 @@ public class FPL_Window {
 
         run_button.setOnAction(event -> {
             String path = repository + "\\" + currentFile.get();
-            writeInFile(path, codeEditor.getText());
+            FuncUtils.writeInFile(path, codeEditor.getText());
 
             if (version.equals("2.3")) {
                 FuncUtils.executeCodeAndSeeOutput(terminal_window, "bin/fpl/fpl-2.3.exe", "F.P.L", path);
@@ -565,7 +557,7 @@ public class FPL_Window {
 
         build_button.setOnAction(event -> {
             String path = repository + "\\" + currentFile.get();
-            writeInFile(path, codeEditor.getText());
+            FuncUtils.writeInFile(path, codeEditor.getText());
 
             File buildDir = new File(repository + "\\build");
             if (!buildDir.exists()) {
@@ -706,17 +698,6 @@ public class FPL_Window {
     private static void mouseHoverEffect_Buttons(Button button, DropShadow defaultEffect) {
         button.setOnMouseEntered(event -> button.setEffect(defaultEffect));
         button.setOnMouseExited(event -> button.setEffect(null));
-    }
-
-    public static void writeInFile(String path, String content) {
-        File file = new File(path);
-        if (file.exists() && file.isFile()) {
-            try {
-                FileWriter writer = new FileWriter(file);
-                writer.write(content);
-                writer.close();
-            } catch (IOException ignored) {}
-        }
     }
 
     private static void refreshTreeView(TreeView<String> m_treeView, File rootDirectory, String projectRootPath, String repository, AtomicReference<String> currentFile, CodeArea codeEditor) {
