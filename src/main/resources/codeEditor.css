@@ -31,6 +31,10 @@
     -fx-fill: #949494;
 }
 
+#codeEditor .lineno:hover .text {
+    -fx-fill: #cccccc;
+}
+
 #codeEditor .caret {
     -fx-stroke: white;
 }
