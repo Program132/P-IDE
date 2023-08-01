@@ -22,13 +22,13 @@ public class Interactions_FS {
         String projectRootPath = System.getProperty("user.dir");
 
         if (getMode().equalsIgnoreCase("fpl")) {
-            writeInFile("fastscript/code/fpl.fpl", content);
+            FuncUtils.writeInFile("fastscript/code/fpl.fpl", content);
 
-            executeCodeAndSeeOutput(output_zone, "bin/fpl/fpl-3.exe", "F.P.L","fastscript/code/fpl.fpl");
+            FuncUtils.executeCodeAndSeeOutput(output_zone, "bin/fpl/fpl-3.exe", "F.P.L","fastscript/code/fpl.fpl");
         }
         else if (getMode().equalsIgnoreCase("java")) {
             String real_content_java = "package fastscript.code; \n" + content;
-            writeInFile("fastscript/code/java.java", real_content_java);
+            FuncUtils.writeInFile("fastscript/code/java.java", real_content_java);
 
             Service<String> run_bytecode_java = new Service<String>() {
                 @Override
@@ -103,15 +103,12 @@ public class Interactions_FS {
             });
         }
         else if (getMode().equalsIgnoreCase("cpp")) {
-            writeInFile("fastscript/code/cpp.cpp", content);
-
+            FuncUtils.writeInFile("fastscript/code/cpp.cpp", content);
             String cmakePath = projectRootPath + "\\bin\\CMake\\bin\\cmake.exe";
             String gppPath = projectRootPath + "\\bin\\mingw64\\bin\\g++.exe";
             String gccPath = projectRootPath + "\\bin\\mingw64\\bin\\gcc.exe";
             String codePath = projectRootPath + "\\fastscript\\code\\";
-
             output_zone.setText("Please be patient...\n");
-
             Service<String> build_cmake = new Service<String>() {
                 @Override
                 protected Task<String> createTask() {
@@ -232,29 +229,25 @@ public class Interactions_FS {
                             .forEach(path -> {
                                 try {
                                     Files.delete(path);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                                } catch (IOException ignored) {}
                             });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                } catch (IOException ignored) {}
             });
 
 
         }
         else if (getMode().equalsIgnoreCase("lua")) {
-            writeInFile("fastscript/code/lua.lua", content);
+            FuncUtils.writeInFile("fastscript/code/lua.lua", content);
 
-            executeCodeAndSeeOutput(output_zone, "bin/lua-5.4.2/lua54.exe", "Lua", "fastscript/code/lua.lua");
+            FuncUtils.executeCodeAndSeeOutput(output_zone, "bin/lua-5.4.2/lua54.exe", "Lua", "fastscript/code/lua.lua");
         }
         else if (getMode().equalsIgnoreCase("py")) {
-            writeInFile("fastscript/code/py.py", content);
+            FuncUtils.writeInFile("fastscript/code/py.py", content);
 
-            executeCodeAndSeeOutput(output_zone, "bin/Python311/python.exe", "Python", "fastscript/code/py.py");
+            FuncUtils.executeCodeAndSeeOutput(output_zone, "bin/Python311/python.exe", "Python", "fastscript/code/py.py");
         }
         else if (getMode().equalsIgnoreCase("ark")) {
-            writeInFile("fastscript/code/ark.ark", content);
+            FuncUtils.writeInFile("fastscript/code/ark.ark", content);
 
             Service<String> arkscript = new Service<String>() {
                 @Override
@@ -290,7 +283,7 @@ public class Interactions_FS {
             arkscript.start();
         }
         else if (getMode().equalsIgnoreCase("ts")) {
-            writeInFile("fastscript/code/ts.ts", content);
+            FuncUtils.writeInFile("fastscript/code/ts.ts", content);
 
             Service<String> ts_build = new Service<String>() {
                 @Override
@@ -362,52 +355,5 @@ public class Interactions_FS {
                 }
             });
         }
-    }
-
-    public static void writeInFile(String path, String content) {
-        File file = new File(path);
-        if (file.exists() && file.isFile()) {
-            try {
-                FileWriter writer = new FileWriter(file);
-                writer.write(content);
-                writer.close();
-            } catch (IOException e) {
-                //
-            }
-        }
-    }
-
-    private static String openShell(String pathApplication, String lang, String arg) throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder(pathApplication, arg);
-        processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
-        Process process = processBuilder.start();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String line;
-        String all_lines = "Running in " + lang + ": \n";
-        while ((line = reader.readLine()) != null) {
-            all_lines += line + "\n";
-        }
-        reader.close();
-
-        return all_lines;
-    }
-
-    private static void executeCodeAndSeeOutput(TextArea output_zone, String pathApp, String lang, String arg) {
-        Service<String> service = new Service<String>() {
-            @Override
-            protected Task<String> createTask() {
-                return new Task<String>() {
-                    @Override
-                    protected String call() throws Exception {
-                        return openShell(pathApp, lang, arg);
-                    }
-                };
-            }
-        };
-        service.setOnSucceeded(event -> {
-            String result = service.getValue();
-            output_zone.setText(result);
-        });
-        service.start();
     }
 }

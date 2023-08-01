@@ -1,5 +1,6 @@
 package fr.program.windows;
 
+import fr.program.FuncUtils;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
@@ -36,6 +37,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static fr.program.FuncUtils.openShell;
 import static javafx.scene.control.PopupControl.USE_PREF_SIZE;
 
 public class FPL_Window {
@@ -134,7 +136,7 @@ public class FPL_Window {
         HBox actionButtonsBox = new HBox(0);
         actionButtonsBox.setAlignment(Pos.TOP_CENTER);
 
-        DropShadow buttonHover = createDropShadow(Color.rgb(100,100,100,0.8));
+        DropShadow buttonHover = FuncUtils.createDropShadow(Color.rgb(100,100,100,0.8));
 
         Button createBTN = new Button();
         createBTN.setText("Coder");
@@ -249,7 +251,7 @@ public class FPL_Window {
     private static void editor_show(String repository, String version) {
         String projectRootPath = System.getProperty("user.dir");
         AtomicReference<String> currentFile = new AtomicReference<>("N/A");
-        DropShadow dropShadow_red = createDropShadow(Color.rgb(255,0,0,0.7));
+        DropShadow dropShadow_red = FuncUtils.createDropShadow(Color.rgb(255,0,0,0.7));
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////   Base Window    ////////////////////////////////////////////////
@@ -291,8 +293,8 @@ public class FPL_Window {
         title_buttons.setText("French Programming Language Project");
         title_buttons.setStyle("-fx-font-size: 13px; -fx-text-fill: #fcfcfc; -fx-font-weight: bold");
 
-        DropShadow topButtons_mouseHover_DropShadow = createDropShadow(Color.LIGHTGREEN);
-        DropShadow topButtons_mouseHover_DropShadow_SAVES = createDropShadow(Color.LIGHTBLUE);
+        DropShadow topButtons_mouseHover_DropShadow = FuncUtils.createDropShadow(Color.LIGHTGREEN);
+        DropShadow topButtons_mouseHover_DropShadow_SAVES = FuncUtils.createDropShadow(Color.LIGHTBLUE);
         String codeButtons_Style = "-fx-background-color: #2a8a09; -fx-font-size: 13px; -fx-text-fill: #d9d9d9; -fx-font-weight: bold;";
 
         Button save_button = new Button();
@@ -333,7 +335,7 @@ public class FPL_Window {
         HBox main_editor = new HBox();
         main_editor.setAlignment(Pos.CENTER);
 
-        DropShadow explorer_buttons_DropShadow = createDropShadow(Color.LIGHTGRAY);
+        DropShadow explorer_buttons_DropShadow = FuncUtils.createDropShadow(Color.LIGHTGRAY);
 
         Label title_explorer = new Label();
         title_explorer.setText("Projet :");
@@ -555,9 +557,9 @@ public class FPL_Window {
             writeInFile(path, codeEditor.getText());
 
             if (version.equals("2.3")) {
-                executeCodeAndSeeOutput(terminal_window, "bin/fpl/fpl-2.3.exe", "F.P.L", path);
+                FuncUtils.executeCodeAndSeeOutput(terminal_window, "bin/fpl/fpl-2.3.exe", "F.P.L", path);
             } else if (version.equals("3.0")) {
-                executeCodeAndSeeOutput(terminal_window, "bin/fpl/fpl-3.exe", "F.P.L", path);
+                FuncUtils.executeCodeAndSeeOutput(terminal_window, "bin/fpl/fpl-3.exe", "F.P.L", path);
             }
         });
 
@@ -701,16 +703,6 @@ public class FPL_Window {
         return item;
     }
 
-    private static DropShadow createDropShadow(Color color) {
-        DropShadow ds = new DropShadow();
-        ds.setColor(color);
-        ds.setOffsetX(0);
-        ds.setOffsetY(4);
-        ds.setRadius(8);
-        ds.setSpread(0.1);
-        return ds;
-    }
-
     private static void mouseHoverEffect_Buttons(Button button, DropShadow defaultEffect) {
         button.setOnMouseEntered(event -> button.setEffect(defaultEffect));
         button.setOnMouseExited(event -> button.setEffect(null));
@@ -723,9 +715,7 @@ public class FPL_Window {
                 FileWriter writer = new FileWriter(file);
                 writer.write(content);
                 writer.close();
-            } catch (IOException e) {
-                //
-            }
+            } catch (IOException ignored) {}
         }
     }
 
@@ -782,40 +772,6 @@ public class FPL_Window {
 
             return cell;
         });
-    }
-
-    private static String openShell(String pathApplication, String lang, String arg) throws IOException {
-        ProcessBuilder processBuilder = new ProcessBuilder(pathApplication, arg);
-        processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
-        Process process = processBuilder.start();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String line;
-        StringBuilder all_lines = new StringBuilder("Running in " + lang + ": \n");
-        while ((line = reader.readLine()) != null) {
-            all_lines.append(line).append("\n");
-        }
-        reader.close();
-
-        return all_lines.toString();
-    }
-
-    private static void executeCodeAndSeeOutput(TextArea output_zone, String pathApp, String lang, String arg) {
-        Service<String> service = new Service<>() {
-            @Override
-            protected Task<String> createTask() {
-                return new Task<>() {
-                    @Override
-                    protected String call() throws Exception {
-                        return openShell(pathApp, lang, arg);
-                    }
-                };
-            }
-        };
-        service.setOnSucceeded(event -> {
-            String result = service.getValue();
-            output_zone.setText(result);
-        });
-        service.start();
     }
 
     private static Button createButtonWithStyle(String content, String style) {

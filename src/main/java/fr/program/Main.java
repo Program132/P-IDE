@@ -91,10 +91,10 @@ public class Main extends Application {
         buttonBox.getChildren().addAll(fpl_btn, java_btn, cpp_btn, lua_btn, py_btn, ark_btn, typescript_btn);
 
 
-        DropShadow dropShadow_blue = createDropShadow(Color.rgb(0,0,255,0.7));
-        DropShadow dropShadow_red = createDropShadow(Color.rgb(255,0,0,0.7));
-        DropShadow dropShadow_FS_buttons_selected = createDropShadow(Color.rgb(162,1,1,0.7));
-        DropShadow dropShadow_green = createDropShadow(Color.rgb(0,200,0,0.7));
+        DropShadow dropShadow_blue = FuncUtils.createDropShadow(Color.rgb(0,0,255,0.7));
+        DropShadow dropShadow_red = FuncUtils.createDropShadow(Color.rgb(255,0,0,0.7));
+        DropShadow dropShadow_FS_buttons_selected = FuncUtils.createDropShadow(Color.rgb(162,1,1,0.7));
+        DropShadow dropShadow_green = FuncUtils.createDropShadow(Color.rgb(0,200,0,0.7));
 
         EffectMainButtonMenu_Hover(fpl_btn, java_btn, cpp_btn, dropShadow_red);
         EffectMainButtonMenu_Hover(lua_btn, py_btn, ark_btn, dropShadow_red);
@@ -248,13 +248,13 @@ public class Main extends Application {
                 "console.log(\"Hello World!\");"
         );
         FS_reset.setOnAction(event -> {
-            Interactions_FS.writeInFile("fastscript/code/fpl.fpl", "");
-            Interactions_FS.writeInFile("fastscript/code/java.java", "");
-            Interactions_FS.writeInFile("fastscript/code/cpp.cpp", "");
-            Interactions_FS.writeInFile("fastscript/code/lua.lua", "");
-            Interactions_FS.writeInFile("fastscript/code/py.py", "");
-            Interactions_FS.writeInFile("fastscript/code/ark.ark", "");
-            Interactions_FS.writeInFile("fastscript/code/ts.ts", "");
+            FuncUtils.writeInFile("fastscript/code/fpl.fpl", "");
+            FuncUtils.writeInFile("fastscript/code/java.java", "");
+            FuncUtils.writeInFile("fastscript/code/cpp.cpp", "");
+            FuncUtils.writeInFile("fastscript/code/lua.lua", "");
+            FuncUtils.writeInFile("fastscript/code/py.py", "");
+            FuncUtils.writeInFile("fastscript/code/ark.ark", "");
+            FuncUtils.writeInFile("fastscript/code/ts.ts", "");
             Interactions_FS.setMode("N/A");
             FS_output.setText("");
 
@@ -304,12 +304,6 @@ public class Main extends Application {
         return btn;
     }
 
-    private Button createImageButtonWithStyle(String imgpath, int width, int height, String style) {
-        Button btn = createImageButton(imgpath, width, height);
-        btn.setStyle(style);
-        return btn;
-    }
-
     private Button createImageButtonWithStyle(String imgpath) {
         Button btn = createImageButton(imgpath, 50, 50);
         btn.setStyle("-fx-background-radius: 15; -fx-background-color: #555555;");
@@ -347,16 +341,6 @@ public class Main extends Application {
         area.setEditable(editable);
         area.setStyle(style);
         return area;
-    }
-
-    private DropShadow createDropShadow(Color color) {
-        DropShadow ds = new DropShadow();
-        ds.setColor(color);
-        ds.setOffsetX(0);
-        ds.setOffsetY(4);
-        ds.setRadius(8);
-        ds.setSpread(0.1);
-        return ds;
     }
 
     private void mouseHoverEffect_FS_Buttons(Button button, DropShadow selectedEffect, DropShadow defaultEffect, String style) {
