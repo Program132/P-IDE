@@ -4,6 +4,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
@@ -19,6 +20,8 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
+import org.reactfx.Subscription;
+import org.reactfx.value.Val;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -32,6 +35,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static javafx.scene.control.PopupControl.USE_PREF_SIZE;
 
 public class FPL_Window {
 
@@ -376,7 +381,6 @@ public class FPL_Window {
                     codeEditor.setStyleSpans(0, managerHighlight_CodeEditor(codeEditor.getText()));
                 });
 
-
         TreeView<String> explorer_TreeView = new TreeView<>();
         explorer_TreeView.setRoot(rootItem);
         explorer_TreeView.setStyle("-fx-control-inner-background: #3d3d3d; -fx-focus-color: transparent; -fx-border-color: transparent;");
@@ -650,7 +654,7 @@ public class FPL_Window {
 
         Matcher matcher = Pattern.compile("\\b(" +
                 String.join("|", HIGHLIGHT_INSTRUCTIONS) + "|" +
-                String.join("|", HIGHLIGHT_TYPES)).matcher(text);
+                String.join("|", HIGHLIGHT_TYPES) + ")\\b").matcher(text);
 
         int lastKwEnd = 0;
         while (matcher.find()) {

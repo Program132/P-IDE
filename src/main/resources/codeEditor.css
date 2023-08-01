@@ -15,3 +15,16 @@
 #codeEditor .types {
     -fx-fill: #017fb6;
 }
+
+#codeEditor .line-number {
+    -fx-background-color: #333333;
+    -fx-text-fill: gray;
+    -fx-background-insets: 0;
+    -fx-padding: 0 6px;
+    -fx-alignment: CENTER_RIGHT;
+}
+
+#codeEditor .paragraph-box .line .number {
+    -fx-border-color: #333333;
+    -fx-border-width: 0 0 0 2;
+}
