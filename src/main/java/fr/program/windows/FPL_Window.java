@@ -1,6 +1,5 @@
 package fr.program.windows;
 
-import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
@@ -35,12 +34,20 @@ import java.util.regex.Pattern;
 
 public class FPL_Window {
 
-    private static final String[] KEYWORDS = {
-            "envoyer", "variable", "definir", "paquet", "appeler", "saisir", "math", "convertir", "retirer", "importer", "globale", "constante"
+    private static final String[] HIGHLIGHT_INSTRUCTIONS = {
+            "envoyer", "variable", "definir", "paquet", "appeler", "saisir", "math",
+            "convertir", "retirer", "importer", "globale", "constante"
     };
 
-    private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
-    private static final Pattern PATTERN = Pattern.compile(KEYWORD_PATTERN);
+    private static final String[] HIGHLIGHT_TYPES = {
+            "entier", "decimal", "texte", "bool", "booleen"
+    };
+
+    private static final Pattern INSTRUCTION_PATTERN = Pattern.compile("\\b(" +
+            String.join("|", HIGHLIGHT_INSTRUCTIONS) + ")\\b");
+
+    private static final Pattern TYPES_PATTERN = Pattern.compile("\\b(" +
+            String.join("|", HIGHLIGHT_TYPES) + ")\\b");
 
     public static void show_createProject() {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -233,8 +240,6 @@ public class FPL_Window {
 
 
 
-
-
     private static void editor_show(String repository, String version) {
         String projectRootPath = System.getProperty("user.dir");
         AtomicReference<String> currentFile = new AtomicReference<>("N/A");
@@ -360,7 +365,15 @@ public class FPL_Window {
         HBox.setMargin(explorer_remove_file, new Insets(10, 0, 10, 5));
 
         CodeArea codeEditor = new CodeArea();
-        codeEditor.setStyle("-fx-font-size: 12px; -fx-font-family: Consolas; -fx-text-fill: white; -fx-background-color: #212121;");
+        codeEditor.setId("codeEditor");
+        codeEditor.setParagraphGraphicFactory(LineNumberFactory.get(codeEditor));
+        codeEditor.getStylesheets().add(FPL_Window.class.getResource("/codeEditor.css").toExternalForm());
+
+        codeEditor.richChanges()
+                .filter(ch -> !ch.getInserted().equals(ch.getRemoved()))
+                .subscribe(change -> {
+                    codeEditor.setStyleSpans(0, managerHighlight_CodeEditor(codeEditor.getText()));
+                });
 
 
         TreeView<String> explorer_TreeView = new TreeView<>();
@@ -630,6 +643,32 @@ public class FPL_Window {
             } catch (IOException ignored) {}
         });
     }
+
+    private static StyleSpans<Collection<String>> managerHighlight_CodeEditor(String text) {
+        StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
+
+        Matcher matcher = INSTRUCTION_PATTERN.matcher(text);
+        int lastKwEnd = 0;
+        while (matcher.find()) {
+            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
+            spansBuilder.add(Collections.singleton("instruction"), matcher.end() - matcher.start());
+            lastKwEnd = matcher.end();
+        }
+        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
+
+        return spansBuilder.create();
+    }
+
+    private static StyleSpans<Collection<String>> managerHighlight_Types(String text) {
+        StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
+
+
+
+        return spansBuilder.create();
+    }
+
+
+
 
     private static Label getTitleTerminal() {
         Label title_terminal = new Label();
