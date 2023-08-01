@@ -1,14 +1,12 @@
 package fr.program.windows;
 
+import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,24 +17,30 @@ import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.model.StyleSpans;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FPL_Window {
 
-    private static final String[] HIGHLIGHT_Instructions = {
-            "envoyer", "variable", "definir", "paquet", "appeler", "saisir", "math", "convertir", "retirer", "importer", "globale", "constante", "verifier"
+    private static final String[] KEYWORDS = {
+            "envoyer", "variable", "definir", "paquet", "appeler", "saisir", "math", "convertir", "retirer", "importer", "globale", "constante"
     };
 
-    private static final String[] HIGHLIGHT_Types = {
-            "entier", "decimal", "booleen", "bool", "texte"
-    };
+    private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+    private static final Pattern PATTERN = Pattern.compile(KEYWORD_PATTERN);
 
     public static void show_createProject() {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -356,7 +360,8 @@ public class FPL_Window {
         HBox.setMargin(explorer_remove_file, new Insets(10, 0, 10, 5));
 
         CodeArea codeEditor = new CodeArea();
-        codeEditor.setStyle("-fx-control-inner-background: #212121; -fx-text-fill: #dadada; -fx-focus-color: transparent; -fx-text-box-border: transparent;");
+        codeEditor.setStyle("-fx-font-size: 12px; -fx-font-family: Consolas; -fx-text-fill: white; -fx-background-color: #212121;");
+
 
         TreeView<String> explorer_TreeView = new TreeView<>();
         explorer_TreeView.setRoot(rootItem);
