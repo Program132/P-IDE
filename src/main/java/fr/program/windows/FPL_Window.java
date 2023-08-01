@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -647,28 +648,26 @@ public class FPL_Window {
     private static StyleSpans<Collection<String>> managerHighlight_CodeEditor(String text) {
         StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
 
-        Matcher matcher = INSTRUCTION_PATTERN.matcher(text);
+        Matcher matcher = Pattern.compile("\\b(" +
+                String.join("|", HIGHLIGHT_INSTRUCTIONS) + "|" +
+                String.join("|", HIGHLIGHT_TYPES)).matcher(text);
+
         int lastKwEnd = 0;
         while (matcher.find()) {
-            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
-            spansBuilder.add(Collections.singleton("instruction"), matcher.end() - matcher.start());
+            spansBuilder.add(Collections.singleton("text"), matcher.start() - lastKwEnd);
+
+            if (Arrays.stream(HIGHLIGHT_INSTRUCTIONS).anyMatch(s -> matcher.group().equals(s))) {
+                spansBuilder.add(Collections.singleton("instruction"), matcher.end() - matcher.start());
+            } else if (Arrays.stream(HIGHLIGHT_TYPES).anyMatch(s -> matcher.group().equals(s))) {
+                spansBuilder.add(Collections.singleton("types"), matcher.end() - matcher.start());
+            }
+
             lastKwEnd = matcher.end();
         }
-        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
+        spansBuilder.add(Collections.singleton("text"), text.length() - lastKwEnd);
 
         return spansBuilder.create();
     }
-
-    private static StyleSpans<Collection<String>> managerHighlight_Types(String text) {
-        StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
-
-
-
-        return spansBuilder.create();
-    }
-
-
-
 
     private static Label getTitleTerminal() {
         Label title_terminal = new Label();

@@ -9,9 +9,9 @@
 }
 
 #codeEditor .instruction {
-    -fx-fill: #b27500;
+    -fx-fill: #ce8500;
 }
 
 #codeEditor .types {
-    -fx-fill: #8300ad;
+    -fx-fill: #017fb6;
 }
