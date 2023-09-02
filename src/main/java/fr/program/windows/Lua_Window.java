@@ -551,7 +551,7 @@ public class Lua_Window {
         ui_rename.setAlignment(Pos.CENTER);
 
         Label rename_Title = new Label();
-        rename_Title.setText("Nouveau nom (sans .fpl) : ");
+        rename_Title.setText("Nouveau nom (sans .lua) : ");
         rename_Title.setStyle("-fx-font-size: 13px; -fx-text-fill: #ffffff;");
 
         TextField rename_FileName = new TextField();
