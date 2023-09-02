@@ -2,6 +2,7 @@ package fr.program;
 
 import fr.program.windows.FPL_Window;
 import fr.program.windows.Lua_Window;
+import fr.program.windows.Python_Window;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -170,6 +171,7 @@ public class Main extends Application {
 
         fpl_btn.setOnAction(event -> FPL_Window.show_createProject());
         lua_btn.setOnAction(event -> Lua_Window.show_CreateOpenProject());
+        py_btn.setOnAction(event -> Python_Window.show_CreateOpenProject());
 
         // Events FS
 
