@@ -1,6 +1,7 @@
 package fr.program;
 
 import fr.program.windows.FPL_Window;
+import fr.program.windows.Lua_Window;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -168,6 +169,7 @@ public class Main extends Application {
         // Events Main Menu
 
         fpl_btn.setOnAction(event -> FPL_Window.show_createProject());
+        lua_btn.setOnAction(event -> Lua_Window.show_CreateOpenProject());
 
         // Events FS
 
@@ -291,6 +293,7 @@ public class Main extends Application {
         FS_Execute.setOnMouseEntered(event -> FS_Execute.setEffect(dropShadow_green));
         FS_Execute.setOnMouseExited(event -> FS_Execute.setEffect(null));
         mouseHoverEffect_FS_Buttons(FS_fpl, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
+        mouseHoverEffect_FS_Buttons(FS_jdd, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
         mouseHoverEffect_FS_Buttons(FS_java, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
         mouseHoverEffect_FS_Buttons(FS_cpp, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
         mouseHoverEffect_FS_Buttons(FS_lua, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
