@@ -1,15 +1,18 @@
 package fr.program.windows;
 
 import fr.program.FuncUtils;
+import javafx.css.converter.StringConverter;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
@@ -414,9 +417,6 @@ public class FPL_Window {
         HBox.setMargin(title_terminal, new Insets(30, 0, 0, 20));
         HBox.setMargin(terminal_clear, new Insets(30, 0, 0, 10));
         VBox.setMargin(terminal_window, new Insets(10, 30, 10, 30));
-
-
-
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////   Adding Elements to Window    ////////////////////////////////////////////////
