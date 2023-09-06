@@ -16,6 +16,7 @@ bin/fpl
 bin/ArkScript
 bin/nodejs
 bin/npm
+bin/Gradle/gradle-8.3
 
 fastscript/code/__arkscript__
 fastscript/code/__arkscript__/ark.arkc
