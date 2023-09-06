@@ -1,9 +1,6 @@
 package fr.program;
 
-import fr.program.windows.ArkScript_Window;
-import fr.program.windows.FPL_Window;
-import fr.program.windows.Lua_Window;
-import fr.program.windows.Python_Window;
+import fr.program.windows.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -174,6 +171,7 @@ public class Main extends Application {
         lua_btn.setOnAction(event -> Lua_Window.show_CreateOpenProject());
         py_btn.setOnAction(event -> Python_Window.show_CreateOpenProject());
         ark_btn.setOnAction(event -> ArkScript_Window.show_CreateOpenProject());
+        typescript_btn.setOnAction(event -> Typescript_Window.show_CreateOpenProject());
 
         // Events FS
 
