@@ -19,6 +19,7 @@ import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;

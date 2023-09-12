@@ -21,6 +21,7 @@ import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;

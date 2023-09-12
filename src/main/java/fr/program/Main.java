@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -148,7 +149,7 @@ public class Main extends Application {
 
         // Add elements
         StackPane container = new StackPane();
-        container.setStyle("-fx-background-color: #202020;"); // Couleur de fond globale
+        container.setStyle("-fx-background-color: #202020;");
         container.getChildren().add(root);
 
         Scene scene = new Scene(container, 800, 1000);
@@ -266,14 +267,14 @@ public class Main extends Application {
                 "console.log(\"Hello World!\");"
         );
         FS_reset.setOnAction(event -> {
-            FuncUtils.writeInFile("fastscript/code/fpl.fpl", "");
-            FuncUtils.writeInFile("fastscript/code/jdd.jdd", "");
-            FuncUtils.writeInFile("fastscript/code/java.java", "");
-            FuncUtils.writeInFile("fastscript/code/cpp.cpp", "");
-            FuncUtils.writeInFile("fastscript/code/lua.lua", "");
-            FuncUtils.writeInFile("fastscript/code/py.py", "");
-            FuncUtils.writeInFile("fastscript/code/ark.ark", "");
-            FuncUtils.writeInFile("fastscript/code/ts.ts", "");
+            FuncUtils.writeInFile(projectRootPath +  "\\fastscript\\code\\fpl.fpl", "");
+            FuncUtils.writeInFile(projectRootPath +  "\\fastscript\\code\\jdd.jdd", "");
+            FuncUtils.writeInFile(projectRootPath +  "\\fastscript\\code\\java.java", "");
+            FuncUtils.writeInFile(projectRootPath +  "\\fastscript\\code\\cpp.cpp", "");
+            FuncUtils.writeInFile(projectRootPath +  "\\fastscript\\code\\lua.lua", "");
+            FuncUtils.writeInFile(projectRootPath +  "\\fastscript\\code\\py.py", "");
+            FuncUtils.writeInFile(projectRootPath +  "\\fastscript\\code\\ark.ark", "");
+            FuncUtils.writeInFile(projectRootPath +  "\\fastscript\\code\\ts.ts", "");
             Interactions_FS.setMode("N/A");
             FS_output.setText("");
 
@@ -380,18 +381,12 @@ public class Main extends Application {
     private void Config_FastScript_Button(List<Button> buttons, String normalStyleButton, String selectedStyleButton, DropShadow shadow, Button button, TextArea editor, String mode, String code) {
         button.setOnAction(event -> {
             Interactions_FS.setMode(mode);
-
-            // Réinitialisation de tous les boutons
             for (Button b : buttons) {
                 b.setStyle(normalStyleButton);
                 b.setEffect(null);
             }
-
-            // Configuration du bouton actuel
             button.setStyle(selectedStyleButton);
             button.setEffect(shadow);
-
-            // Configuration du texte de l'éditeur
             editor.setText(code);
         });
     }
