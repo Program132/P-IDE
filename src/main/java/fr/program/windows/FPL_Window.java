@@ -714,12 +714,12 @@ public class FPL_Window {
                         setStyle("-fx-text-fill: #cccccc; -fx-background-color: #3d3d3d; -fx-font-weight: bold;");
 
                         if (getTreeItem().isLeaf() && item.endsWith(".fpl")) { // File
-                            ImageView imageView = new ImageView(new Image(projectRootPath + "\\img\\extension\\fpl.png"));
+                            ImageView imageView = new ImageView(new Image("file:" + projectRootPath.replace("\\", "/") + "/img/extension/fpl.png"));
                             imageView.setFitWidth(16);
                             imageView.setFitHeight(16);
                             setGraphic(imageView);
                         } else if (!getTreeItem().isLeaf()) { // Folder
-                            ImageView imageView = new ImageView(new Image(projectRootPath + "\\img\\file.png"));
+                            ImageView imageView = new ImageView(new Image("file:" + projectRootPath.replace("\\", "/") + "/img/file.png"));
                             imageView.setFitWidth(16);
                             imageView.setFitHeight(16);
                             setGraphic(imageView);

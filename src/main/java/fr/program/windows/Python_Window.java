@@ -680,12 +680,12 @@ public class Python_Window {
                         setStyle("-fx-text-fill: #cccccc; -fx-background-color: #3d3d3d; -fx-font-weight: bold;");
 
                         if (getTreeItem().isLeaf() && item.endsWith(".py")) { // File
-                            ImageView imageView = new ImageView(new Image(projectRootPath + "\\img\\extension\\py.png"));
+                            ImageView imageView = new ImageView(new Image("file:" + projectRootPath.replace("\\", "/") + "/img/extension/py.png"));
                             imageView.setFitWidth(16);
                             imageView.setFitHeight(16);
                             setGraphic(imageView);
                         } else if (!getTreeItem().isLeaf()) { // Folder
-                            ImageView imageView = new ImageView(new Image(projectRootPath + "\\img\\file.png"));
+                            ImageView imageView = new ImageView(new Image("file:" + projectRootPath.replace("\\", "/") + "/img/file.png"));
                             imageView.setFitWidth(16);
                             imageView.setFitHeight(16);
                             setGraphic(imageView);
