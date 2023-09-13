@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 dependencies {
@@ -21,6 +22,14 @@ jar {
     manifest {
         attributes 'Main-Class': 'fr.program.Main'
     }
+    archiveBaseName = 'P-IDE'
+    archiveVersion = '1.0'
+}
+
+shadowJar {
+    configurations = [project.configurations.runtimeClasspath]
+    archiveBaseName = 'P-IDE'
+    archiveVersion = '1.0'
 }
 
 tasks.withType(JavaCompile).configureEach {
