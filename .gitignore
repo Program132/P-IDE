@@ -5,16 +5,5 @@ gradle
 gradlew
 gradlew.bat
 settings.gradle
-
-bin/CMake
-bin/lua-5.4.2
-bin/mingw64
-bin/Python311
-bin/jdk-20
-bin/fpl
-bin/ArkScript
-bin/nodejs
-bin/npm
-bin/Gradle/gradle-8.3
-
+bin
 fastscript
