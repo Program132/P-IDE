@@ -20,10 +20,8 @@ import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -138,8 +136,8 @@ public class FPL_Window {
         cancelBTN.setText("Annuler");
         cancelBTN.setStyle("-fx-background-color: #9a0412; -fx-font-size: 18px; -fx-text-fill: #d9d9d9; -fx-font-weight: bold; -fx-pref-width: 100px; -fx-pref-height: 20px;");
 
-        mouseHoverEffect_Buttons(createBTN, buttonHover);
-        mouseHoverEffect_Buttons(cancelBTN, buttonHover);
+        WindowsFunc.mouseHoverEffect_Buttons(createBTN, buttonHover);
+        WindowsFunc.mouseHoverEffect_Buttons(cancelBTN, buttonHover);
 
         HBox.setMargin(title_version, new Insets(30, 0, 0, 0));
         HBox.setMargin(v_2_3, new Insets(30, 10, 0, 10));
@@ -238,8 +236,6 @@ public class FPL_Window {
 
 
 
-
-
     private static void editor_show(String repository, String version) {
         String projectRootPath = System.getProperty("user.dir");
         AtomicReference<String> currentFile = new AtomicReference<>("N/A");
@@ -305,10 +301,10 @@ public class FPL_Window {
         build_button.setText("Construire le projet");
         build_button.setStyle(codeButtons_Style);
 
-        mouseHoverEffect_Buttons(run_button, topButtons_mouseHover_DropShadow);
-        mouseHoverEffect_Buttons(build_button, topButtons_mouseHover_DropShadow);
-        mouseHoverEffect_Buttons(save_button, topButtons_mouseHover_DropShadow_SAVES);
-        mouseHoverEffect_Buttons(save_as_button, topButtons_mouseHover_DropShadow_SAVES);
+        WindowsFunc.mouseHoverEffect_Buttons(run_button, topButtons_mouseHover_DropShadow);
+        WindowsFunc.mouseHoverEffect_Buttons(build_button, topButtons_mouseHover_DropShadow);
+        WindowsFunc.mouseHoverEffect_Buttons(save_button, topButtons_mouseHover_DropShadow_SAVES);
+        WindowsFunc.mouseHoverEffect_Buttons(save_as_button, topButtons_mouseHover_DropShadow_SAVES);
 
         HBox.setMargin(title_buttons, new Insets(15, 0, 0, 15));
         HBox.setMargin(save_button, new Insets(11, 0, 0, 0));
@@ -347,7 +343,7 @@ public class FPL_Window {
         explorer_remove_file.setStyle(explorer_buttons_style);
 
         File rootDirectory = new File(repository);
-        TreeItem<String> rootItem = createTreeItem(rootDirectory);
+        TreeItem<String> rootItem = WindowsFunc.createTreeItem(rootDirectory);
 
 
         VBox explorer_box = new VBox();
@@ -356,8 +352,8 @@ public class FPL_Window {
         HBox explorer_buttons = new HBox();
         explorer_buttons.setAlignment(Pos.CENTER_LEFT);
 
-        mouseHoverEffect_Buttons(explorer_add_file, explorer_buttons_DropShadow);
-        mouseHoverEffect_Buttons(explorer_remove_file, explorer_buttons_DropShadow);
+        WindowsFunc.mouseHoverEffect_Buttons(explorer_add_file, explorer_buttons_DropShadow);
+        WindowsFunc.mouseHoverEffect_Buttons(explorer_remove_file, explorer_buttons_DropShadow);
 
         HBox.setMargin(title_explorer, new Insets(10, 2, 10, 10));
         HBox.setMargin(projectName_explorer, new Insets(10, 0, 10, 0));
@@ -397,7 +393,7 @@ public class FPL_Window {
         ///////////////////////////////////////////   Terminal Window    ////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        Label title_terminal = getTitleTerminal();
+        Label title_terminal = WindowsFunc.getTitleTerminal();
 
         HBox titleTerminal_box = new HBox();
         titleTerminal_box.setAlignment(Pos.CENTER_LEFT);
@@ -407,7 +403,7 @@ public class FPL_Window {
         terminal_window.setEditable(false);
         terminal_window.setStyle("-fx-control-inner-background: #2a2a2a; -fx-text-fill: #cccccc; -fx-focus-color: transparent; -fx-text-box-border: transparent;");
 
-        Button terminal_clear = createButtonWithStyle("Vider le terminal", "-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-style: italic;");
+        Button terminal_clear = WindowsFunc.createButtonWithStyle("Vider le terminal", "-fx-background-color: red; -fx-text-fill: #ffffff; -fx-font-style: italic;");
         terminal_clear.setOnMouseEntered(event -> terminal_clear.setEffect(dropShadow_red));
         terminal_clear.setOnMouseExited(event -> terminal_clear.setEffect(null));
 
@@ -482,7 +478,7 @@ public class FPL_Window {
         Button ok_button = new Button();
         ok_button.setText("Sauvegarder");
         ok_button.setStyle("-fx-background-color: #565656; -fx-font-size: 13px; -fx-text-fill: #008506; -fx-font-weight: bold;");
-        mouseHoverEffect_Buttons(ok_button, explorer_buttons_DropShadow);
+        WindowsFunc.mouseHoverEffect_Buttons(ok_button, explorer_buttons_DropShadow);
 
         ui_saveAs.getChildren().addAll(saveAs_Title, saveAs_FileName, ok_button);
 
@@ -561,12 +557,12 @@ public class FPL_Window {
                 buildDir.mkdir();
             }
 
-            copyPasteFile(buildDir, repository + "\\" + currentFile.get(), currentFile.get());
+            WindowsFunc.copyPasteFile(buildDir, repository + "\\" + currentFile.get(), currentFile.get());
 
             if (version.equals("2.3")) {
-                copyPasteFile(buildDir, "bin/fpl/fpl-2.3.exe", "fpl-2.3.exe");
+                WindowsFunc.copyPasteFile(buildDir, "bin/fpl/fpl-2.3.exe", "fpl-2.3.exe");
             } else if (version.equals("3.0")) {
-                copyPasteFile(buildDir, "bin/fpl/fpl-3.exe", "fpl-3.exe");
+                WindowsFunc.copyPasteFile(buildDir, "bin/fpl/fpl-3.exe", "fpl-3.exe");
             }
 
             refreshTreeView(explorer_TreeView, rootDirectory, projectRootPath, repository, currentFile, codeEditor);
@@ -596,7 +592,7 @@ public class FPL_Window {
         Button rename_button = new Button();
         rename_button.setText("Renommer");
         rename_button.setStyle("-fx-background-color: #565656; -fx-font-size: 13px; -fx-text-fill: #008506; -fx-font-weight: bold;");
-        mouseHoverEffect_Buttons(rename_button, explorer_buttons_DropShadow);
+        WindowsFunc.mouseHoverEffect_Buttons(rename_button, explorer_buttons_DropShadow);
 
         ui_rename.getChildren().addAll(rename_Title, rename_FileName, rename_button);
 
@@ -640,6 +636,8 @@ public class FPL_Window {
         });
     }
 
+    
+    
     private static StyleSpans<Collection<String>> managerHighlight_CodeEditor(String text) {
         StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
 
@@ -664,41 +662,8 @@ public class FPL_Window {
         return spansBuilder.create();
     }
 
-    private static Label getTitleTerminal() {
-        Label title_terminal = new Label();
-        title_terminal.setText("Résultats :");
-        title_terminal.setStyle("-fx-font-size: 13px; -fx-text-fill: #ffffff; -fx-font-weight: bold");
-        title_terminal.setAlignment(Pos.CENTER_LEFT);
-        return title_terminal;
-    }
-
-    private static String getFileContent(String filePath) throws IOException {
-        return Files.readString(Path.of(filePath));
-    }
-
-    private static TreeItem<String> createTreeItem(File file) {
-        TreeItem<String> item = new TreeItem<>(file.getName());
-
-        if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            if (files != null) {
-                for (File childFile : files) {
-                    TreeItem<String> childItem = createTreeItem(childFile);
-                    item.getChildren().add(childItem);
-                }
-            }
-        }
-
-        return item;
-    }
-
-    private static void mouseHoverEffect_Buttons(Button button, DropShadow defaultEffect) {
-        button.setOnMouseEntered(event -> button.setEffect(defaultEffect));
-        button.setOnMouseExited(event -> button.setEffect(null));
-    }
-
     private static void refreshTreeView(TreeView<String> m_treeView, File rootDirectory, String projectRootPath, String repository, AtomicReference<String> currentFile, CodeArea codeEditor) {
-        TreeItem<String> newRootItem = createTreeItem(rootDirectory);
+        TreeItem<String> newRootItem = WindowsFunc.createTreeItem(rootDirectory);
         m_treeView.setRoot(newRootItem);
         m_treeView.setCellFactory(treeView -> {
             TreeCell<String> cell = new TreeCell<>() {
@@ -735,7 +700,7 @@ public class FPL_Window {
                     String filePath = selectedItem.getValue();
                     String fileContent = "";
                     try {
-                        fileContent = getFileContent(repository + "\\" + filePath);
+                        fileContent = WindowsFunc.getFileContent(repository + "\\" + filePath);
                         currentFile.set(filePath);
                     } catch (IOException e) {
                         // Gérer l'erreur
@@ -750,19 +715,5 @@ public class FPL_Window {
 
             return cell;
         });
-    }
-
-    private static Button createButtonWithStyle(String content, String style) {
-        Button b = new Button(content);
-        b.setStyle(style);
-        return b;
-    }
-
-    private static void copyPasteFile(File buildDir, String path, String child) {
-        File exeFile = new File(path);
-        Path target = new File(buildDir, child).toPath();
-        try {
-            Files.copy(exeFile.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ignored) {}
     }
 }
