@@ -17,8 +17,4 @@ bin/nodejs
 bin/npm
 bin/Gradle/gradle-8.3
 
-fastscript/code/__arkscript__
-fastscript/code/__arkscript__/ark.arkc
-fastscript/code/node_modules
-fastscript/code/package-lock.json
-fastscript/code/package.json
+fastscript
