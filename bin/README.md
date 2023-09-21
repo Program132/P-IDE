@@ -14,4 +14,4 @@ Every tools used in this folder is not mine, if you want to download the tools, 
 * [ArkScript](https://arkscript-lang.dev/)
 * [NodeJS](https://nodejs.org/)
 * [NPM](https://www.npmjs.com/)
-* [Gralde](https://gradle.org/)
+* [Gradle](https://gradle.org/)

@@ -12,3 +12,5 @@ If you want to find them :
 - [Python](https://www.python.org/)
 - [ArkScript](https://arkscript-lang.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
+- [Gradle](https://gradle.org/)
+- [Spigot](https://www.spigotmc.org/)
