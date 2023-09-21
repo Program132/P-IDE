@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -48,9 +49,8 @@ public class Main extends Application {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         stage.setTitle("P-IDE | V0.1");
-        stage.setHeight(800);
+        stage.setHeight(1000);
         stage.setWidth(1000);
-        stage.setResizable(false);
 
         BorderPane root = new BorderPane();
 
@@ -83,15 +83,14 @@ public class Main extends Application {
         Button py_btn = createImageButtonWithStyle("file:" + projectRootPath.replace("\\", "/") + "/img/btn/python.png");
         Button ark_btn = createImageButtonWithStyle("file:" + projectRootPath.replace("\\", "/") + "/img/btn/arkscript.png");
         Button typescript_btn = createImageButtonWithStyle("file:" + projectRootPath.replace("\\", "/") + "/img/btn/typescript.png");
-        VBox.setMargin(fpl_btn, new Insets(0, 0, 0, 10));
-        VBox.setMargin(jdd_btn, new Insets(0, 0, 0, 10));
-        VBox.setMargin(java_btn, new Insets(0, 0, 0, 10));
-        VBox.setMargin(cpp_btn, new Insets(0, 0, 0, 10));
-        VBox.setMargin(lua_btn, new Insets(0, 0, 0, 10));
-        VBox.setMargin(py_btn, new Insets(0, 0, 0, 10));
-        VBox.setMargin(ark_btn, new Insets(0, 0, 0, 10));
-        VBox.setMargin(typescript_btn, new Insets(0, 0, 0, 10));
-        buttonBox.getChildren().addAll(fpl_btn, jdd_btn, java_btn, cpp_btn, lua_btn, py_btn, ark_btn, typescript_btn);
+        Button gradle_btn = createImageButtonWithStyle("file:" + projectRootPath.replace("\\", "/") + "/img/btn/gradle.png");
+        Button spigot_btn = createImageButtonWithStyle("file:" + projectRootPath.replace("\\", "/") + "/img/btn/spigot.png");
+        Button forge_btn = createImageButtonWithStyle("file:" + projectRootPath.replace("\\", "/") + "/img/btn/forge.png");
+        Button[] buttons = { fpl_btn, jdd_btn, java_btn, cpp_btn, lua_btn, py_btn, ark_btn,
+                typescript_btn, gradle_btn, spigot_btn, forge_btn };
+        setButtonMargins(buttons);
+
+        buttonBox.getChildren().addAll(fpl_btn, jdd_btn, java_btn, cpp_btn, lua_btn, py_btn, ark_btn, typescript_btn, gradle_btn, spigot_btn, forge_btn);
 
 
         DropShadow dropShadow_blue = FuncUtils.createDropShadow(Color.rgb(0,0,255,0.7));
@@ -102,6 +101,7 @@ public class Main extends Application {
         EffectMainButtonMenu_Hover(fpl_btn, jdd_btn, java_btn, dropShadow_red);
         EffectMainButtonMenu_Hover(typescript_btn, cpp_btn, cpp_btn, dropShadow_red);
         EffectMainButtonMenu_Hover(lua_btn, py_btn, ark_btn, dropShadow_red);
+        EffectMainButtonMenu_Hover(forge_btn, gradle_btn, spigot_btn, dropShadow_red);
         typescript_btn.setOnMouseEntered(event -> typescript_btn.setEffect(dropShadow_red));
         typescript_btn.setOnMouseExited(event -> typescript_btn.setEffect(null));
 
@@ -295,16 +295,25 @@ public class Main extends Application {
 
         FS_Execute.setOnMouseEntered(event -> FS_Execute.setEffect(dropShadow_green));
         FS_Execute.setOnMouseExited(event -> FS_Execute.setEffect(null));
-        mouseHoverEffect_FS_Buttons(FS_fpl, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
-        mouseHoverEffect_FS_Buttons(FS_jdd, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
-        mouseHoverEffect_FS_Buttons(FS_java, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
-        mouseHoverEffect_FS_Buttons(FS_cpp, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
-        mouseHoverEffect_FS_Buttons(FS_lua, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
-        mouseHoverEffect_FS_Buttons(FS_py, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
-        mouseHoverEffect_FS_Buttons(FS_arkscript, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
-        mouseHoverEffect_FS_Buttons(FS_typescript, dropShadow_FS_buttons_selected, dropShadow_blue, FS_Buttons_selected_style);
+        Button[] buttonArray = {FS_fpl, FS_jdd, FS_java, FS_cpp, FS_lua, FS_py, FS_arkscript, FS_typescript};
+        FS_applyButtonStyles(buttonArray, dropShadow_FS_buttons_selected, dropShadow_blue);
         FS_reset.setOnMouseEntered(event -> FS_reset.setEffect(dropShadow_red));
         FS_reset.setOnMouseExited(event -> FS_reset.setEffect(null));
+    }
+
+    private void FS_applyButtonStyles(Button[] buttonArray, DropShadow dropShadow_FS_buttons_selected, DropShadow dropShadow_blue) {
+        String selectedStyle = "-fx-background-color: blue; -fx-text-fill: white;";
+
+        for (Button button : buttonArray) {
+            mouseHoverEffect_FS_Buttons(button, dropShadow_FS_buttons_selected, dropShadow_blue, selectedStyle);
+        }
+    }
+
+    private void setButtonMargins(Button[] buttons) {
+        Insets margin = new Insets(0, 0, 0, 10);
+        for (Button button : buttons) {
+            VBox.setMargin(button, margin);
+        }
     }
 
     private void EffectMainButtonMenu_Hover(Button lua_btn, Button py_btn, Button ark_btn, DropShadow dropShadow_red) {
